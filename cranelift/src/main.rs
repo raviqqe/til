@@ -79,9 +79,11 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
     let block1 = builder.create_block();
     let block2 = builder.create_block();
     let block3 = builder.create_block();
+
     let x = Variable::new(0);
     let y = Variable::new(1);
     let z = Variable::new(2);
+
     builder.declare_var(x, I32);
     builder.declare_var(y, I32);
     builder.declare_var(z, I32);
@@ -89,10 +91,8 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
 
     builder.switch_to_block(block0);
     builder.seal_block(block0);
-    {
-        let tmp = builder.block_params(block0)[0]; // the first function parameter
-        builder.def_var(x, tmp);
-    }
+
+    builder.def_var(x, builder.block_params(block0)[0]);
     {
         let tmp = builder.ins().iconst(I32, 2);
         builder.def_var(y, tmp);
@@ -120,16 +120,14 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
 
     builder.switch_to_block(block2);
     builder.seal_block(block2);
-    {
-        let arg1 = builder.use_var(z);
-        let arg2 = builder.use_var(x);
-        let tmp = builder.ins().isub(arg1, arg2);
-        builder.def_var(z, tmp);
-    }
-    {
-        let arg = builder.use_var(y);
-        builder.ins().return_(&[arg]);
-    }
+
+    let arg1 = builder.use_var(z);
+    let arg2 = builder.use_var(x);
+    let tmp = builder.ins().isub(arg1, arg2);
+    builder.def_var(z, tmp);
+
+    let arg = builder.use_var(y);
+    builder.ins().return_(&[arg]);
 
     builder.switch_to_block(block3);
     builder.seal_block(block3);
