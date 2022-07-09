@@ -1,5 +1,5 @@
 use cranelift::codegen::entity::EntityRef;
-use cranelift::codegen::ir::{types::*, Function};
+use cranelift::codegen::ir::{types, Function};
 use cranelift::codegen::ir::{AbiParam, InstBuilder, Signature};
 use cranelift::codegen::isa;
 use cranelift::codegen::isa::CallConv;
@@ -67,8 +67,8 @@ fn define_function(module: &mut ObjectModule) -> Result<(), Box<dyn Error>> {
 fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
     function.signature = {
         let mut signature = Signature::new(CallConv::SystemV);
-        signature.returns.push(AbiParam::new(I32));
-        signature.params.push(AbiParam::new(I32));
+        signature.returns.push(AbiParam::new(types::I32));
+        signature.params.push(AbiParam::new(types::I32));
         signature
     };
 
@@ -84,9 +84,9 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
     let y = Variable::new(1);
     let z = Variable::new(2);
 
-    builder.declare_var(x, I32);
-    builder.declare_var(y, I32);
-    builder.declare_var(z, I32);
+    builder.declare_var(x, types::I32);
+    builder.declare_var(y, types::I32);
+    builder.declare_var(z, types::I32);
     builder.append_block_params_for_function_params(block0);
 
     builder.switch_to_block(block0);
@@ -94,7 +94,7 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
 
     builder.def_var(x, builder.block_params(block0)[0]);
     {
-        let tmp = builder.ins().iconst(I32, 2);
+        let tmp = builder.ins().iconst(types::I32, 2);
         builder.def_var(y, tmp);
     }
     {
