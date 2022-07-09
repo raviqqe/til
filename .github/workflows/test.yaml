@@ -1,0 +1,15 @@
+name: test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  cranelift:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cranelift
+    steps:
+      - uses: actions/checkout@v2
+      - run: ../tools/rust.sh
