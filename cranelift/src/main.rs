@@ -1,5 +1,5 @@
 use cranelift::codegen::entity::EntityRef;
-use cranelift::codegen::ir::types::*;
+use cranelift::codegen::ir::{types::*, Function};
 use cranelift::codegen::ir::{AbiParam, InstBuilder, Signature};
 use cranelift::codegen::isa;
 use cranelift::codegen::isa::CallConv;
@@ -39,7 +39,7 @@ fn run() -> Result<(), Box<dyn Error>> {
         default_libcall_names(),
     )?);
 
-    compile_function(&mut module)?;
+    define_function(&mut module)?;
 
     File::options()
         .create(true)
@@ -51,10 +51,18 @@ fn run() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn compile_function(module: &mut ObjectModule) -> Result<(), Box<dyn Error>> {
+fn define_function(module: &mut ObjectModule) -> Result<(), Box<dyn Error>> {
     let mut context = module.make_context();
-    let mut function = &mut context.func;
 
+    compile_function(&mut context.func)?;
+
+    let function_id = module.declare_function("foo", Linkage::Local, &context.func.signature)?;
+    module.define_function(function_id, &mut context)?;
+
+    Ok(())
+}
+
+fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
     function.signature = {
         let mut signature = Signature::new(CallConv::SystemV);
         signature.returns.push(AbiParam::new(I32));
@@ -64,7 +72,7 @@ fn compile_function(module: &mut ObjectModule) -> Result<(), Box<dyn Error>> {
 
     {
         let mut context = FunctionBuilderContext::new();
-        let mut builder = FunctionBuilder::new(&mut function, &mut context);
+        let mut builder = FunctionBuilder::new(function, &mut context);
 
         let block0 = builder.create_block();
         let block1 = builder.create_block();
@@ -138,9 +146,6 @@ fn compile_function(module: &mut ObjectModule) -> Result<(), Box<dyn Error>> {
     }
 
     verify_function(&function, &Flags::new(settings::builder()))?;
-
-    let function_id = module.declare_function("foo", Linkage::Local, &function.signature)?;
-    module.define_function(function_id, &mut context)?;
 
     Ok(())
 }
