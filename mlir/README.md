@@ -3,6 +3,5 @@
 ## Usage
 
 ```sh
-mlir-translate foo.mlir
 main.sh
 ```
