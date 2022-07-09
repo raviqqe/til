@@ -28,7 +28,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 
             Flags::new(builder)
         })?,
-        "foo",
+        "main",
         default_libcall_names(),
     )?);
 
