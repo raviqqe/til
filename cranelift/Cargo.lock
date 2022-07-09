@@ -24,6 +24,7 @@ name = "app"
 version = "0.1.0"
 dependencies = [
  "cranelift",
+ "cranelift-module",
  "cranelift-object",
 ]
 
