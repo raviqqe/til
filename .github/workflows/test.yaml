@@ -12,4 +12,4 @@ jobs:
         working-directory: cranelift
     steps:
       - uses: actions/checkout@v2
-      - run: tools/ci/rust.sh
+      - run: ../tools/rust.sh
