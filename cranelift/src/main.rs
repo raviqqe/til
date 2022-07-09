@@ -41,3 +41,13 @@ fn run() -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn run_() {
+        run().unwrap();
+    }
+}
