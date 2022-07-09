@@ -1,9 +1,7 @@
-%struct = type {double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double}
+%struct = type {double,double,double,double,double,double,double,double}
 
 define double @foo(%struct %0) {
-  %a = extractvalue %struct %0, 0
-  %b = extractvalue %struct %0, 15
-  %c = fadd double %a, %b
+  %x = extractvalue %struct %0, 7
 
-  ret double %c
+  ret double %x
 }
