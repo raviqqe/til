@@ -13,6 +13,8 @@ use std::error::Error;
 use std::fs::File;
 use std::io::Write;
 
+const MODULE_NAME: &str = "foo";
+
 fn main() {
     run().unwrap();
 }
@@ -35,7 +37,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     };
     let mut module = ObjectModule::new(ObjectBuilder::new(
         isa::lookup_by_name("x86_64-unknown-linux-gnu")?.finish(flags)?,
-        "main",
+        MODULE_NAME,
         default_libcall_names(),
     )?);
 
@@ -45,7 +47,7 @@ fn run() -> Result<(), Box<dyn Error>> {
         .create(true)
         .truncate(true)
         .write(true)
-        .open("main.o")?
+        .open(MODULE_NAME.to_owned() + ".o")?
         .write_all(&module.finish().emit()?)?;
 
     Ok(())
