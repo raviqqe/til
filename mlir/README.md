@@ -3,5 +3,5 @@
 ## Usage
 
 ```sh
-main.sh
+./main.sh
 ```
