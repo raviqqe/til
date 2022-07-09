@@ -143,7 +143,7 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
 
     builder.finalize();
 
-    verify_function(&function, &Flags::new(settings::builder()))?;
+    verify_function(function, &Flags::new(settings::builder()))?;
 
     Ok(())
 }
