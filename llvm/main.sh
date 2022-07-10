@@ -2,8 +2,6 @@
 
 set -ex
 
-brew install llvm
-
 for basename in large_struct spill spill_large_struct; do
   compile="clang -S -O3 $basename.c"
 
