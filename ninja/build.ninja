@@ -1,0 +1,4 @@
+rule touch 
+  command = touch
+
+build foo.log: touch
