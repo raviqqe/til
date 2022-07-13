@@ -1,6 +1,7 @@
 @a = unnamed_addr constant {i64} {i64 42}, align 8
 
 define i64 @foo() {
+  ; Clear lower bits of a global variable pointer explicitly even when it's aligned.
   %p = and i64 ptrtoint ({i64}* @a to i64), -2
   %s = or i64 %p, 1
   %t = and i64 %s, -2
