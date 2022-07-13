@@ -5,22 +5,15 @@ on:
       - main
   pull_request:
 jobs:
-  cranelift:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: cranelift
-    steps:
-      - uses: actions/checkout@v2
-      - run: ../tools/rust.sh
-  sh:
+  test:
     strategy:
       fail-fast: false
       matrix:
         directory:
+          - cranelift-module
           - llvm-c-calling-convention
           - llvm-pointer-tag
-          - mlir-module
+          - mlir-c-wrapper
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -28,4 +21,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: sudo apt install gcc-multilib
-      - run: ../tools/sh.sh
+      - run: ./main.sh
