@@ -1,0 +1,4 @@
+rule touch 
+  command = touch $out
+
+build foo.log: touch
