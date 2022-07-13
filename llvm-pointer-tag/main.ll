@@ -1,4 +1,4 @@
-@a = constant {i64} {i64 42}, align 8
+@a = unnamed_addr constant {i64} {i64 42}, align 8
 
 define i64 @foo() {
   %p = and i64 ptrtoint ({i64}* @a to i64), -2
