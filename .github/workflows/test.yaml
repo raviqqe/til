@@ -13,15 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: ../tools/rust.sh
-  llvm:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: llvm
-    steps:
-      - uses: actions/checkout@v2
-      - run: sudo apt install gcc-multilib
-      - run: ../tools/sh.sh
   mlir:
     runs-on: ubuntu-latest
     defaults:
@@ -29,4 +20,19 @@ jobs:
         working-directory: mlir
     steps:
       - uses: actions/checkout@v2
+      - run: ../tools/sh.sh
+  sh:
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - llvm-c-calling-convention
+          - llvm-pointer-tag
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt install gcc-multilib
       - run: ../tools/sh.sh
