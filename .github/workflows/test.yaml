@@ -13,14 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: ../tools/rust.sh
-  mlir:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: mlir
-    steps:
-      - uses: actions/checkout@v2
-      - run: ../tools/sh.sh
   sh:
     strategy:
       fail-fast: false
@@ -28,6 +20,7 @@ jobs:
         directory:
           - llvm-c-calling-convention
           - llvm-pointer-tag
+          - mlir-module
     runs-on: ubuntu-latest
     defaults:
       run:
