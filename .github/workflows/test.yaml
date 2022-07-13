@@ -27,4 +27,4 @@ jobs:
     needs: project_test
     if: ${{ always() }}
     steps:
-      - run: test ${{ needs.feature_tests.result }} = success
+      - run: test ${{ needs.project_test.result }} = success
