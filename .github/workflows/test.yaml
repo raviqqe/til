@@ -5,28 +5,26 @@ on:
       - main
   pull_request:
 jobs:
-  cranelift:
-    runs-on: ubuntu-latest
+  project_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - cranelift-module
+          - llvm-c-calling-convention
+          - llvm-pointer-tag
+          - mlir-c-wrapper
+    runs-on: ubuntu-22.04
     defaults:
       run:
-        working-directory: cranelift
-    steps:
-      - uses: actions/checkout@v2
-      - run: ../tools/rust.sh
-  llvm:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: llvm
+        working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v2
       - run: sudo apt install gcc-multilib
-      - run: ../tools/sh.sh
-  mlir:
+      - run: ./main.sh
+  test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: mlir
+    needs: project_test
+    if: ${{ always() }}
     steps:
-      - uses: actions/checkout@v2
-      - run: ../tools/sh.sh
+      - run: test ${{ needs.project_test.result }} = success
