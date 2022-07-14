@@ -13,9 +13,8 @@ define i64 @foo() {
 }
 
 define i64 @bar() {
-  %p1 = bitcast {i64}* @a to i8*
-  %p2 = call i8* @llvm.ptrmask.p0i8.i64(i8* %p1, i64 18446744073709551608)
-  %s = getelementptr i8, i8* %p2, i64 1
+  %p = bitcast {i64}* @a to i8*
+  %s = getelementptr i8, i8* %p, i64 1
   %t = call i8* @llvm.ptrmask.p0i8.i64(i8* %s, i64 18446744073709551608)
   %x = bitcast i8* %t to {i64}*
   %y = load {i64}, {i64}* %x
