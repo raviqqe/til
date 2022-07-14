@@ -1,4 +1,5 @@
 *.log
 *.o
 *.s
+a.out
 target
