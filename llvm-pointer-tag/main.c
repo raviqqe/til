@@ -1,6 +1,10 @@
 #include <stdint.h>
 #include <stdio.h>
 
-extern double x;
+double x = 42.0;
 
-void foo() { printf("%f\n", *(double *)((int64_t)(&x) & 1 | -2)); }
+int main() {
+  printf("%f\n", *(double *)((uint64_t)(&x) | 1 & -2));
+
+  return 0;
+}
