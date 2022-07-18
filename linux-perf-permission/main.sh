@@ -2,5 +2,6 @@
 
 set -ex
 
-sudo sh -c 'echo 0 >/proc/sys/kernel/kptr_restrict'
-sudo sh -c 'echo 0 >/proc/sys/kernel/perf_event_paranoid'
+for file in kptr_restrict perf_event_paranoid; do
+  sudo sh -c "echo 0 >/proc/sys/kernel/$file"
+done
