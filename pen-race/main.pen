@@ -1,7 +1,11 @@
-import Os'File
+import Os'Process
 
 main = \(ctx context) none {
-  _ = File'Write(ctx.Os, File'StdOut(), "Hello, world!\n")
+  xs = race([[none] [none none]])
 
-  none
+  if [x, ...xs] = xs {
+    x()
+  } else {
+    Process'Exit(ctx.Os, 1)
+  }
 }
