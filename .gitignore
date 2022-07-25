@@ -1,5 +1,7 @@
 *.log
 *.o
 *.s
+.pen
 a.out
+app
 target
