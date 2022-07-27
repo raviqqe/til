@@ -1,6 +1,7 @@
 use async_stream::stream;
 use futures::{Stream, StreamExt};
-use std::pin::Pin;
+use std::{pin::Pin, time::Duration};
+use tokio::time::sleep;
 use tokio_stream::StreamMap;
 
 #[tokio::main]
@@ -24,16 +25,15 @@ fn create_stream(number: usize) -> Pin<Box<dyn Stream<Item = usize>>> {
     })
 }
 
-#[allow(unreachable_code)]
 fn create_stuck_stream() -> Pin<Box<dyn Stream<Item = usize>>> {
     Box::pin(stream! {
         let mut sum = 0;
 
-        // tokio::time::sleep() works.
         while sum != usize::MAX {
             sum += 1;
+            sleep(Duration::from_secs(1)).await;
         }
 
-        yield sum;
+        yield 42;
     })
 }
