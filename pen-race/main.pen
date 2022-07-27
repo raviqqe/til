@@ -7,6 +7,7 @@ main = \(ctx context) none {
       [none loop("world")],
     ],
   )
+
   if [x, ...xs] = xs {
     x()
   } else {
