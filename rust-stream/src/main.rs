@@ -1,14 +1,14 @@
 use async_stream::stream;
 use futures::{Stream, StreamExt};
+use std::pin::Pin;
 use tokio_stream::StreamMap;
 
 #[tokio::main]
 async fn main() {
     let mut stream = StreamMap::from_iter(
-        [create_stream(1), create_stream(2)]
+        [create_stream(1), create_stream(2), create_stuck_stream()]
             .into_iter()
-            .enumerate()
-            .map(|(index, stream)| (index, Box::pin(stream))),
+            .enumerate(),
     );
 
     while let Some(element) = stream.next().await {
@@ -16,10 +16,24 @@ async fn main() {
     }
 }
 
-fn create_stream(number: usize) -> impl Stream<Item = usize> {
-    stream! {
+fn create_stream(number: usize) -> Pin<Box<dyn Stream<Item = usize>>> {
+    Box::pin(stream! {
         loop {
             yield number;
         }
-    }
+    })
+}
+
+#[allow(unreachable_code)]
+fn create_stuck_stream() -> Pin<Box<dyn Stream<Item = usize>>> {
+    Box::pin(stream! {
+        let mut sum = 0;
+
+        // tokio::time::sleep() works.
+        while sum != usize::MAX {
+            sum += 1;
+        }
+
+        yield sum;
+    })
 }
