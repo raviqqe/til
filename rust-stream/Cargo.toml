@@ -1,0 +1,10 @@
+[package]
+name = "rust-stream"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-stream = "0.3"
+futures = "0.3"
+tokio = { version = "1", features = ["full"] }
+tokio-stream = "0.1"

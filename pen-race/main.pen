@@ -1,11 +1,21 @@
 import Os'Process
 
 main = \(ctx context) none {
-  xs = race([[none] [none none]])
+  xs = race(
+    [[none]
+      [none loop("hello")],
+      [none loop("world")],
+    ],
+  )
 
   if [x, ...xs] = xs {
     x()
   } else {
     Process'Exit(ctx.Os, 1)
   }
+}
+
+loop = \(message string) none {
+  debug(message)
+  loop(message)
 }
