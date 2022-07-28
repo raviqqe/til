@@ -1,0 +1,13 @@
+import Os'File
+
+main = \(ctx context) none {
+  f = go(
+    \() none {
+      _ = File'Write(ctx.Os, File'StdOut(), "Hello, world!\n")
+
+      none
+    },
+  )
+
+  f()
+}
