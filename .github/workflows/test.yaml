@@ -13,6 +13,7 @@ jobs:
           - cranelift-module
           - llvm-c-calling-convention
           - llvm-pointer-tag
+          - llvm-unnamed-addr
           - mlir-c-wrapper
           - rust-stream
           - rust-sum
