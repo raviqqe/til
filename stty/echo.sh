@@ -2,6 +2,8 @@
 
 set -e
 
+echo Name?:
+
 stty -echo
 
 read foo
