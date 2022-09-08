@@ -2,7 +2,8 @@
 
 set -ex
 
-brew install llvm@15
+# TODO Install LLVM automatically when it's available.
+# brew install llvm@15
 
 mkdir -p tmp
 
