@@ -2,8 +2,9 @@
 
 set -ex
 
-# TODO Install LLVM automatically when it's available.
-# brew install llvm@15
+brew install llvm@15
+
+export PATH=$(brew --prefix llvm@15)/bin:$PATH
 
 mkdir -p tmp
 
