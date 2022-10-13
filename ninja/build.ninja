@@ -1,4 +1,10 @@
 rule touch 
   command = touch $out
 
+rule echo
+  command = echo hello && touch $out
+
 build foo.log: touch
+
+build foo: phony
+build bar.log: echo foo

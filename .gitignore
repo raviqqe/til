@@ -3,6 +3,7 @@
 *.s
 .ninja*
 .pen
+.turtle*
 a.out
 app
 target
