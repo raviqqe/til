@@ -15,6 +15,7 @@ jobs:
           - llvm-pointer-tag
           - llvm-unnamed-addr
           - mlir-c-wrapper
+          - ninja
           - rust-stream
           - rust-sum
     runs-on: ubuntu-22.04
