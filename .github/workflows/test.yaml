@@ -23,6 +23,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v2
+      - uses: raviqqe/enable-homebrew@main
       - run: sudo apt install gcc-multilib
       - run: ./main.sh
   test:
