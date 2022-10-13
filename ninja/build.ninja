@@ -7,4 +7,4 @@ rule echo
 build foo.log: touch
 
 build foo: phony
-build bar: echo foo
+build bar.log: echo foo
