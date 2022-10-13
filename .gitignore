@@ -1,6 +1,7 @@
 *.log
 *.o
 *.s
+.ninja*
 .pen
 a.out
 app
