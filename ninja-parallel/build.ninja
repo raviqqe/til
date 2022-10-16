@@ -1,0 +1,7 @@
+rule loop
+  command = while :; do :; done
+
+build foo0: loop
+build foo1: loop
+build foo2: loop
+build foo3: loop
