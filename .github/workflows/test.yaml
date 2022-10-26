@@ -21,6 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: raviqqe/enable-homebrew@main
+      - run: rustup default nightly
       - run: cargo build
       - run: cargo clippy
       - run: cargo fmt --check
