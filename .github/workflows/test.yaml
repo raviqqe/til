@@ -5,19 +5,36 @@ on:
       - main
   pull_request:
 jobs:
-  project_test:
+  rust_test:
     strategy:
       fail-fast: false
       matrix:
         directory:
           - cranelift-module
+          - rust-generator
+          - rust-stream
+          - rust-sum
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: raviqqe/enable-homebrew@main
+      - run: cargo build
+      - run: cargo clippy
+      - run: cargo fmt --check
+      - run: cargo test
+  shell_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
           - llvm-c-calling-convention
           - llvm-pointer-tag
           - llvm-unnamed-addr
           - mlir-c-wrapper
           - ninja
-          - rust-generator
-          - rust-stream
           - rust-sum
     runs-on: ubuntu-22.04
     defaults:
@@ -30,7 +47,12 @@ jobs:
       - run: ./main.sh
   test:
     runs-on: ubuntu-latest
-    needs: project_test
+    needs:
+      - rust_test
+      - shell_test
     if: ${{ always() }}
     steps:
-      - run: test ${{ needs.project_test.result }} = success
+      - run: |
+          for result in ${{ needs.rust_test.result }} ${{ needs.shell_test.result }}; do
+            test $result = success
+          done
