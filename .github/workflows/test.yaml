@@ -16,6 +16,7 @@ jobs:
           - llvm-unnamed-addr
           - mlir-c-wrapper
           - ninja
+          - rust-generator
           - rust-stream
           - rust-sum
     runs-on: ubuntu-22.04
