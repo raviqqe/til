@@ -5,6 +5,23 @@ on:
       - main
   pull_request:
 jobs:
+  ninja_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - c-stack-operation-elimination
+          - ninja
+          - ninja-parallel
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: raviqqe/enable-homebrew@main
+      - run: brew install llvm ninja
+      - run: ninja
   rust_test:
     strategy:
       fail-fast: false
@@ -36,7 +53,6 @@ jobs:
           - llvm-pointer-tag
           - llvm-unnamed-addr
           - mlir-c-wrapper
-          - ninja
           - rust-sum
     runs-on: ubuntu-22.04
     defaults:
@@ -55,6 +71,9 @@ jobs:
     if: ${{ always() }}
     steps:
       - run: |
-          for result in ${{ needs.rust_test.result }} ${{ needs.shell_test.result }}; do
+          for result in \
+            ${{ needs.ninja_test.result }} \
+            ${{ needs.rust_test.result }} \
+            ${{ needs.shell_test.result }}; do
             test $result = success
           done
