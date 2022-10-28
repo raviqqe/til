@@ -18,7 +18,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: raviqqe/enable-homebrew@main
       - run: brew install llvm ninja
       - run: ninja
@@ -36,7 +36,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: raviqqe/enable-homebrew@main
       - run: rustup default nightly
       - run: rustup component add clippy rustfmt
@@ -59,7 +59,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: raviqqe/enable-homebrew@main
       - run: sudo apt install gcc-multilib
       - run: ./main.sh
