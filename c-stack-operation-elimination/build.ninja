@@ -1,8 +1,12 @@
 rule cc
   command = clang -Werror -emit-llvm -c -S -o $out $in
 
+rule sed
+  command = sed 's/define\(.*\)).*{/define\1) {/' $in > $out
+
 rule opt
   command = opt -O3 -S -o $out $in
 
 build foo.ll: cc foo.c
-build foo_opt.ll: opt foo.ll
+build foo_bare.ll: sed foo.ll
+build foo_opt.ll: opt foo_bare.ll
