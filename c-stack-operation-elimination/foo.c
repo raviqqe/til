@@ -26,6 +26,7 @@ void foo(struct stack *s, atomic_int *p) {
   int y = pop(s);
   int z = pop(s);
 
+  // Remove the line below to optimize out stack operations.
   ++*p;
 
   push(s, z);
