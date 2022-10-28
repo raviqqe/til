@@ -12,6 +12,7 @@ jobs:
         directory:
           - c-stack-operation-elimination
           - ninja
+          - ninja-parallel
     runs-on: ubuntu-22.04
     defaults:
       run:

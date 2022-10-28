@@ -1,5 +1,5 @@
 rule loop
-  command = while :; do :; done
+  command = for _ in $$(seq 10000000); do :; done
 
 build foo0: loop
 build foo1: loop
