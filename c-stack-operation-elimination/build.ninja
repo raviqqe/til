@@ -1,0 +1,8 @@
+rule cc
+  command = clang -Werror -emit-llvm -c -S -o $out $in
+
+rule opt
+  command = opt -O3 -S -o $out $in
+
+build foo.ll: cc foo.c
+build foo_opt.ll: opt foo.ll
