@@ -28,6 +28,7 @@ jobs:
       matrix:
         directory:
           - cranelift-module
+          - rust-boxed-closure
           - rust-generator
           - rust-stream
           - rust-sum
