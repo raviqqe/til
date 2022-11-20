@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "rust-boxed-closure"
+name = "boxed-closure"
 version = "0.1.0"
