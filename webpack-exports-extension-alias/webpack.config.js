@@ -1,6 +1,6 @@
-const path = require("path");
+import { resolve } from "node:path";
 
-module.exports = {
+export default {
   entry: "./src/index.ts",
   module: {
     rules: [
@@ -16,6 +16,6 @@ module.exports = {
   },
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: resolve("dist"),
   },
 };

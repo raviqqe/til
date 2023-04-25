@@ -11,6 +11,8 @@
     "@raviqqe/hidash": "^1.4.7"
   },
   "devDependencies": {
+    "@raviqqe/tsconfig": "^1.0.5",
+    "ts-loader": "^9.4.2",
     "webpack-cli": "^5.0.2"
   }
 }
