@@ -17,4 +17,12 @@ export default {
       ".js": [".ts", ".js"],
     },
   },
+  output: {
+    library: {
+      type: "module",
+    },
+  },
+  experiments: {
+    outputModule: true,
+  },
 };
