@@ -1,11 +1,16 @@
 {
   "name": "webpack-exports-extension-alias",
   "version": "1.0.0",
-  "description": "Reproducion of a bug in enhanced-resolve with exports field and extension alias",
   "description": "",
   "type": "module",
   "main": "index.ts",
   "scripts": {
     "build": "webpack"
+  },
+  "dependencies": {
+    "@raviqqe/hidash": "^1.4.7"
+  },
+  "devDependencies": {
+    "webpack": "^5.80.0"
   }
 }
