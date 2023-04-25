@@ -1,5 +1,5 @@
 {
-  "name": "webpack-exports-extension-alias",
+  "name": "webpack-wildcard-exports",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -8,7 +8,7 @@
     "build": "webpack"
   },
   "dependencies": {
-    "@raviqqe/hidash": "^1.4.7"
+    "@raviqqe/hidash": "raviqqe/hidash#chore/wildcard-exports"
   },
   "devDependencies": {
     "@raviqqe/tsconfig": "^1.0.5",
