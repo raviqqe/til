@@ -67,6 +67,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs:
+      - ninja_test
       - rust_test
       - shell_test
     if: ${{ always() }}
