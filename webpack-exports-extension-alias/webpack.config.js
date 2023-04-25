@@ -6,17 +6,15 @@ export default {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts$/,
         use: "ts-loader",
-        exclude: /node_modules/,
       },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
-  },
-  output: {
-    filename: "bundle.js",
-    path: resolve("dist"),
+    extensions: [".ts"],
+    extensionAlias: {
+      ".js": [".ts", ".js"],
+    },
   },
 };
