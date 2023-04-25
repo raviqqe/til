@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/main.js",
   "scripts": {
     "build": "webpack"
   },
