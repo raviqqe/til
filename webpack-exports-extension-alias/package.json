@@ -1,0 +1,7 @@
+{
+  "name": "webpack-exports-extension-alias",
+  "version": "1.0.0",
+  "description": "Reproducion of a bug in enhanced-resolve with exports field and extension alias",
+  "main": "index.ts",
+  "scripts": {}
+}
