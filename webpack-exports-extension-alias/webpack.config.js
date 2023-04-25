@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 
 export default {
+  mode: "production",
   entry: "./src/index.ts",
   module: {
     rules: [
