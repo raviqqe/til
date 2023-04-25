@@ -5,5 +5,7 @@
   "description": "",
   "type": "module",
   "main": "index.ts",
-  "scripts": {}
+  "scripts": {
+    "build": "webpack"
+  }
 }
