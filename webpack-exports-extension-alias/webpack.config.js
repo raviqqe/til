@@ -4,7 +4,7 @@ export default {
   resolve: {
     extensions: [".js"],
     extensionAlias: {
-      ".js": [".ts", ".js"],
+      ".js": [".lisp", ".js"],
     },
   },
   output: {
