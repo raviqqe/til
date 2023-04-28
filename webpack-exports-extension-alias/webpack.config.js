@@ -1,18 +1,8 @@
-import { resolve } from "node:path";
-
 export default {
   mode: "production",
-  entry: "./src/index.ts",
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        use: "ts-loader",
-      },
-    ],
-  },
+  entry: "./src/main.js",
   resolve: {
-    extensions: [".ts"],
+    extensions: [".js"],
     extensionAlias: {
       ".js": [".ts", ".js"],
     },
