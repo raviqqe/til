@@ -10,7 +10,7 @@ export default {
     ],
   },
   resolve: {
-    extensions: [".ts"],
+    extensions: [".js"],
     extensionAlias: {
       ".js": [".ts", ".js"],
     },
