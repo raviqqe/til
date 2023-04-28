@@ -1,6 +1,6 @@
 export default {
   mode: "production",
-  entry: "./src/index.js",
+  entry: "./src/main.js",
   resolve: {
     extensions: [".js"],
     extensionAlias: {
