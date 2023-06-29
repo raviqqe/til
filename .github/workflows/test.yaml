@@ -52,6 +52,7 @@ jobs:
         directory:
           - scheme-eval
           - scheme-macro
+          - scheme-shift-reset
     runs-on: ubuntu-latest
     defaults:
       run:
