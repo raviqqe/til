@@ -1,4 +1,4 @@
-(require "racket/control")
+(require racket/control)
 
 (define y '(define x 42))
 
