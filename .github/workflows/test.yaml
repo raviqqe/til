@@ -59,8 +59,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: raviqqe/enable-homebrew@main
-      - run: brew install chezscheme
-      - run: petite --script main.scm
+      - run: brew install minimal-racket
+      - run: racket --script main.scm
   shell_test:
     strategy:
       fail-fast: false
