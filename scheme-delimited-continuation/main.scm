@@ -1,7 +1,10 @@
 (require racket/control)
 
-(define y '(define x 42))
+(define f
+  (reset (+
+    (begin (print 'a) 1)
+    (begin (print 'b) (shift k k)))))
 
-(eval y)
+(print 'c)
 
-(display x)
+(print (f 42))
