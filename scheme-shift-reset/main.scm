@@ -2,9 +2,9 @@
 
 (define f
   (reset (+
-    (begin (print 'a) 1)
-    (begin (print 'b) (shift k k)))))
+    (begin (display 'a) 1)
+    (begin (display 'b) (shift k k)))))
 
-(print 'c)
+(display 'c)
 
-(print (f 42))
+(display (f 42))
