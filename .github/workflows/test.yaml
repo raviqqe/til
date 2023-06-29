@@ -45,6 +45,22 @@ jobs:
       - run: cargo clippy
       - run: cargo fmt --check
       - run: cargo test
+  scheme_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - scheme-eval
+          - scheme-macro
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: raviqqe/enable-homebrew@main
+      - run: brew install chezscheme
+      - run: petite --script main.scm
   shell_test:
     strategy:
       fail-fast: false
