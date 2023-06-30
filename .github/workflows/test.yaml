@@ -72,7 +72,6 @@ jobs:
           - llvm-pointer-tag
           - llvm-unnamed-addr
           - mlir-c-wrapper
-          - rust-sum
     runs-on: ubuntu-22.04
     defaults:
       run:
