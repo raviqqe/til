@@ -1,5 +1,7 @@
 (require racket/control)
 
+(display (reset (+ 1 (shift k 41))))
+
 (define f
   (reset (+
     (begin (display 'a) 1)
