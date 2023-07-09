@@ -30,6 +30,7 @@ jobs:
           - cranelift-module
           - rust-boxed-closure
           - rust-generator
+          - rust-hello-world
           - rust-stream
           - rust-sum
     runs-on: ubuntu-22.04
