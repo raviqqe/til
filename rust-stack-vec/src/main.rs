@@ -1,7 +1,7 @@
 fn main() {
     let mut xs = vec![];
 
-    for i in 0..1000 {
+    for i in 0..42 {
         xs.push(i);
     }
 
