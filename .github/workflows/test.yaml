@@ -33,6 +33,7 @@ jobs:
           - rust-hello-world
           - rust-stream
           - rust-sum
+          - rust-vec-to-rc
     runs-on: ubuntu-22.04
     defaults:
       run:
