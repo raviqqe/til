@@ -13,7 +13,7 @@ jobs:
           - c-stack-operation-elimination
           - ninja-phony
           - ninja-parallel
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
@@ -35,7 +35,7 @@ jobs:
           - rust-stream
           - rust-sum
           - rust-vec-to-rc
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
