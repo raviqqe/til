@@ -18,7 +18,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: raviqqe/enable-homebrew@main
       - run: brew install llvm ninja
       - run: ninja
@@ -31,6 +31,7 @@ jobs:
           - rust-boxed-closure
           - rust-generator
           - rust-hello-world
+          - rust-stack-vec
           - rust-stream
           - rust-sum
           - rust-vec-to-rc
@@ -39,7 +40,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: raviqqe/enable-homebrew@main
       - run: rustup default nightly
       - run: rustup component add clippy rustfmt
@@ -61,7 +62,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: raviqqe/enable-homebrew@main
       - run: brew install minimal-racket
       - run: racket --script main.scm
@@ -79,7 +80,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: raviqqe/enable-homebrew@main
       - run: sudo apt install gcc-multilib
       - run: ./main.sh
