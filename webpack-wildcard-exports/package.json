@@ -7,9 +7,7 @@
   "scripts": {
     "build": "webpack"
   },
-  "dependencies": {
-    "@raviqqe/hidash": "raviqqe/hidash#chore/wildcard-exports-test"
-  },
+  "dependencies": {},
   "devDependencies": {
     "webpack-cli": "^5.0.2"
   }
