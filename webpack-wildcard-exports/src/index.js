@@ -1,3 +1,3 @@
-import { capitalizeText } from "@raviqqe/hidash/string.js";
+import { capitalize } from "@raviqqe/loscore";
 
-export const foo = (text) => capitalizeText(text);
+export const foo = (text) => capitalize(text);
