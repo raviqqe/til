@@ -1,6 +1,6 @@
-#![feature(generators, generator_trait)]
+#![feature(coroutines, coroutine_trait)]
 
-use std::{ops::Generator, pin::Pin};
+use std::{ops::Coroutine, pin::Pin};
 
 fn main() {
     let x = Box::new(1);
