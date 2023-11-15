@@ -42,8 +42,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: raviqqe/enable-homebrew@main
-      - run: rustup default nightly
-      - run: rustup component add clippy rustfmt
       - run: cargo build
       - run: cargo clippy
       - run: cargo fmt --check
