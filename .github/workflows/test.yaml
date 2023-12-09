@@ -22,19 +22,21 @@ jobs:
       - uses: raviqqe/enable-homebrew@main
       - run: brew install llvm ninja
       - run: ninja
+  npm_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run -ws build
+      - run: npm run -ws test
   rust_test:
     strategy:
       fail-fast: false
       matrix:
         directory:
-          - cranelift-module
-          - rust-boxed-closure
+          - .
           - rust-generator
           - rust-hello-world
-          - rust-stack-vec
-          - rust-stream
-          - rust-sum
-          - rust-vec-to-rc
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -80,13 +82,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: raviqqe/enable-homebrew@main
+      - run: sudo apt update --fix-missing
       - run: sudo apt install gcc-multilib
       - run: ./main.sh
   test:
     runs-on: ubuntu-latest
     needs:
       - ninja_test
+      - npm_test
       - rust_test
+      - scheme_test
       - shell_test
     if: ${{ always() }}
     steps:

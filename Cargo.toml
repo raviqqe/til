@@ -1,0 +1,14 @@
+[workspace]
+members = [
+  "cranelift-module",
+  "rust-boxed-closure",
+  "rust-stack-vec",
+  "rust-stream",
+  "rust-sum",
+  "rust-vec-to-rc",
+]
+exclude = ["rust-generator", "rust-hello-world"]
+resolver = "2"
+
+[profile.release]
+lto = true
