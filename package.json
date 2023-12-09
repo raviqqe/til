@@ -1,5 +1,3 @@
 {
-  "dependencies": {
-    "@raviqqe/loscore": "^0.1.7"
-  }
+  "workspaces": ["webpack-exports-extension-alias", "webpack-wildcard-exports"]
 }
