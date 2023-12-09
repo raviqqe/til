@@ -575,10 +575,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-generator"
-version = "0.1.0"
-
-[[package]]
 name = "rust-stream"
 version = "0.1.0"
 dependencies = [

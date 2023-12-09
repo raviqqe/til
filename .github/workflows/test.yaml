@@ -28,6 +28,7 @@ jobs:
       matrix:
         directory:
           - .
+          - rust-generator
           - rust-hello-world
     runs-on: ubuntu-latest
     defaults:
