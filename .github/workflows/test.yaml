@@ -74,6 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: raviqqe/enable-homebrew@main
+      - run: sudo apt update --fix-missing
       - run: sudo apt install gcc-multilib
       - run: ./main.sh
   test:
