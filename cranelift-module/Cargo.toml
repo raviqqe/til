@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-cranelift = "0.85.1"
+cranelift = "0.102.1"
 cranelift-module = "0.85.1"
 cranelift-object = "0.85.1"
