@@ -26,7 +26,6 @@ fn run() -> Result<(), Box<dyn Error>> {
         builder.set("enable_atomics", "true")?;
         builder.set("enable_jump_tables", "true")?;
         builder.set("enable_nan_canonicalization", "true")?;
-        builder.set("enable_simd", "true")?;
         builder.set("enable_verifier", "true")?;
         builder.set("is_pic", "true")?;
         builder.set("machine_code_cfg_info", "false")?;
@@ -114,9 +113,8 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
     }
     {
         let arg = builder.use_var(y);
-        builder.ins().brnz(arg, block3, &[]);
+        builder.ins().brif(arg, block3, &[], block2, &[]);
     }
-    builder.ins().jump(block2, &[]);
 
     builder.switch_to_block(block2);
     builder.seal_block(block2);
