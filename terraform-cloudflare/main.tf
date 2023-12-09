@@ -36,7 +36,7 @@ resource "cloudflare_api_token" "audit_logs" {
 }
 
 output "account_premission_groups" {
-  value = data.cloudflare_api_token_permission_groups.all.accout
+  value = data.cloudflare_api_token_permission_groups.all.account
 }
 
 output "user_premission_groups" {
