@@ -26,7 +26,6 @@ fn run() -> Result<(), Box<dyn Error>> {
         builder.set("enable_atomics", "true")?;
         builder.set("enable_jump_tables", "true")?;
         builder.set("enable_nan_canonicalization", "true")?;
-        builder.set("enable_simd", "true")?;
         builder.set("enable_verifier", "true")?;
         builder.set("is_pic", "true")?;
         builder.set("machine_code_cfg_info", "false")?;
