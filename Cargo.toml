@@ -1,0 +1,30 @@
+[workspace]
+members = [
+  "benchmark/rust/fibonacci",
+  "benchmark/rust/im_hash_map_insert",
+  "benchmark/rust/im_hash_map_update",
+  "benchmark/rust/std_hash_map_insert",
+  "benchmark/rust/sum",
+  "cmd/pen",
+  "lib/app",
+  "lib/ast",
+  "lib/ast-hir",
+  "lib/doc",
+  "lib/ffi",
+  "lib/ffi-macro",
+  "lib/format",
+  "lib/hir",
+  "lib/hir-mir",
+  "lib/infra",
+  "lib/interface",
+  "lib/mir",
+  "lib/mir-fmm",
+  "lib/parse",
+  "lib/position",
+  "lib/test-info",
+]
+exclude = ["benchmark", "cmd/test", "examples", "packages", "test", "tmp"]
+resolver = "2"
+
+[profile.release]
+lto = true
