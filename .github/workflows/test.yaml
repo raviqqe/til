@@ -27,14 +27,8 @@ jobs:
       fail-fast: false
       matrix:
         directory:
-          - cranelift-module
-          - rust-boxed-closure
-          - rust-generator
+          - .
           - rust-hello-world
-          - rust-stack-vec
-          - rust-stream
-          - rust-sum
-          - rust-vec-to-rc
     runs-on: ubuntu-latest
     defaults:
       run:
