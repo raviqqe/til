@@ -34,3 +34,11 @@ resource "cloudflare_api_token" "audit_logs" {
     }
   }
 }
+
+output "account_premission_groups" {
+  value = cloudflare_api_token_permission_groups.all.accout
+}
+
+output "user_premission_groups" {
+  value = cloudflare_api_token_permission_groups.all.user
+}
