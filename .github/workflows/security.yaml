@@ -17,7 +17,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: github/codeql-action/init@v2
         with:
-          language:
-            - javascript-typescript
+          languages: javascript-typescript
       - uses: github/codeql-action/autobuild@v2
       - uses: github/codeql-action/analyze@v2
