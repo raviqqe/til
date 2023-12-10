@@ -71,6 +71,5 @@ output "r2_bucket" {
 }
 
 output "r2_token" {
-  value     = cloudflare_api_token.r2
-  sensitive = true
+  value = cloudflare_api_token.r2.id
 }
