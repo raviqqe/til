@@ -40,6 +40,20 @@ resource "cloudflare_r2_bucket" "til_test" {
   name       = "til"
 }
 
+resource "cloudflare_api_token" "r2" {
+  name = "r2"
+
+  policy {
+    permission_groups = [
+      data.cloudflare_api_token_permission_groups.all.r2["Workers R2 Storage Bucket Item Read"],
+      data.cloudflare_api_token_permission_groups.all.r2["Workers R2 Storage Bucket Item Write"]
+    ]
+    resources = {
+      "com.cloudflare.edge.r2.bucket.${local.cloudflare_account.id}_default_${cloudflare_r2_bucket.til_test.id}" = "*"
+    }
+  }
+}
+
 output "account_premission_groups" {
   value = data.cloudflare_api_token_permission_groups.all.account
 }
@@ -54,4 +68,8 @@ output "r2_premission_groups" {
 
 output "r2_bucket" {
   value = cloudflare_r2_bucket.til_test
+}
+
+output "r2_token" {
+  value = cloudflare_api_token.r2.id
 }
