@@ -69,3 +69,7 @@ output "r2_premission_groups" {
 output "r2_bucket" {
   value = cloudflare_r2_bucket.til_test
 }
+
+output "r2_token" {
+  value = cloudflare_api_token.r2
+}
