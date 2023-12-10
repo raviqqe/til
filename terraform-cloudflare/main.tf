@@ -67,5 +67,5 @@ output "r2_premission_groups" {
 }
 
 output "r2_bucket" {
-  value = data.cloudflare_api_token_permission_groups.all.r2
+  value = cloudflare_r2_bucket.til_test
 }
