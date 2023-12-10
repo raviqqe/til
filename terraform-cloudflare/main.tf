@@ -23,7 +23,7 @@ resource "cloudflare_workers_kv_namespace" "production" {
 data "cloudflare_api_token_permission_groups" "all" {}
 
 resource "cloudflare_api_token" "audit_logs" {
-  name = "logs_account"
+  name = "til_audit_logs_test"
 
   policy {
     permission_groups = [
@@ -41,7 +41,7 @@ resource "cloudflare_r2_bucket" "til_test" {
 }
 
 resource "cloudflare_api_token" "r2" {
-  name = "r2"
+  name = "til_r2_test"
 
   policy {
     permission_groups = [
