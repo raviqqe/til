@@ -9,7 +9,7 @@
     "test": "npm run build"
   },
   "dependencies": {
-    "@raviqqe/loscore": "^0.1.9"
+    "@raviqqe/loscore": "^0.1.11"
   },
   "devDependencies": {
     "webpack-cli": "^5.0.2"
