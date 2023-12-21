@@ -5,5 +5,5 @@ edition = "2021"
 
 [dependencies]
 cranelift = "0.102"
-cranelift-module = "0.102"
+cranelift-module = "0.103"
 cranelift-object = "0.102"
