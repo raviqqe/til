@@ -1,7 +1,8 @@
 [workspace]
 members = [
   "cranelift-module",
-  "rust-boxed-closure", "rust-fibonacci",
+  "rust-boxed-closure",
+  "rust-fibonacci",
   "rust-stack-vec",
   "rust-stream",
   "rust-sum",
