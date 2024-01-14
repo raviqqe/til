@@ -1,5 +1,9 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+pub fn fibonacci(number: usize) -> usize {
+    if number == 0 || number == 1 {
+        number
+    } else {
+        fibonacci(number - 1) + fibonacci(number - 2)
+    }
 }
 
 #[cfg(test)]
@@ -7,8 +11,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    fn calculate() {
+        assert_eq!(fibonacci(0), 0);
+        assert_eq!(fibonacci(1), 1);
     }
 }
