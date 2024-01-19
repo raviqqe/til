@@ -96,9 +96,6 @@ jobs:
     if: ${{ always() }}
     steps:
       - run: |
-          for result in \
-            ${{ needs.ninja_test.result }} \
-            ${{ needs.rust_test.result }} \
-            ${{ needs.shell_test.result }}; do
-            test $result = success
+          for result in ${{ join(needs.*.result, ' ') }}; do
+            [ $result = success ]
           done
