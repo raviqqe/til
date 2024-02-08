@@ -220,9 +220,9 @@ checksum = "eb7ceea70d3e0d7f69df7657f99de902e32016731c5a8d2788c1df0215f00952"
 
 [[package]]
 name = "cranelift-module"
-version = "0.104.0"
+version = "0.104.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f30c6820342015c5009070e3e48d1da7b13521399de904663f1c84f5ee839657"
+checksum = "336d829037da6be9fd43fb72eb55f6a5171b56b0dde7f6986ead5cdd76f6f245"
 dependencies = [
  "anyhow",
  "cranelift-codegen",
