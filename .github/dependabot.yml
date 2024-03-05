@@ -11,7 +11,7 @@ updates:
     groups:
       cranelift:
         patterns:
-          - cranelift-*
+          - cranelift*
   - package-ecosystem: npm
     directory: /
     schedule:
