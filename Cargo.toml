@@ -13,7 +13,3 @@ exclude = ["rust-generator", "rust-hello-world", "rust-libc"]
 
 [profile.release]
 lto = true
-panic = "abort"
-
-[profile.dev]
-panic = "abort"
