@@ -9,3 +9,8 @@ unsafe extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
 
     0
 }
+
+#[panic_handler]
+fn panic(_info: &core::panic::PanicInfo) -> ! {
+    unsafe { libc::exit(1) }
+}
