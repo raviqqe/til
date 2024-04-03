@@ -589,13 +589,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-libc"
-version = "0.1.0"
-dependencies = [
- "libc",
-]
-
-[[package]]
 name = "rust-stream"
 version = "0.1.0"
 dependencies = [
