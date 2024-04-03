@@ -9,5 +9,8 @@ lto = true
 panic = "abort"
 strip = true
 
+[profile.dev]
+panic = "abort"
+
 [dependencies]
 libc = { version = "0.2.153", default-features = false }
