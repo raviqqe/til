@@ -1,16 +1,15 @@
 [workspace]
+resolver = "2"
 members = [
   "cranelift-module",
   "rust-boxed-closure",
   "rust-fibonacci",
-  "rust-libc",
   "rust-stack-vec",
   "rust-stream",
   "rust-sum",
   "rust-vec-to-rc",
 ]
-exclude = ["rust-generator", "rust-hello-world"]
-resolver = "2"
+exclude = ["rust-generator", "rust-hello-world", "rust-libc"]
 
 [profile.release]
 lto = true

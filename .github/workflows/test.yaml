@@ -37,6 +37,7 @@ jobs:
           - .
           - rust-generator
           - rust-hello-world
+          - rust-libc
     runs-on: ubuntu-latest
     defaults:
       run:
