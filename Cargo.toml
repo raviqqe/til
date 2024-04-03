@@ -2,7 +2,7 @@
 members = [
   "cranelift-module",
   "rust-boxed-closure",
-  "rust-fibonacci",
+  "rust-fibonacci", "rust-libc",
   "rust-stack-vec",
   "rust-stream",
   "rust-sum",
