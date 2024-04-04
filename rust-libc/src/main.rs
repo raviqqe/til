@@ -3,7 +3,7 @@
 
 #[cfg_attr(not(test), no_mangle)]
 unsafe extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
-    libc::printf(b"Hello, World!\n".as_ptr() as _);
+    libc::printf(c"Hello, World!".as_ptr() as _);
 
     0
 }
