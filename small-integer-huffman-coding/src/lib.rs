@@ -58,11 +58,7 @@ mod tests {
 
         #[test]
         fn encode_one() {
-            let mut output = Default::default();
-
-            encode(&[1], &mut output);
-
-            assert_eq!(output, &[1]);
+            assert_eq!(encode(&[1]), &[1]);
         }
     }
 }
