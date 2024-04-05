@@ -1,3 +1,3 @@
-fn main() {
+pub fn compress() {
     println!("Hello, world!");
 }
