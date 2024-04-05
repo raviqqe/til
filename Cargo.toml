@@ -7,7 +7,7 @@ members = [
   "rust-stack-vec",
   "rust-stream",
   "rust-sum",
-  "rust-vec-to-rc",
+  "rust-vec-to-rc", "small-integer-huffman-coding",
 ]
 exclude = ["rust-generator", "rust-hello-world", "rust-libc"]
 
