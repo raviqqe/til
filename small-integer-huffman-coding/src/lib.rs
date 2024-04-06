@@ -39,24 +39,21 @@ pub fn decode(xs: &[u8]) -> Vec<u8> {
     let mut offset = 0;
 
     for &x in xs {
-        match x {
-            0 => {
-                offset += 1;
-                y <<= 1;
-            }
-            1 => {
-                offset += 2;
-                y <<= 2;
-                y += 1;
-            }
-            _ => todo!(),
+        let mut x = x;
+
+        if x % 2 == 0 {
+            ys.push(0);
+            continue;
         }
 
-        if offset >= SIZE {
-            ys.push(y as u8);
-            y <<= SIZE;
-            offset -= SIZE;
+        x >>= 1;
+
+        if x % 2 == 0 {
+            ys.push(1);
+            continue;
         }
+
+        todo!();
     }
 
     if offset > 0 {
