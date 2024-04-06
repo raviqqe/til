@@ -16,6 +16,11 @@ pub fn encode(xs: &[u8]) -> Vec<u8> {
                 y <<= 2;
                 y += 1;
             }
+            2 => {
+                offset += 2;
+                y <<= 2;
+                y += 1;
+            }
             _ => todo!(),
         }
 
@@ -41,19 +46,23 @@ pub fn decode(xs: &[u8]) -> Vec<u8> {
     for &x in xs {
         let mut x = x;
 
-        if x % 2 == 0 {
-            ys.push(0);
-            continue;
+        while offset < 8 {
+            x >>= 1;
+
+            if x % 2 == 0 {
+                ys.push(0);
+                offset += 1;
+                continue;
+            }
+
+            if x % 2 == 0 {
+                ys.push(1);
+                offset += 2;
+                continue;
+            }
+
+            todo!();
         }
-
-        x >>= 1;
-
-        if x % 2 == 0 {
-            ys.push(1);
-            continue;
-        }
-
-        todo!();
     }
 
     if offset > 0 {
@@ -90,6 +99,11 @@ mod tests {
         fn encode_one() {
             assert_eq!(encode(&[1]), &[1]);
         }
+
+        #[test]
+        fn encode_two_ones() {
+            assert_eq!(encode(&[1, 1]), &[0b0101]);
+        }
     }
 
     mod decode {
@@ -101,15 +115,15 @@ mod tests {
             assert_eq!(decode(&encode(&[])), &[]);
         }
 
-        // #[test]
-        // fn decode_zero() {
-        //     assert_eq!(decode(&[0]), &[0]);
-        // }
+        #[test]
+        fn decode_zero() {
+            assert_eq!(decode(&[0]), &[0; SIZE]);
+        }
 
-        // #[test]
-        // fn decode_two_zeros() {
-        //     assert_eq!(decode(&[0, 0]), &[0]);
-        // }
+        #[test]
+        fn decode_two_zeros() {
+            assert_eq!(decode(&[0, 0]), &[0; SIZE]);
+        }
 
         // #[test]
         // fn decode_one() {
