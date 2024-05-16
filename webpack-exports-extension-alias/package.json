@@ -9,7 +9,7 @@
     "test": "npm run build"
   },
   "dependencies": {
-    "@raviqqe/hidash": "^2.0.2"
+    "@raviqqe/hidash": "^2.0.3"
   },
   "devDependencies": {
     "webpack-cli": "^5.0.2"
