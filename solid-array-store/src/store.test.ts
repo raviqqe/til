@@ -26,9 +26,10 @@ it("reconciles an object with an array", () => {
     value: { foo: "bar" },
   });
 
-  setStore("value", reconcile([0, 1, 2]));
+  const value = [0, 1, 2];
+  setStore("value", reconcile(value));
 
-  expect(Array.isArray(store.value)).toBe(true);
+  expect(store.value).toEqual(value);
 });
 
 it("swaps an array with an object", () => {
@@ -36,7 +37,8 @@ it("swaps an array with an object", () => {
     value: [0, 1, 2],
   });
 
-  setStore("value", reconcile({ foo: "bar" }));
+  const value = { foo: "bar" };
+  setStore("value", reconcile(value));
 
-  expect(Array.isArray(store.value)).toBe(false);
+  expect(store.value).toEqual(value);
 });
