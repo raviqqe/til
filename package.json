@@ -1,4 +1,5 @@
 {
+  "name": "til",
   "workspaces": [
     "solid-array-store",
     "webpack-exports-extension-alias",
