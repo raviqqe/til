@@ -32,7 +32,7 @@ it("reconciles an object with an array", () => {
   expect(store.value).not.toEqual(value);
 });
 
-it("swaps an array with an object", () => {
+it("reconciles an array with an object", () => {
   const [store, setStore] = createStore<{ value: {} | [] }>({
     value: [0, 1, 2],
   });
