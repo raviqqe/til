@@ -2,9 +2,16 @@
   "name": "solid-array-store",
   "version": "1.0.0",
   "scripts": {
+    "test": "vitest",
+    "test": "eslint --ext .ts src",
     "test": "vitest"
   },
   "dependencies": {
     "vitest": "^1.6.0"
+  },
+  "devDependencies": {
+    "@raviqqe/eslint-config": "^2.1.2",
+    "@raviqqe/tsconfig": "^1.0.9",
+    "eslint": "^9.4.0"
   }
 }
