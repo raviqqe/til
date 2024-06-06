@@ -2,8 +2,8 @@
   "name": "solid-array-store",
   "version": "1.0.0",
   "scripts": {
-    "test": "vitest",
-    "test": "eslint --ext .ts src",
+    "build": "tsc",
+    "lint": "eslint --ext .ts src",
     "test": "vitest"
   },
   "dependencies": {
