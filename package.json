@@ -1,3 +1,7 @@
 {
-  "workspaces": ["webpack-exports-extension-alias", "webpack-wildcard-exports"]
+  "workspaces": [
+    "solid-array-store",
+    "webpack-exports-extension-alias",
+    "webpack-wildcard-exports"
+  ]
 }

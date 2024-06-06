@@ -1,0 +1,9 @@
+{
+  "extends": "@raviqqe/tsconfig",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "solid-js",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
