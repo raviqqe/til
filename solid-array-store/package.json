@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "vitest"
+  },
+  "dependencies": {
+    "vitest": "^1.6.0"
   }
 }
