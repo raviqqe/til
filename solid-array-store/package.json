@@ -14,7 +14,7 @@
   "devDependencies": {
     "@raviqqe/eslint-config": "^2.1.2",
     "@raviqqe/tsconfig": "^1.1.0",
-    "eslint": "^9.5.0",
+    "eslint": "^9.6.0",
     "typescript": "^5.5.2"
   }
 }
