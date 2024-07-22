@@ -12,7 +12,7 @@
     "vitest": "^2.0.3"
   },
   "devDependencies": {
-    "@raviqqe/eslint-config": "^3.0.0",
+    "@raviqqe/eslint-config": "^3.0.4",
     "@raviqqe/tsconfig": "^1.1.0",
     "eslint": "^9.7.0",
     "typescript": "^5.5.3"
