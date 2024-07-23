@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "solid-js": "^1.8.18",
-    "vitest": "^2.0.3"
+    "vitest": "^2.0.4"
   },
   "devDependencies": {
     "@raviqqe/eslint-config": "^3.0.4",
