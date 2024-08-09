@@ -65,8 +65,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: raviqqe/enable-homebrew@main
-      - run: brew install minimal-racket
-      - run: racket --script main.scm
+      - run: brew install gauche
+      - run: gosh main.scm
   shell_test:
     strategy:
       fail-fast: false
