@@ -1,8 +1,5 @@
 :root {
-  --max-width: 500px;
   --desktop: false;
-
-  font-size: 16px;
 
   @media (width > 800px) {
     --desktop: true;
