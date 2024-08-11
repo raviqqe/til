@@ -1,0 +1,9 @@
+:root {
+  --max-width: 500px;
+}
+
+.foo {
+  @media (width > var(--max-width)) {
+    background: red;
+  }
+}
