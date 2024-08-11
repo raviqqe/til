@@ -1,13 +1,13 @@
 :root {
   --desktop: false;
 
-  @media (width > 800px) {
+  @media (width > 100px) {
     --desktop: true;
   }
 }
 
 .foo {
-  @media (width > 500px) {
+  @media (width > 100px) {
     color: red;
   }
 
