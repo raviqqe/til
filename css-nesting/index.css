@@ -6,10 +6,10 @@
 
 .foo {
   @media (width > 500px) {
-    background: cyan;
+    color: red;
   }
 
   @media (width > var(--max-width)) {
-    background: red;
+    background: cyan;
   }
 }
