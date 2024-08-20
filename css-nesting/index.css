@@ -1,0 +1,17 @@
+:root {
+  --desktop: false;
+
+  @media (width > 100px) {
+    --desktop: true;
+  }
+}
+
+.foo {
+  @media (width > 100px) {
+    color: red;
+  }
+
+  @container style(--desktop: true) {
+    background: cyan;
+  }
+}
