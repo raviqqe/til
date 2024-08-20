@@ -64,7 +64,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v4
-      - run: apt -y install racket
+      - run: sudo apt -y install racket
       - run: racket --script main.scm
   shell_test:
     strategy:
