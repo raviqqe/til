@@ -92,7 +92,8 @@ jobs:
       - ninja_test
       - npm_test
       - rust_test
-      - scheme_test
+      # TODO Enable this when the `minimal-racket` package is fixed in Homebrew.
+      # - scheme_test
       - shell_test
     if: ${{ always() }}
     steps:
