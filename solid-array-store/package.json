@@ -8,13 +8,13 @@
     "test": "vitest"
   },
   "dependencies": {
-    "solid-js": "^1.8.19",
+    "solid-js": "^1.8.21",
     "vitest": "^2.0.5"
   },
   "devDependencies": {
-    "@raviqqe/eslint-config": "^3.0.5",
+    "@raviqqe/eslint-config": "^3.0.6",
     "@raviqqe/tsconfig": "^1.1.0",
-    "eslint": "^9.8.0",
+    "eslint": "^9.9.0",
     "typescript": "^5.5.4"
   }
 }
