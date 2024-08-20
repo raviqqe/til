@@ -19,7 +19,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v4
-      - uses: raviqqe/enable-homebrew@main
+      - uses: homebrew/actions/setup-homebrew@master
       - run: brew install llvm ninja
       - run: ninja
   npm_test:
@@ -44,7 +44,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v4
-      - uses: raviqqe/enable-homebrew@main
+      - uses: homebrew/actions/setup-homebrew@master
       - run: cargo build
       - run: cargo clippy
       - run: cargo fmt --check
@@ -58,14 +58,14 @@ jobs:
           - scheme-eval
           - scheme-macro
           - scheme-shift-reset
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v4
-      - uses: raviqqe/enable-homebrew@main
-      - run: brew install minimal-racket
+      - run: sudo apt update --fix-missing
+      - run: sudo apt install racket
       - run: racket --script main.scm
   shell_test:
     strategy:
@@ -82,7 +82,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v4
-      - uses: raviqqe/enable-homebrew@main
+      - uses: homebrew/actions/setup-homebrew@master
       - run: sudo apt update --fix-missing
       - run: sudo apt install gcc-multilib
       - run: ./main.sh
