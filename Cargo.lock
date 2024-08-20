@@ -601,6 +601,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "rust-cfg-macro"
+version = "0.1.0"
+
+[[package]]
 name = "rust-stream"
 version = "0.1.0"
 dependencies = [
