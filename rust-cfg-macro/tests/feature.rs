@@ -1,8 +1,28 @@
 use rust_cfg_macro::feature;
 
 #[test]
-fn expression() {
-    let x = feature!(if "foo" { 13 } else { 42 });
-
-    assert_eq!(x, 42);
+fn feature() {
+    assert_eq!(feature!(if "foo" { 13 } else { 42 }), 42);
+    assert_eq!(
+        feature!(if "foo" {
+            13
+        } else if "bar" {
+            13
+        } else {
+            42
+        }),
+        42
+    );
+    assert_eq!(
+        feature!(if "foo" {
+            13
+        } else if "bar" {
+            13
+        } else if "baz" {
+            13
+        } else {
+            42
+        }),
+        42
+    );
 }
