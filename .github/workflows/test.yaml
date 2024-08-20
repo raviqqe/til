@@ -58,13 +58,14 @@ jobs:
           - scheme-eval
           - scheme-macro
           - scheme-shift-reset
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt -y install racket
+      - run: sudo apt update --fix-missing
+      - run: sudo apt install racket
       - run: racket --script main.scm
   shell_test:
     strategy:
