@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
   "cranelift-module",
-  "rust-boxed-closure",
+  "rust-boxed-closure", "rust-cfg-macro",
   "rust-fibonacci",
   "rust-stack-vec",
   "rust-stream",
