@@ -17,5 +17,9 @@ mod tests {
         assert_eq!(decompose(54.0f64.exp2()), (4503599627370496, 2));
         assert_eq!(decompose(55.0f64.exp2()), (4503599627370496, 3));
         assert_eq!(decompose(56.0f64.exp2()), (4503599627370496, 4));
+        assert_eq!(
+            decompose((52.0f64.exp2() + 1.0) * 4.0f64.exp2()),
+            (4503599627370497, 4)
+        );
     }
 }
