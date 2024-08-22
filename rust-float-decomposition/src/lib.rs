@@ -43,6 +43,7 @@ mod tests {
         assert_eq!(decompose_normal(2.0), (1, 1));
         assert_eq!(decompose_normal(123.0), (123, 0));
         assert_eq!(decompose_normal(256.0), (1, 8));
+        assert_eq!(decompose_normal(257.0), (257, 0));
         assert_eq!(decompose_normal(52.0f64.exp2()), (1, 52));
         assert_eq!(decompose_normal(53.0f64.exp2()), (1, 53));
         assert_eq!(decompose_normal(54.0f64.exp2()), (1, 54));
@@ -50,7 +51,7 @@ mod tests {
         assert_eq!(decompose_normal(56.0f64.exp2()), (1, 56));
         assert_eq!(
             decompose_normal((52.0f64.exp2() + 1.0) * 4.0f64.exp2()),
-            (4503599627370497, 4)
+            (1, 56)
         );
     }
 }
