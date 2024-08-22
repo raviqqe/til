@@ -25,6 +25,7 @@ mod tests {
         assert_eq!(decompose_simple(1.0), (1, 0));
         assert_eq!(decompose_simple(2.0), (2, 0));
         assert_eq!(decompose_simple(123.0), (123, 0));
+        assert_eq!(decompose_simple(256.0), (256, 0));
         assert_eq!(decompose_simple(52.0f64.exp2()), (4503599627370496, 0));
         assert_eq!(decompose_simple(53.0f64.exp2()), (4503599627370496, 1));
         assert_eq!(decompose_simple(54.0f64.exp2()), (4503599627370496, 2));
@@ -41,5 +42,15 @@ mod tests {
         assert_eq!(decompose_normal(1.0), (1, 0));
         assert_eq!(decompose_normal(2.0), (1, 1));
         assert_eq!(decompose_normal(123.0), (123, 0));
+        assert_eq!(decompose_normal(256.0), (1, 8));
+        assert_eq!(decompose_normal(52.0f64.exp2()), (1, 52));
+        assert_eq!(decompose_normal(53.0f64.exp2()), (1, 53));
+        assert_eq!(decompose_normal(54.0f64.exp2()), (1, 54));
+        assert_eq!(decompose_normal(55.0f64.exp2()), (1, 55));
+        assert_eq!(decompose_normal(56.0f64.exp2()), (1, 56));
+        assert_eq!(
+            decompose_normal((52.0f64.exp2() + 1.0) * 4.0f64.exp2()),
+            (4503599627370497, 4)
+        );
     }
 }
