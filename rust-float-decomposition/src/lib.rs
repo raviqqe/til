@@ -41,6 +41,7 @@ mod tests {
     fn normal() {
         assert_eq!(decompose_normal(1.0), (1, 0));
         assert_eq!(decompose_normal(2.0), (1, 1));
+        assert_eq!(decompose_simple(3.0), (3, 0));
         assert_eq!(decompose_normal(123.0), (123, 0));
         assert_eq!(decompose_normal(256.0), (1, 8));
         assert_eq!(decompose_normal(257.0), (257, 0));
