@@ -19,5 +19,11 @@ mod tests {
     #[test]
     fn simple() {
         assert_float!(0.0);
+        assert_float!(0.5);
+        assert_float!(1.0);
+        assert_float!(1.2);
+        assert_float!(1.5);
+        assert_float!(3.0);
+        assert_float!(3.14);
     }
 }
