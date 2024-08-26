@@ -1,3 +1,3 @@
 mod decompose;
 
-pub use decmpose::*;
+pub use decompose::*;
