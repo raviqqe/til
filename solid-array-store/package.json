@@ -8,7 +8,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "solid-js": "^1.8.21",
+    "solid-js": "^1.8.22",
     "vitest": "^2.0.5"
   },
   "devDependencies": {
