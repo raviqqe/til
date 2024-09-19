@@ -1,5 +1,4 @@
 use crate::Operand;
-#[cfg(feature = "alloc")]
 use alloc::vec::Vec;
 
 /// An instruction.
@@ -12,7 +11,6 @@ pub enum Instruction {
     /// A `set` instruction.
     Set(Operand),
     /// An `if` instruction.
-    #[cfg(feature = "alloc")]
     If(Vec<Instruction>),
     /// A `nop` instruction.
     Nop(u64),
@@ -21,7 +19,6 @@ pub enum Instruction {
     /// A `close` instruction.
     ///
     /// It is used only for encoding.
-    #[cfg(feature = "alloc")]
     Close(u64, Vec<Instruction>),
     /// A `skip` instruction.
     ///
@@ -48,7 +45,6 @@ impl Instruction {
     pub const SKIP: u8 = 7;
 }
 
-#[cfg(feature = "alloc")]
 mod display {
     use super::*;
     use core::fmt::{self, Display, Formatter};
