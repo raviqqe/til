@@ -1,7 +1,9 @@
 use crate::Graph;
 use std::io::{self, Write};
 
-pub fn encode(_graph: &Graph, _writer: &impl Write) -> Result<(), io::Error> {}
+pub fn encode(_graph: &Graph, _writer: &impl Write) -> Result<(), io::Error> {
+    Ok(())
+}
 
 #[cfg(test)]
 mod tests {
