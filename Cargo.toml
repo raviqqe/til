@@ -2,9 +2,11 @@
 resolver = "2"
 members = [
   "cranelift-module",
+  "dag-encoder",
   "rust-boxed-closure",
   "rust-cfg-macro",
-  "rust-fibonacci", "rust-float-decomposition",
+  "rust-fibonacci",
+  "rust-float-decomposition",
   "rust-stack-vec",
   "rust-stream",
   "rust-sum",
