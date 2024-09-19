@@ -1,7 +1,7 @@
 use crate::Node;
 use std::rc::Rc;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Default, PartialEq)]
 pub struct Graph {
     root: Option<Rc<Node>>,
 }
