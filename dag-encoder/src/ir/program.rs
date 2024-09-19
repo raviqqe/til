@@ -1,5 +1,5 @@
 use super::instruction::Instruction;
-use alloc::{borrow::ToOwned, string::String, vec::Vec};
+use alloc::vec::Vec;
 use core::fmt::{self, Display, Formatter};
 
 const ESCAPED_SIGNS: &[&str] = &["\\", "+", "*", "_"];
@@ -7,26 +7,24 @@ const ESCAPED_SIGNS: &[&str] = &["\\", "+", "*", "_"];
 #[derive(Debug, PartialEq)]
 pub struct Graph {
     values: Vec<f64>,
-    instructions: Vec<Instruction>,
+    root: Vec<Instruction>,
 }
 
 impl Graph {
-    /// Creates a program.
-    pub const fn new(symbols: Vec<String>, instructions: Vec<Instruction>) -> Self {
+    pub const fn new(values: Vec<f64>, instructions: Vec<Instruction>) -> Self {
         Self {
-            values: symbols,
-            instructions,
+            values,
+            root: instructions,
         }
     }
 
-    /// Returns symbols in a program.
-    pub fn symbols(&self) -> &[String] {
+    pub fn values(&self) -> &[f64] {
         &self.values
     }
 
     /// Returns instructions in a program.
     pub fn instructions(&self) -> &[Instruction] {
-        &self.instructions
+        &self.root
     }
 }
 
@@ -34,22 +32,12 @@ impl Display for Graph {
     fn fmt(&self, formatter: &mut Formatter) -> fmt::Result {
         writeln!(formatter, "# symbols")?;
 
-        for symbol in &self.values {
-            let mut symbol = symbol.clone();
-
-            for sign in ESCAPED_SIGNS {
-                symbol = symbol.replace(sign, &("\\".to_owned() + sign));
-            }
-
-            writeln!(formatter, "- {symbol}")?;
+        for value in &self.values {
+            writeln!(formatter, "{value}")?;
         }
 
         write!(formatter, "# instructions")?;
-        write!(
-            formatter,
-            "{}",
-            Instruction::display_slice(&self.instructions)
-        )
+        write!(formatter, "{}", Instruction::display_slice(&self.root))
     }
 }
 
@@ -57,22 +45,12 @@ impl Display for Graph {
 mod tests {
     use super::*;
     use crate::Operand;
-    use alloc::{format, vec};
+    use alloc::vec;
     use insta::assert_snapshot;
 
     #[test]
     fn display_symbols() {
-        assert_snapshot!(Graph::new(vec!["foo".into(), "bar".into()], vec![],));
-    }
-
-    #[test]
-    fn display_symbols_with_special_signs() {
-        for &sign in ESCAPED_SIGNS {
-            assert_snapshot!(
-                sign.replace('*', "star"),
-                Graph::new(vec![format!("{}", sign)], vec![])
-            );
-        }
+        assert_snapshot!(Graph::new(vec![0.0, -1.0, 42.0], vec![],));
     }
 
     #[test]
