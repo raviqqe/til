@@ -1,0 +1,8 @@
+---
+source: dag-encoder/src/ir/program.rs
+expression: "Program::new(vec![],\nvec![Instruction::Close(42,\nvec![Instruction::Constant(Operand::Integer(2045))],)],)"
+---
+# symbols
+# instructions
+- close 42
+  - constant i2045

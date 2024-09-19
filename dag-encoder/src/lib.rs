@@ -1,4 +1,4 @@
-//! Bytecodes for Stak Scheme.
+extern crate alloc;
 
 mod decode;
 mod encode;
