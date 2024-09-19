@@ -1,0 +1,12 @@
+[package]
+name = "dag-encoder"
+description = "DAG encoder and decoder"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+alloc = []
+
+[dev-dependencies]
+insta = "1.40.0"
+pretty_assertions = "1.4.1"
