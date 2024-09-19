@@ -1,4 +1,6 @@
-pub fn decode(codes: &[u8]) -> Result<Graph, &'static str> {
+use crate::Graph;
+
+pub fn decode(_codes: &[u8]) -> Result<Graph, &'static str> {
     Ok(Graph::default())
 }
 

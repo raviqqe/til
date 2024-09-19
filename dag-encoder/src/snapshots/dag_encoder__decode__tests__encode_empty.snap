@@ -1,0 +1,9 @@
+---
+source: dag-encoder/src/decode.rs
+expression: "decode(&[])"
+---
+Ok(
+    Graph {
+        root: None,
+    },
+)
