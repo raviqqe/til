@@ -4,14 +4,13 @@ use core::fmt::{self, Display, Formatter};
 
 const ESCAPED_SIGNS: &[&str] = &["\\", "+", "*", "_"];
 
-/// A program on a virtual machine.
-#[derive(Debug, Eq, PartialEq)]
-pub struct Program {
+#[derive(Debug, PartialEq)]
+pub struct Graph {
     values: Vec<f64>,
     instructions: Vec<Instruction>,
 }
 
-impl Program {
+impl Graph {
     /// Creates a program.
     pub const fn new(symbols: Vec<String>, instructions: Vec<Instruction>) -> Self {
         Self {
@@ -31,7 +30,7 @@ impl Program {
     }
 }
 
-impl Display for Program {
+impl Display for Graph {
     fn fmt(&self, formatter: &mut Formatter) -> fmt::Result {
         writeln!(formatter, "# symbols")?;
 
@@ -63,7 +62,7 @@ mod tests {
 
     #[test]
     fn display_symbols() {
-        assert_snapshot!(Program::new(vec!["foo".into(), "bar".into()], vec![],));
+        assert_snapshot!(Graph::new(vec!["foo".into(), "bar".into()], vec![],));
     }
 
     #[test]
@@ -71,14 +70,14 @@ mod tests {
         for &sign in ESCAPED_SIGNS {
             assert_snapshot!(
                 sign.replace('*', "star"),
-                Program::new(vec![format!("{}", sign)], vec![])
+                Graph::new(vec![format!("{}", sign)], vec![])
             );
         }
     }
 
     #[test]
     fn display_if() {
-        assert_snapshot!(Program::new(
+        assert_snapshot!(Graph::new(
             vec![],
             vec![Instruction::If(vec![Instruction::Constant(
                 Operand::Integer(42)
@@ -88,7 +87,7 @@ mod tests {
 
     #[test]
     fn display_closure() {
-        assert_snapshot!(Program::new(
+        assert_snapshot!(Graph::new(
             vec![],
             vec![Instruction::Close(
                 42,
@@ -99,7 +98,7 @@ mod tests {
 
     #[test]
     fn display_closure_with_if() {
-        assert_snapshot!(Program::new(
+        assert_snapshot!(Graph::new(
             vec![],
             vec![
                 Instruction::Constant(Operand::Integer(0)),

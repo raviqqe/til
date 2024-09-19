@@ -9,7 +9,7 @@ pub fn encode(program: &Graph) -> Vec<u8> {
     let mut codes = vec![];
 
     encode_instructions(&mut codes, program.instructions());
-    encode_symbols(&mut codes, program.values());
+    encode_symbols(&mut codes, program.symbols());
 
     codes.reverse();
 
