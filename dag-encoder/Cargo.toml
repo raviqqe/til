@@ -1,12 +1,8 @@
 [package]
-name = "stak-code"
-description = "Bytecode encoding/decoding for Stak Scheme"
-version = "0.2.57"
-edition.workspace = true
-keywords.workspace = true
-license-file.workspace = true
-readme.workspace = true
-repository.workspace = true
+name = "dag-encoder"
+description = "DAG encoder and decoder"
+version = "0.1.0"
+edition = "2021"
 
 [features]
 alloc = []
@@ -14,6 +10,3 @@ alloc = []
 [dev-dependencies]
 insta = "1.40.0"
 pretty_assertions = "1.4.1"
-
-[lints]
-workspace = true

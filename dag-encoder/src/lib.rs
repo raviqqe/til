@@ -1,25 +1,12 @@
 //! Bytecodes for Stak Scheme.
 
-#![no_std]
-
-#[cfg(feature = "alloc")]
-extern crate alloc;
-#[cfg(test)]
-extern crate std;
-
-#[cfg(feature = "alloc")]
 mod decode;
-#[cfg(feature = "alloc")]
 mod encode;
-#[cfg(feature = "alloc")]
 mod error;
 mod ir;
 
-#[cfg(feature = "alloc")]
 pub use decode::decode;
-#[cfg(feature = "alloc")]
 pub use encode::encode;
-#[cfg(feature = "alloc")]
 pub use error::Error;
 pub use ir::*;
 
