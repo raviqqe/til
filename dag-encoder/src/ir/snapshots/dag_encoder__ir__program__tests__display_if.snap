@@ -1,8 +1,0 @@
----
-source: dag-encoder/src/ir/program.rs
-expression: "Program::new(vec![],\nvec![Instruction::If(vec![Instruction::Constant(Operand::Integer(42))])],)"
----
-# symbols
-# instructions
-- if
-  - constant i42
