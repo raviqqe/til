@@ -3,6 +3,13 @@ use std::rc::Rc;
 
 #[derive(Debug, PartialEq)]
 pub enum Node {
-    Link(Payload, Option<Rc<Node>>),
-    Merge(Rc<Node>, Rc<Node>),
+    Link {
+        r#type: usize,
+        payload: Payload,
+        next: Option<Rc<Node>>,
+    },
+    Merge {
+        left: Rc<Node>,
+        right: Rc<Node>,
+    },
 }
