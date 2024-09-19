@@ -7,7 +7,7 @@ const ESCAPED_SIGNS: &[&str] = &["\\", "+", "*", "_"];
 /// A program on a virtual machine.
 #[derive(Debug, Eq, PartialEq)]
 pub struct Program {
-    symbols: Vec<String>,
+    values: Vec<f64>,
     instructions: Vec<Instruction>,
 }
 
@@ -15,14 +15,14 @@ impl Program {
     /// Creates a program.
     pub const fn new(symbols: Vec<String>, instructions: Vec<Instruction>) -> Self {
         Self {
-            symbols,
+            values: symbols,
             instructions,
         }
     }
 
     /// Returns symbols in a program.
     pub fn symbols(&self) -> &[String] {
-        &self.symbols
+        &self.values
     }
 
     /// Returns instructions in a program.
@@ -35,7 +35,7 @@ impl Display for Program {
     fn fmt(&self, formatter: &mut Formatter) -> fmt::Result {
         writeln!(formatter, "# symbols")?;
 
-        for symbol in &self.symbols {
+        for symbol in &self.values {
             let mut symbol = symbol.clone();
 
             for sign in ESCAPED_SIGNS {
