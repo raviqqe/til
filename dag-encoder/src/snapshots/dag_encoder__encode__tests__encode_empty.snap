@@ -1,0 +1,5 @@
+---
+source: dag-encoder/src/encode.rs
+expression: "encode_to_vec(&Graph::default())"
+---
+[]

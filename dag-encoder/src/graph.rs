@@ -1,17 +1,17 @@
 use crate::Node;
 use std::rc::Rc;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Default, PartialEq)]
 pub struct Graph {
-    root: Rc<Node>,
+    root: Option<Rc<Node>>,
 }
 
 impl Graph {
-    pub fn new(root: Rc<Node>) -> Self {
+    pub fn new(root: Option<Rc<Node>>) -> Self {
         Self { root }
     }
 
-    pub fn root(&self) -> &Rc<Node> {
-        &self.root
+    pub fn root(&self) -> Option<&Rc<Node>> {
+        self.root.as_ref()
     }
 }
