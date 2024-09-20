@@ -1,6 +1,7 @@
 use crate::{Error, Graph};
+use std::io::Read;
 
-pub fn decode(_codes: &[u8]) -> Result<Graph, Error> {
+pub fn decode(input: impl Read) -> Result<Graph, Error> {
     Ok(Graph::default())
 }
 
@@ -11,6 +12,6 @@ mod tests {
 
     #[test]
     fn encode_empty() {
-        assert_debug_snapshot!(decode(&[]));
+        assert_debug_snapshot!(decode([].as_slice()));
     }
 }
