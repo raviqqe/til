@@ -3,10 +3,10 @@ use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
     let writer = &mut writer;
-    let node = graph.root();
+    let mut node = graph.root();
 
-    while let Some(node) = node {
-        match &**node {
+    while let Some(current) = node {
+        match &**current {
             Node::Link {
                 r#type,
                 payload,
@@ -28,6 +28,8 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
 
                     writer.write(&[(integer << 3) | (1 << 2) | r#return])?;
                 }
+
+                node = next.as_ref();
             }
             Node::Merge { .. } => {
                 todo!()
@@ -96,5 +98,17 @@ mod tests {
     #[test]
     fn encode_empty() {
         assert_debug_snapshot!(encode_to_vec(&Graph::default()));
+    }
+
+    #[test]
+    fn encode_node() {
+        assert_debug_snapshot!(encode_to_vec(&Graph::new(Some(
+            Node::Link {
+                r#type: 0,
+                payload: Payload::Number(0.0),
+                next: None
+            }
+            .into()
+        ))));
     }
 }
