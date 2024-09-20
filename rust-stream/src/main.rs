@@ -1,6 +1,6 @@
 use async_stream::stream;
-use futures::{Stream, StreamExt};
 use core::{pin::Pin, time::Duration};
+use futures::{Stream, StreamExt};
 use tokio::time::sleep;
 use tokio_stream::StreamMap;
 

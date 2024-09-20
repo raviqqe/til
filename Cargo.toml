@@ -17,6 +17,9 @@ exclude = ["rust-generator", "rust-hello-world", "rust-libc"]
 [profile.release]
 lto = true
 
+[workspace.package]
+edition = "2021"
+
 [workspace.lints.rust]
 warnings = "deny"
 

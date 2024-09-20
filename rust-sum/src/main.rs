@@ -1,5 +1,5 @@
-use std::env::args;
 use core::str::FromStr;
+use std::env::args;
 
 fn main() {
     let mut index = f64::from_str(&args().nth(1).unwrap()).unwrap();
