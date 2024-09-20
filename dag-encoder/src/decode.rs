@@ -1,7 +1,7 @@
 use crate::{Error, Graph};
 use std::io::Read;
 
-pub fn decode(input: impl Read) -> Result<Graph, Error> {
+pub fn decode(_input: impl Read) -> Result<Graph, Error> {
     Ok(Graph::default())
 }
 

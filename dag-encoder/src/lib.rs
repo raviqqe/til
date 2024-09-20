@@ -25,7 +25,7 @@ mod tests {
 
             encode(&graph, &mut buffer).unwrap();
 
-            assert_eq!(&decode(&buffer).unwrap(), &graph);
+            assert_eq!(&decode(&*buffer).unwrap(), &graph);
         };
     }
 
