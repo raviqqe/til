@@ -14,6 +14,9 @@ pub use graph::Graph;
 pub use node::Node;
 pub use payload::Payload;
 
+pub const INTEGER_BASE: u64 = 1 << 7;
+pub const SHORT_INTEGER_BASE: u64 = 0; // TODO
+
 #[cfg(test)]
 mod tests {
     use super::*;
