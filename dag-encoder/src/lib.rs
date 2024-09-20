@@ -1,5 +1,6 @@
 mod decode;
 mod encode;
+mod error;
 mod graph;
 mod node;
 mod payload;
