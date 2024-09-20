@@ -1,7 +1,8 @@
+use crate::Error;
 use crate::Graph;
-use std::io::{self, Write};
+use std::io::Write;
 
-pub fn encode(_graph: &Graph, _writer: &impl Write) -> Result<(), io::Error> {
+pub fn encode(_graph: &Graph, _writer: &impl Write) -> Result<(), Error> {
     Ok(())
 }
 
