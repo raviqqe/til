@@ -1,8 +1,7 @@
-use crate::Error;
-use crate::Graph;
+use crate::{Error, Graph};
 use std::io::Write;
 
-pub fn encode(_graph: &Graph, _writer: &impl Write) -> Result<(), Error> {
+pub fn encode(_graph: &Graph, _writer: &mut impl Write) -> Result<(), Error> {
     Ok(())
 }
 
@@ -14,7 +13,7 @@ mod tests {
     fn encode_to_vec(graph: &Graph) -> Vec<u8> {
         let mut buffer = vec![];
 
-        encode(&graph, &mut buffer).unwrap();
+        encode(graph, &mut buffer).unwrap();
 
         buffer
     }

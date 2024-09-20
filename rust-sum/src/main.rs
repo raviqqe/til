@@ -1,5 +1,5 @@
+use core::str::FromStr;
 use std::env::args;
-use std::str::FromStr;
 
 fn main() {
     let mut index = f64::from_str(&args().nth(1).unwrap()).unwrap();
@@ -10,5 +10,5 @@ fn main() {
         index -= 1.0;
     }
 
-    println!("{}", sum);
+    println!("{sum}");
 }

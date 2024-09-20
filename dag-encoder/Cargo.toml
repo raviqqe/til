@@ -10,3 +10,6 @@ alloc = []
 [dev-dependencies]
 insta = "1.40.0"
 pretty_assertions = "1.4.1"
+
+[lints]
+workspace = true

@@ -1,7 +1,5 @@
-use std::error;
-use std::fmt::Display;
-use std::fmt::{self, Formatter};
-use std::io;
+use core::fmt::{self, Display, Formatter};
+use std::{error, io};
 
 #[derive(Debug)]
 pub enum Error {

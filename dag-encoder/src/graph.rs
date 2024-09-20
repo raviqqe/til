@@ -1,5 +1,5 @@
 use crate::Node;
-use std::rc::Rc;
+use alloc::rc::Rc;
 
 #[derive(Debug, Default, PartialEq)]
 pub struct Graph {
@@ -7,11 +7,11 @@ pub struct Graph {
 }
 
 impl Graph {
-    pub fn new(root: Option<Rc<Node>>) -> Self {
+    pub const fn new(root: Option<Rc<Node>>) -> Self {
         Self { root }
     }
 
-    pub fn root(&self) -> Option<&Rc<Node>> {
+    pub const fn root(&self) -> Option<&Rc<Node>> {
         self.root.as_ref()
     }
 }

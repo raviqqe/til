@@ -1,5 +1,5 @@
 use crate::Payload;
-use std::rc::Rc;
+use alloc::rc::Rc;
 
 #[derive(Debug, PartialEq)]
 pub enum Node {
