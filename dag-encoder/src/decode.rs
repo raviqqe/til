@@ -1,6 +1,7 @@
+use crate::Error;
 use crate::Graph;
 
-pub fn decode(_codes: &[u8]) -> Result<Graph, &'static str> {
+pub fn decode(_codes: &[u8]) -> Result<Graph, Error> {
     Ok(Graph::default())
 }
 
