@@ -1,6 +1,6 @@
 use std::error;
-use std::fmt::Display;
-use std::fmt::{self, Formatter};
+use core::fmt::Display;
+use core::fmt::{self, Formatter};
 use std::io;
 
 #[derive(Debug)]
