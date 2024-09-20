@@ -24,6 +24,6 @@ mod tests {
         assert_float!(1.2);
         assert_float!(1.5);
         assert_float!(3.0);
-        assert_float!(3.14);
+        assert_float!(20.45);
     }
 }

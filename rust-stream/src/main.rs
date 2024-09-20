@@ -1,6 +1,6 @@
 use async_stream::stream;
 use futures::{Stream, StreamExt};
-use std::{pin::Pin, time::Duration};
+use core::{pin::Pin, time::Duration};
 use tokio::time::sleep;
 use tokio_stream::StreamMap;
 
@@ -13,7 +13,7 @@ async fn main() {
     );
 
     while let Some(element) = stream.next().await {
-        println!("{:?}", element);
+        println!("{element:?}");
     }
 }
 
