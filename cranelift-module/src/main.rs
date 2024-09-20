@@ -9,7 +9,7 @@ use cranelift::frontend::{FunctionBuilder, FunctionBuilderContext, Variable};
 use cranelift::prelude::Configurable;
 use cranelift_module::{default_libcall_names, Linkage, Module};
 use cranelift_object::{ObjectBuilder, ObjectModule};
-use std::error::Error;
+use core::error::Error;
 use std::fs::File;
 use std::io::Write;
 

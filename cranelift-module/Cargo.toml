@@ -7,3 +7,6 @@ edition = "2021"
 cranelift = "0"
 cranelift-module = "0"
 cranelift-object = "0"
+
+[lints]
+workspace = true
