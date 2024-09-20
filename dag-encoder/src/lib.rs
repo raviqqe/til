@@ -14,8 +14,8 @@ pub use graph::Graph;
 pub use node::Node;
 pub use payload::Payload;
 
-pub const INTEGER_BASE: u64 = 1 << 7;
-pub const SHORT_INTEGER_BASE: u64 = 0; // TODO
+const INTEGER_BASE: u128 = 1 << 7;
+const VARIADIC_LINK_TYPE: usize = 5;
 
 #[cfg(test)]
 mod tests {
@@ -27,6 +27,7 @@ mod tests {
             let mut buffer = vec![];
 
             encode(&graph, &mut buffer).unwrap();
+            buffer.reverse();
 
             assert_eq!(&decode(&*buffer).unwrap(), &graph);
         };

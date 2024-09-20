@@ -1,7 +1,8 @@
-use crate::{Error, Graph, Node, Payload, INTEGER_BASE, SHORT_INTEGER_BASE};
+use crate::{Error, Graph, Node, Payload, INTEGER_BASE, VARIADIC_LINK_TYPE};
 use std::io::Write;
 
-pub fn encode(graph: &Graph, writer: &mut impl Write) -> Result<(), Error> {
+pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
+    let writer = &mut writer;
     let node = graph.root();
 
     while let Some(node) = node {
@@ -11,28 +12,24 @@ pub fn encode(graph: &Graph, writer: &mut impl Write) -> Result<(), Error> {
                 payload,
                 next,
             } => {
-                let integer = encode_payload(codes, writer);
+                let r#type = *r#type;
+                let r#return = (next.is_none() as u8) << 1;
 
-                codes.push(
-                    (integer << INSTRUCTION_BITS)
-                        | (instruction << 1)
-                        | if next.is_some() { 0 } else { 1 },
-                );
+                if r#type < VARIADIC_LINK_TYPE {
+                    let integer =
+                        encode_integer_with_base(encode_payload(payload), 1 << 3, writer)?;
+
+                    writer.write(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
+                } else {
+                    let r#type = r#type - VARIADIC_LINK_TYPE;
+
+                    encode_integer(encode_payload(payload), writer)?;
+                    let integer = encode_integer_with_base(r#type as _, 1 << 5, writer)?;
+
+                    writer.write(&[(integer << 3) | (1 << 2) | r#return])?;
+                }
             }
-            Node::Merge { left, right } => {}
-        }
-    }
-
-    Ok(())
-}
-
-fn encode_payload(payload: &Payload, writer: &mut impl Write) -> Result<(), Error> {
-    match payload {
-        Payload::Number(&number) => {
-            if number.fract() == 0.0 {
-                let byte = encode_integer_with_base(codes, integer, INTEGER_BASE);
-                codes.push(byte);
-            } else {
+            Node::Merge { .. } => {
                 todo!()
             }
         }
@@ -41,24 +38,45 @@ fn encode_payload(payload: &Payload, writer: &mut impl Write) -> Result<(), Erro
     Ok(())
 }
 
-fn encode_short_integer(codes: &mut Vec<u8>, integer: u64) -> u8 {
-    encode_integer_with_base(codes, integer, SHORT_INTEGER_BASE)
+fn encode_payload(payload: &Payload) -> u128 {
+    match payload {
+        Payload::Number(number) => {
+            if number.fract() != 0.0 {
+                todo!()
+            } else if number.is_sign_negative() {
+                todo!()
+            } else {
+                *number as _
+            }
+        }
+    }
 }
 
-fn encode_integer_with_base(integer: u64, base: u64, writer: &mut impl Write) -> u8 {
-    let mut x = integer / base;
+fn encode_integer(integer: u128, writer: &mut impl Write) -> Result<(), Error> {
+    let byte = encode_integer_with_base(integer, INTEGER_BASE, writer)?;
+    writer.write(&[byte])?;
+
+    Ok(())
+}
+
+fn encode_integer_with_base(
+    integer: u128,
+    base: u128,
+    writer: &mut impl Write,
+) -> Result<u8, Error> {
+    let mut rest = integer / base;
     let mut bit = 0;
 
-    while x != 0 {
-        writer.write(&[encode_integer_part(x, INTEGER_BASE, bit)]);
+    while rest != 0 {
+        writer.write(&[encode_integer_part(rest, INTEGER_BASE, bit)])?;
         bit = 1;
-        x /= INTEGER_BASE;
+        rest /= INTEGER_BASE;
     }
 
-    encode_integer_part(integer, base, bit)
+    Ok(encode_integer_part(integer, base, bit))
 }
 
-const fn encode_integer_part(integer: u64, base: u64, bit: u64) -> u8 {
+const fn encode_integer_part(integer: u128, base: u128, bit: u128) -> u8 {
     (((integer % base) << 1) | bit) as u8
 }
 

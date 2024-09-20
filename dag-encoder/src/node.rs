@@ -9,6 +9,7 @@ pub enum Node {
         next: Option<Rc<Node>>,
     },
     Merge {
+        r#type: usize,
         left: Rc<Node>,
         right: Rc<Node>,
     },
