@@ -1,5 +1,4 @@
-use crate::Error;
-use crate::Graph;
+use crate::{Error, Graph};
 use std::io::Write;
 
 pub fn encode(_graph: &Graph, _writer: &mut impl Write) -> Result<(), Error> {

@@ -1,17 +1,19 @@
 use core::error::Error;
-use cranelift::codegen::entity::EntityRef;
-use cranelift::codegen::ir::{types, Function};
-use cranelift::codegen::ir::{AbiParam, InstBuilder, Signature};
-use cranelift::codegen::isa;
-use cranelift::codegen::isa::CallConv;
-use cranelift::codegen::settings::{self, Flags};
-use cranelift::codegen::verifier::verify_function;
-use cranelift::frontend::{FunctionBuilder, FunctionBuilderContext, Variable};
-use cranelift::prelude::Configurable;
+use cranelift::{
+    codegen::{
+        entity::EntityRef,
+        ir::{types, AbiParam, Function, InstBuilder, Signature},
+        isa,
+        isa::CallConv,
+        settings::{self, Flags},
+        verifier::verify_function,
+    },
+    frontend::{FunctionBuilder, FunctionBuilderContext, Variable},
+    prelude::Configurable,
+};
 use cranelift_module::{default_libcall_names, Linkage, Module};
 use cranelift_object::{ObjectBuilder, ObjectModule};
-use std::fs::File;
-use std::io::Write;
+use std::{fs::File, io::Write};
 
 const MODULE_NAME: &str = "foo";
 
