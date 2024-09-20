@@ -19,14 +19,14 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
                     let integer =
                         encode_integer_with_base(encode_payload(payload), 1 << 3, writer)?;
 
-                    writer.write(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
+                    writer.write_all(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
                 } else {
                     let r#type = r#type - VARIADIC_LINK_TYPE;
 
                     encode_integer(encode_payload(payload), writer)?;
                     let integer = encode_integer_with_base(r#type as _, 1 << 5, writer)?;
 
-                    writer.write(&[(integer << 3) | (1 << 2) | r#return])?;
+                    writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
                 }
 
                 node = next.as_ref();
@@ -56,7 +56,7 @@ fn encode_payload(payload: &Payload) -> u128 {
 
 fn encode_integer(integer: u128, writer: &mut impl Write) -> Result<(), Error> {
     let byte = encode_integer_with_base(integer, INTEGER_BASE, writer)?;
-    writer.write(&[byte])?;
+    writer.write_all(&[byte])?;
 
     Ok(())
 }
@@ -70,7 +70,7 @@ fn encode_integer_with_base(
     let mut bit = 0;
 
     while rest != 0 {
-        writer.write(&[encode_integer_part(rest, INTEGER_BASE, bit)])?;
+        writer.write_all(&[encode_integer_part(rest, INTEGER_BASE, bit)])?;
         bit = 1;
         rest /= INTEGER_BASE;
     }
