@@ -1,4 +1,6 @@
-use crate::{Error, Graph, Node, Payload, INTEGER_BASE, VARIADIC_LINK_TYPE};
+use crate::{
+    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_TYPE,
+};
 use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
@@ -16,8 +18,11 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
                 let r#return = next.is_none() as u8;
 
                 if r#type < VARIADIC_LINK_TYPE {
-                    let integer =
-                        encode_integer_with_base(encode_payload(payload), 1 << 3, writer)?;
+                    let integer = encode_integer_with_base(
+                        encode_payload(payload),
+                        FIXED_LINK_PAYLOAD_BASE,
+                        writer,
+                    )?;
 
                     writer.write_all(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
                 } else {
@@ -42,13 +47,13 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
 
 fn encode_payload(payload: &Payload) -> u128 {
     match payload {
-        Payload::Number(number) => {
+        &Payload::Number(number) => {
             if number.fract() != 0.0 {
                 unimplemented!()
             } else if number.is_sign_negative() {
                 unimplemented!()
             } else {
-                *number as _
+                (number as u128) << 1
             }
         }
     }

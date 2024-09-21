@@ -1,4 +1,6 @@
-use crate::{Error, Graph, Node, Payload, INTEGER_BASE, VARIADIC_LINK_TYPE};
+use crate::{
+    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_TYPE,
+};
 use alloc::rc::Rc;
 use std::io::Read;
 
@@ -12,7 +14,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Option<Rc<Node>>, Error> {
     while let Some(byte) = decode_byte(reader)? {
         match (byte & 0b10 != 0, byte & 0b100 != 0) {
             (false, false) => {
-                let payload = decode_integer_rest(byte >> 5, INTEGER_BASE, reader)?;
+                let payload = decode_integer_rest(byte >> 5, FIXED_LINK_PAYLOAD_BASE, reader)?;
 
                 node = Some(
                     Node::Link {

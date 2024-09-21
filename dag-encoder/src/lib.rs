@@ -15,11 +15,13 @@ pub use node::Node;
 pub use payload::Payload;
 
 const INTEGER_BASE: u128 = 1 << 7;
+const FIXED_LINK_PAYLOAD_BASE: u128 = 1 << 2;
 const VARIADIC_LINK_TYPE: usize = 5;
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     macro_rules! assert_encode_decode {
         ($graph:expr) => {
@@ -90,6 +92,18 @@ mod tests {
                     }
                     .into()
                 )
+            }
+            .into()
+        )));
+    }
+
+    #[test]
+    fn encode_positive_integer_payload() {
+        assert_encode_decode!(Graph::new(Some(
+            Node::Link {
+                r#type: 0,
+                payload: Payload::Number(42.0),
+                next: None
             }
             .into()
         )));
