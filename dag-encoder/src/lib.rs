@@ -39,12 +39,31 @@ mod tests {
     }
 
     #[test]
-    fn encode_non_variadic_node() {
+    fn encode_node() {
         assert_encode_decode!(Graph::new(Some(
             Node::Link {
                 r#type: 0,
                 payload: Payload::Number(0.0),
                 next: None
+            }
+            .into()
+        )));
+    }
+
+    #[test]
+    fn encode_nodes() {
+        assert_encode_decode!(Graph::new(Some(
+            Node::Link {
+                r#type: 0,
+                payload: Payload::Number(0.0),
+                next: Some(
+                    Node::Link {
+                        r#type: 0,
+                        payload: Payload::Number(0.0),
+                        next: None
+                    }
+                    .into()
+                )
             }
             .into()
         )));
