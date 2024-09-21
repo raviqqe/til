@@ -10,17 +10,13 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
 
     while let Some(current) = node {
         match &**current {
-            Node::Link {
-                r#type,
-                payload,
-                next,
-            } => {
-                let r#type = *r#type;
-                let r#return = next.is_none() as u8;
+            Node::Link(link) => {
+                let r#type = link.r#type();
+                let r#return = link.next().is_none() as u8;
 
                 if r#type < VARIADIC_LINK_TYPE {
                     let integer = encode_integer_with_base(
-                        encode_payload(payload),
+                        encode_payload(link.payload()),
                         FIXED_LINK_PAYLOAD_BASE,
                         writer,
                     )?;
@@ -29,14 +25,14 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
                 } else {
                     let r#type = r#type - VARIADIC_LINK_TYPE;
 
-                    encode_integer(encode_payload(payload), writer)?;
+                    encode_integer(encode_payload(link.payload()), writer)?;
                     let integer =
                         encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
 
                     writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
                 }
 
-                node = next.as_ref();
+                node = link.next();
             }
             Node::Merge { .. } => {
                 panic!("merge not supported")
@@ -92,6 +88,7 @@ const fn encode_integer_part(integer: u128, base: u128, bit: u128) -> u8 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::Link;
     use insta::assert_debug_snapshot;
 
     fn encode_to_vec(graph: &Graph) -> Vec<u8> {
@@ -110,12 +107,7 @@ mod tests {
     #[test]
     fn encode_node() {
         assert_debug_snapshot!(encode_to_vec(&Graph::new(Some(
-            Node::Link {
-                r#type: 0,
-                payload: Payload::Number(0.0),
-                next: None
-            }
-            .into()
+            Node::Link(Link::new(0, Payload::Number(0.0), None)).into()
         ))));
     }
 }

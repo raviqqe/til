@@ -4,6 +4,7 @@ mod decode;
 mod encode;
 mod error;
 mod graph;
+mod link;
 mod node;
 mod payload;
 
@@ -11,6 +12,7 @@ pub use decode::decode;
 pub use encode::encode;
 pub use error::Error;
 pub use graph::Graph;
+pub use link::Link;
 pub use node::Node;
 pub use payload::Payload;
 
@@ -44,30 +46,18 @@ mod tests {
     #[test]
     fn encode_node() {
         assert_encode_decode!(Graph::new(Some(
-            Node::Link {
-                r#type: 0,
-                payload: Payload::Number(0.0),
-                next: None
-            }
-            .into()
+            Node::Link(Link::new(0, Payload::Number(0.0), None)).into()
         )));
     }
 
     #[test]
     fn encode_two_nodes() {
         assert_encode_decode!(Graph::new(Some(
-            Node::Link {
-                r#type: 0,
-                payload: Payload::Number(0.0),
-                next: Some(
-                    Node::Link {
-                        r#type: 0,
-                        payload: Payload::Number(0.0),
-                        next: None
-                    }
-                    .into()
-                )
-            }
+            Node::Link(Link::new(
+                0,
+                Payload::Number(0.0),
+                Some(Node::Link(Link::new(0, Payload::Number(0.0), None)).into())
+            ))
             .into()
         )));
     }
@@ -75,25 +65,18 @@ mod tests {
     #[test]
     fn encode_three_nodes() {
         assert_encode_decode!(Graph::new(Some(
-            Node::Link {
-                r#type: 0,
-                payload: Payload::Number(0.0),
-                next: Some(
-                    Node::Link {
-                        r#type: 0,
-                        payload: Payload::Number(0.0),
-                        next: Some(
-                            Node::Link {
-                                r#type: 0,
-                                payload: Payload::Number(0.0),
-                                next: None
-                            }
-                            .into()
-                        )
-                    }
+            Node::Link(Link::new(
+                0,
+                Payload::Number(0.0),
+                Some(
+                    Node::Link(Link::new(
+                        0,
+                        Payload::Number(0.0),
+                        Some(Node::Link(Link::new(0, Payload::Number(0.0), None)).into())
+                    ))
                     .into()
                 )
-            }
+            ))
             .into()
         )));
     }
@@ -103,12 +86,7 @@ mod tests {
             #[test]
             fn $name() {
                 assert_encode_decode!(Graph::new(Some(
-                    Node::Link {
-                        r#type: 0,
-                        payload: Payload::Number($payload),
-                        next: None
-                    }
-                    .into()
+                    Node::Link(Link::new(0, Payload::Number($payload), None)).into()
                 )));
             }
         };
@@ -124,12 +102,7 @@ mod tests {
             #[test]
             fn $name() {
                 assert_encode_decode!(Graph::new(Some(
-                    Node::Link {
-                        r#type: $type,
-                        payload: Payload::Number(0.0),
-                        next: None
-                    }
-                    .into()
+                    Node::Link(Link::new($type, Payload::Number(0.0), None)).into()
                 )));
             }
         };
