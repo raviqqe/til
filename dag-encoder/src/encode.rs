@@ -13,7 +13,7 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
                 next,
             } => {
                 let r#type = *r#type;
-                let r#return = (next.is_none() as u8) << 1;
+                let r#return = next.is_none() as u8;
 
                 if r#type < VARIADIC_LINK_TYPE {
                     let integer =
