@@ -4,6 +4,7 @@ mod decode;
 mod encode;
 mod error;
 mod graph;
+mod link;
 mod node;
 mod payload;
 
@@ -124,11 +125,11 @@ mod tests {
             #[test]
             fn $name() {
                 assert_encode_decode!(Graph::new(Some(
-                    Node::Link {
-                        r#type: $type,
-                        payload: Payload::Number(0.0),
-                        next: None
-                    }
+                    Link::new(
+                         $type,
+                         Payload::Number(0.0),
+                         None)
+            )
                     .into()
                 )));
             }
