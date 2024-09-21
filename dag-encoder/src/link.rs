@@ -9,7 +9,7 @@ pub struct Link {
 }
 
 impl Link {
-    pub fn new(r#type: usize, payload: Payload, next: Option<Rc<Node>>) -> Self {
+    pub const fn new(r#type: usize, payload: Payload, next: Option<Rc<Node>>) -> Self {
         Self {
             r#type,
             payload,
@@ -17,15 +17,15 @@ impl Link {
         }
     }
 
-    pub fn r#type(&self) -> usize {
+    pub const fn r#type(&self) -> usize {
         self.r#type
     }
 
-    pub fn payload(&self) -> &Payload {
+    pub const fn payload(&self) -> &Payload {
         &self.payload
     }
 
-    pub fn next(&self) -> Option<&Rc<Node>> {
+    pub const fn next(&self) -> Option<&Rc<Node>> {
         self.next.as_ref()
     }
 }
