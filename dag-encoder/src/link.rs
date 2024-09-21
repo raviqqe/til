@@ -25,7 +25,7 @@ impl Link {
         &self.payload
     }
 
-    pub fn next(&self) -> Option<Rc<Node>> {
-        self.next.clone()
+    pub fn next(&self) -> Option<&Rc<Node>> {
+        self.next.as_ref()
     }
 }

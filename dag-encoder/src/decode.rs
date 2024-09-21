@@ -1,6 +1,6 @@
 use crate::{
-    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
-    VARIADIC_LINK_TYPE,
+    Error, Graph, Link, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE,
+    VARIADIC_LINK_PAYLOAD_BASE, VARIADIC_LINK_TYPE,
 };
 use alloc::rc::Rc;
 use std::io::Read;
@@ -18,11 +18,11 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Option<Rc<Node>>, Error> {
                 let payload = decode_integer_rest(byte >> 5, FIXED_LINK_PAYLOAD_BASE, reader)?;
 
                 node = Some(
-                    Node::Link {
-                        r#type: ((byte >> 3) & 0b11) as usize,
-                        payload: decode_payload(payload),
-                        next: node,
-                    }
+                    Node::Link(Link::new(
+                        ((byte >> 3) & 0b11) as usize,
+                        decode_payload(payload),
+                        node,
+                    ))
                     .into(),
                 );
             }
@@ -31,11 +31,11 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Option<Rc<Node>>, Error> {
                 let payload = decode_integer(reader)?;
 
                 node = Some(
-                    Node::Link {
-                        r#type: r#type as usize + VARIADIC_LINK_TYPE,
-                        payload: decode_payload(payload),
-                        next: node,
-                    }
+                    Node::Link(Link::new(
+                        r#type as usize + VARIADIC_LINK_TYPE,
+                        decode_payload(payload),
+                        node,
+                    ))
                     .into(),
                 );
             }
