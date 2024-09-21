@@ -1,5 +1,6 @@
 use crate::{
-    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_TYPE,
+    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
+    VARIADIC_LINK_TYPE,
 };
 use std::io::Write;
 
@@ -29,7 +30,8 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
                     let r#type = r#type - VARIADIC_LINK_TYPE;
 
                     encode_integer(encode_payload(payload), writer)?;
-                    let integer = encode_integer_with_base(r#type as _, 1 << 5, writer)?;
+                    let integer =
+                        encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
 
                     writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
                 }
@@ -37,7 +39,7 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
                 node = next.as_ref();
             }
             Node::Merge { .. } => {
-                unimplemented!()
+                panic!("merge not supported")
             }
         }
     }
@@ -49,9 +51,9 @@ fn encode_payload(payload: &Payload) -> u128 {
     match payload {
         &Payload::Number(number) => {
             if number.fract() != 0.0 {
-                unimplemented!()
+                panic!("floating point number not supported")
             } else if number.is_sign_negative() {
-                unimplemented!()
+                panic!("negative integer not supported")
             } else {
                 (number as u128) << 1
             }

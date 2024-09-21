@@ -16,6 +16,7 @@ pub use payload::Payload;
 
 const INTEGER_BASE: u128 = 1 << 7;
 const FIXED_LINK_PAYLOAD_BASE: u128 = 1 << 2;
+const VARIADIC_LINK_PAYLOAD_BASE: u128 = 1 << 5;
 const VARIADIC_LINK_TYPE: usize = 4;
 
 #[cfg(test)]

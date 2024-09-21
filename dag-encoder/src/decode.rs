@@ -1,5 +1,6 @@
 use crate::{
-    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_TYPE,
+    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
+    VARIADIC_LINK_TYPE,
 };
 use alloc::rc::Rc;
 use std::io::Read;
@@ -26,7 +27,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Option<Rc<Node>>, Error> {
                 );
             }
             (false, true) => {
-                let r#type = decode_integer_rest(byte >> 3, INTEGER_BASE, reader)?;
+                let r#type = decode_integer_rest(byte >> 3, VARIADIC_LINK_PAYLOAD_BASE, reader)?;
                 let payload = decode_integer(reader)?;
 
                 node = Some(
@@ -39,7 +40,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Option<Rc<Node>>, Error> {
                 );
             }
             (true, _) => {
-                unimplemented!()
+                panic!("merge not supported")
             }
         }
     }
@@ -53,7 +54,7 @@ fn decode_payload(integer: u128) -> Payload {
     Payload::Number(if integer & 1 == 0 {
         number as _
     } else {
-        unimplemented!()
+        panic!("non-positive integer not supported")
     })
 }
 
