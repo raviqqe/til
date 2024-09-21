@@ -97,15 +97,24 @@ mod tests {
         )));
     }
 
-    #[test]
-    fn encode_positive_integer_payload() {
-        assert_encode_decode!(Graph::new(Some(
-            Node::Link {
-                r#type: 0,
-                payload: Payload::Number(42.0),
-                next: None
+    macro_rules! test_payload {
+        ($name:ident, $payload:literal) => {
+            #[test]
+            fn $name() {
+                assert_encode_decode!(Graph::new(Some(
+                    Node::Link {
+                        r#type: 0,
+                        payload: Payload::Number($payload),
+                        next: None
+                    }
+                    .into()
+                )));
             }
-            .into()
-        )));
+        };
     }
+
+    test_payload!(zero_payload, 0.0);
+    test_payload!(one_payload, 1.0);
+    test_payload!(two_payload, 2.0);
+    test_payload!(positive_integer_payload, 42.0);
 }
