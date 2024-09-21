@@ -51,7 +51,7 @@ mod tests {
     }
 
     #[test]
-    fn encode_nodes() {
+    fn encode_two_nodes() {
         assert_encode_decode!(Graph::new(Some(
             Node::Link {
                 r#type: 0,
@@ -61,6 +61,32 @@ mod tests {
                         r#type: 0,
                         payload: Payload::Number(0.0),
                         next: None
+                    }
+                    .into()
+                )
+            }
+            .into()
+        )));
+    }
+
+    #[test]
+    fn encode_three_nodes() {
+        assert_encode_decode!(Graph::new(Some(
+            Node::Link {
+                r#type: 0,
+                payload: Payload::Number(0.0),
+                next: Some(
+                    Node::Link {
+                        r#type: 0,
+                        payload: Payload::Number(0.0),
+                        next: Some(
+                            Node::Link {
+                                r#type: 0,
+                                payload: Payload::Number(0.0),
+                                next: None
+                            }
+                            .into()
+                        )
                     }
                     .into()
                 )
