@@ -32,7 +32,7 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
                 node = next.as_ref();
             }
             Node::Merge { .. } => {
-                todo!()
+                unimplemented!()
             }
         }
     }
@@ -44,9 +44,9 @@ fn encode_payload(payload: &Payload) -> u128 {
     match payload {
         Payload::Number(number) => {
             if number.fract() != 0.0 {
-                todo!()
+                unimplemented!()
             } else if number.is_sign_negative() {
-                todo!()
+                unimplemented!()
             } else {
                 *number as _
             }

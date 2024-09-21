@@ -37,4 +37,16 @@ mod tests {
     fn encode_empty() {
         assert_encode_decode!(Graph::default());
     }
+
+    #[test]
+    fn encode_non_variadic_node() {
+        assert_encode_decode!(Graph::new(Some(
+            Node::Link {
+                r#type: 0,
+                payload: Payload::Number(0.0),
+                next: None
+            }
+            .into()
+        )));
+    }
 }
