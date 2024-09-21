@@ -3,6 +3,7 @@ use std::{error, io};
 
 #[derive(Debug)]
 pub enum Error {
+    EndOfStream,
     Io(io::Error),
 }
 
@@ -17,6 +18,7 @@ impl error::Error for Error {}
 impl Display for Error {
     fn fmt(&self, formatter: &mut Formatter) -> fmt::Result {
         match self {
+            Self::EndOfStream => write!(formatter, "end of stream"),
             Self::Io(error) => write!(formatter, "{error}"),
         }
     }
