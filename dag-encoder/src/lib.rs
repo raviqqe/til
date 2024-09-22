@@ -16,7 +16,7 @@ pub use node::Node;
 
 const INTEGER_BASE: u128 = 1 << 7;
 const VALUE_BASE: u128 = 1 << 6;
-const TYPE_BASE: u128 = 1 << 5;
+const TYPE_BASE: u128 = 1 << 6;
 
 #[cfg(test)]
 mod tests {
@@ -93,7 +93,7 @@ mod tests {
     test_link_payload!(positive_integer_link_payload, 42.0);
 
     macro_rules! test_link_type {
-        ($name:ident, $type:literal) => {
+        ($name:ident, $type:expr) => {
             #[test]
             fn $name() {
                 assert_encode_decode!(Graph::new(Link::new($type, 0.0.into(), 0.0.into()).into()));
@@ -109,4 +109,5 @@ mod tests {
     test_link_type!(five_link_type, 5);
     test_link_type!(six_link_type, 6);
     test_link_type!(positive_integer_link_type, 42);
+    test_link_type!(big_integer_link_type, u64::MAX as _);
 }

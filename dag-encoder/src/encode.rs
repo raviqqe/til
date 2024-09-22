@@ -12,7 +12,7 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
         match node {
             Node::Link(link) => {
                 let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
-                writer.write_all(&[(integer << 3) | (1 << 2)])?;
+                writer.write_all(&[integer << 1])?;
                 encode_node(link.left(), writer)?;
 
                 node = link.right();
