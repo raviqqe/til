@@ -12,11 +12,11 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
         match &**current {
             Node::Link(link) => {
                 let r#type = link.r#type();
-                let r#return = link.next().is_none() as u8;
+                let r#return = link.right().is_none() as u8;
 
                 if r#type < VARIADIC_LINK_TYPE {
                     let integer = encode_integer_with_base(
-                        encode_payload(link.payload()),
+                        encode_payload(link.left()),
                         FIXED_LINK_PAYLOAD_BASE,
                         writer,
                     )?;
@@ -25,14 +25,14 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
                 } else {
                     let r#type = r#type - VARIADIC_LINK_TYPE;
 
-                    encode_integer(encode_payload(link.payload()), writer)?;
+                    encode_integer(encode_payload(link.left()), writer)?;
                     let integer =
                         encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
 
                     writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
                 }
 
-                node = link.next();
+                node = link.right();
             }
             Node::Merge { .. } => {
                 panic!("merge not supported")

@@ -21,11 +21,11 @@ impl Link {
         self.r#type
     }
 
-    pub const fn payload(&self) -> &Payload {
+    pub const fn left(&self) -> &Payload {
         &self.left
     }
 
-    pub const fn next(&self) -> Option<&Rc<Node>> {
+    pub const fn right(&self) -> Option<&Rc<Node>> {
         self.right.as_ref()
     }
 }
