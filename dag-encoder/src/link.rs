@@ -5,7 +5,7 @@ use alloc::rc::Rc;
 pub struct Link {
     r#type: usize,
     left: Payload,
-    right: Option<Rc<Node>>,
+    right: Rc<Node>,
 }
 
 impl Link {

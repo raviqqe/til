@@ -1,8 +1,9 @@
 use crate::link::Link;
+use alloc::rc::Rc;
 
 #[derive(Debug, PartialEq)]
 pub enum Node {
-    Link(Link),
+    Link(Rc<Link>),
     Number(f64),
 }
 
