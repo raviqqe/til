@@ -1,6 +1,6 @@
 use crate::{
-    Error, Graph, Link, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
-    VARIADIC_LINK_TYPE,
+    Error, Graph, Link, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VALUE_BASE,
+    VARIADIC_LINK_PAYLOAD_BASE, VARIADIC_LINK_TYPE,
 };
 use std::io::Read;
 
@@ -12,13 +12,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
     let mut node = None;
 
     while let Some(byte) = decode_byte(reader)? {
-        if byte & 1 == 1 {
-            node = Some(Node::Value(decode_value(decode_integer_rest(
-                byte >> 1,
-                1 << 7,
-                reader,
-            )?)));
-        } else {
+        if byte & 1 == 0 {
             match (byte & 0b10 != 0, byte & 0b100 != 0) {
                 (false, false) => {
                     let payload = decode_integer_rest(byte >> 5, FIXED_LINK_PAYLOAD_BASE, reader)?;
@@ -50,6 +44,12 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
                     panic!("merge not supported")
                 }
             }
+        } else {
+            node = Some(Node::Value(decode_value(decode_integer_rest(
+                byte >> 1,
+                VALUE_BASE,
+                reader,
+            )?)));
         }
     }
 

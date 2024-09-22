@@ -15,6 +15,7 @@ pub use link::Link;
 pub use node::Node;
 
 const INTEGER_BASE: u128 = 1 << 7;
+const VALUE_BASE: u128 = 1 << 7;
 const FIXED_LINK_PAYLOAD_BASE: u128 = 1 << 2;
 const VARIADIC_LINK_PAYLOAD_BASE: u128 = 1 << 5;
 const VARIADIC_LINK_TYPE: usize = 4;

@@ -1,6 +1,6 @@
 use crate::{
-    Error, Graph, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
-    VARIADIC_LINK_TYPE,
+    Error, Graph, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VALUE_BASE,
+    VARIADIC_LINK_PAYLOAD_BASE, VARIADIC_LINK_TYPE,
 };
 use std::io::Write;
 
@@ -15,7 +15,7 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
         let link = match node {
             Node::Link(link) => link,
             Node::Value(value) => {
-                let integer = encode_integer_with_base(encode_value(*value), 1 << 6, writer)?;
+                let integer = encode_integer_with_base(encode_value(*value), VALUE_BASE, writer)?;
                 writer.write_all(&[(integer << 1) | 1])?;
                 return Ok(());
             }
