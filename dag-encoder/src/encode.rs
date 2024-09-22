@@ -1,5 +1,5 @@
 use crate::{
-    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
+    Error, Graph, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
     VARIADIC_LINK_TYPE,
 };
 use std::io::Write;
@@ -8,55 +8,41 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
     let writer = &mut writer;
     let mut node = graph.root();
 
-    while let Some(current) = node {
-        match &**current {
-            Node::Link(link) => {
-                let r#type = link.r#type();
-                let r#return = link.right().is_none() as u8;
+    while let Node::Link(link) = node {
+        let r#type = link.r#type();
+        let r#return = link.right().is_value() as u8;
+        let Node::Value(value) = link.left() else {
+            panic!("merge not supported")
+        };
 
-                if r#type < VARIADIC_LINK_TYPE {
-                    let integer = encode_integer_with_base(
-                        encode_payload(link.left()),
-                        FIXED_LINK_PAYLOAD_BASE,
-                        writer,
-                    )?;
+        if r#type < VARIADIC_LINK_TYPE {
+            let integer =
+                encode_integer_with_base(encode_value(*value), FIXED_LINK_PAYLOAD_BASE, writer)?;
 
-                    writer.write_all(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
-                } else {
-                    let r#type = r#type - VARIADIC_LINK_TYPE;
+            writer.write_all(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
+        } else {
+            let r#type = r#type - VARIADIC_LINK_TYPE;
 
-                    encode_integer(encode_payload(link.left()), writer)?;
-                    let integer =
-                        encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
+            encode_integer(encode_value(*value), writer)?;
+            let integer =
+                encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
 
-                    writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
-                }
-
-                node = link.right();
-            }
-            Node::Number(..) => {
-                panic!("number not supported")
-            }
+            writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
         }
+
+        node = link.right();
     }
 
     Ok(())
 }
 
-fn encode_payload(payload: &Payload) -> u128 {
-    match payload {
-        Payload::Node(_node) => {
-            panic!("node payload not supported")
-        }
-        &Payload::Number(number) => {
-            if number.fract() != 0.0 {
-                panic!("floating point number not supported")
-            } else if number.is_sign_negative() {
-                panic!("negative integer not supported")
-            } else {
-                (number as u128) << 1
-            }
-        }
+fn encode_value(value: f64) -> u128 {
+    if value.fract() != 0.0 {
+        panic!("floating point value not supported")
+    } else if value.is_sign_negative() {
+        panic!("negative integer not supported")
+    } else {
+        (value as u128) << 1
     }
 }
 
@@ -109,8 +95,8 @@ mod tests {
 
     #[test]
     fn encode_node() {
-        assert_debug_snapshot!(encode_to_vec(&Graph::new(Some(
-            Node::Link(Link::new(0, Payload::Number(0.0), None)).into()
-        ))));
+        assert_debug_snapshot!(encode_to_vec(&Graph::new(
+            Link::new(0, 0.0.into(), 0.0.into()).into()
+        )));
     }
 }

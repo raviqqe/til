@@ -1,19 +1,18 @@
-use crate::{Node, Payload};
-use alloc::rc::Rc;
+use crate::Node;
 
 #[derive(Debug, PartialEq)]
 pub struct Link {
     r#type: usize,
-    left: Payload,
-    right: Option<Rc<Node>>,
+    left: Node,
+    right: Node,
 }
 
 impl Link {
-    pub const fn new(r#type: usize, payload: Payload, next: Option<Rc<Node>>) -> Self {
+    pub const fn new(r#type: usize, left: Node, right: Node) -> Self {
         Self {
             r#type,
-            left: payload,
-            right: next,
+            left,
+            right,
         }
     }
 
@@ -21,11 +20,11 @@ impl Link {
         self.r#type
     }
 
-    pub const fn left(&self) -> &Payload {
+    pub const fn left(&self) -> &Node {
         &self.left
     }
 
-    pub const fn right(&self) -> Option<&Rc<Node>> {
-        self.right.as_ref()
+    pub const fn right(&self) -> &Node {
+        &self.right
     }
 }

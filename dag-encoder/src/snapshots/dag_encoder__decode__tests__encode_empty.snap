@@ -1,9 +1,11 @@
 ---
 source: dag-encoder/src/decode.rs
-expression: "decode(&[])"
+expression: "decode([].as_slice())"
 ---
 Ok(
     Graph {
-        root: None,
+        root: Value(
+            0.0,
+        ),
     },
 )

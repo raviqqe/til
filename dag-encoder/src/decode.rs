@@ -1,43 +1,38 @@
 use crate::{
-    Error, Graph, Link, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE,
-    VARIADIC_LINK_PAYLOAD_BASE, VARIADIC_LINK_TYPE,
+    Error, Graph, Link, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
+    VARIADIC_LINK_TYPE,
 };
-use alloc::rc::Rc;
 use std::io::Read;
 
 pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
     Ok(Graph::new(decode_nodes(&mut reader)?))
 }
 
-fn decode_nodes(reader: &mut impl Read) -> Result<Option<Rc<Node>>, Error> {
-    let mut node = None;
+fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
+    let mut node = Node::Value(0.0);
 
     while let Some(byte) = decode_byte(reader)? {
         match (byte & 0b10 != 0, byte & 0b100 != 0) {
             (false, false) => {
                 let payload = decode_integer_rest(byte >> 5, FIXED_LINK_PAYLOAD_BASE, reader)?;
 
-                node = Some(
-                    Node::Link(Link::new(
-                        ((byte >> 3) & 0b11) as usize,
-                        decode_payload(payload),
-                        node,
-                    ))
-                    .into(),
-                );
+                node = Link::new(
+                    ((byte >> 3) & 0b11) as usize,
+                    decode_value(payload).into(),
+                    node,
+                )
+                .into();
             }
             (false, true) => {
                 let r#type = decode_integer_rest(byte >> 3, VARIADIC_LINK_PAYLOAD_BASE, reader)?;
                 let payload = decode_integer(reader)?;
 
-                node = Some(
-                    Node::Link(Link::new(
-                        r#type as usize + VARIADIC_LINK_TYPE,
-                        decode_payload(payload),
-                        node,
-                    ))
-                    .into(),
-                );
+                node = Link::new(
+                    r#type as usize + VARIADIC_LINK_TYPE,
+                    decode_value(payload).into(),
+                    node,
+                )
+                .into();
             }
             (true, _) => {
                 panic!("merge not supported")
@@ -48,14 +43,14 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Option<Rc<Node>>, Error> {
     Ok(node)
 }
 
-fn decode_payload(integer: u128) -> Payload {
+fn decode_value(integer: u128) -> f64 {
     let number = integer >> 1;
 
-    Payload::Number(if integer & 1 == 0 {
+    if integer & 1 == 0 {
         number as _
     } else {
         panic!("non-positive integer not supported")
-    })
+    }
 }
 
 fn decode_integer(reader: &mut impl Read) -> Result<u128, Error> {
