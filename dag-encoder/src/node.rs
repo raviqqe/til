@@ -9,7 +9,7 @@ pub enum Node {
 
 impl From<Link> for Node {
     fn from(link: Link) -> Self {
-        Self::Link(link)
+        Self::Link(Rc::new(link))
     }
 }
 
