@@ -1,7 +1,8 @@
 ---
 source: dag-encoder/src/encode.rs
-expression: "encode_to_vec(&Graph::new(Some(Node::Link\n{ r#type: 0, payload: Payload::Number(0.0), next: None }.into())))"
+expression: "encode_to_vec(&Graph::new(Link::new(0, 0.0.into(), 0.0.into()).into()))"
 ---
 [
+    1,
     1,
 ]
