@@ -5,4 +5,5 @@ expression: "encode_to_vec(&Graph::new(Link::new(0, 0.0.into(), 0.0.into()).into
 [
     4,
     1,
+    1,
 ]

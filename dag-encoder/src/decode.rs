@@ -1,7 +1,4 @@
-use crate::{
-    Error, Graph, Link, Node, INTEGER_BASE, VALUE_BASE, VARIADIC_LINK_PAYLOAD_BASE,
-    VARIADIC_LINK_TYPE,
-};
+use crate::{Error, Graph, Link, Node, INTEGER_BASE, TYPE_BASE, VALUE_BASE};
 use std::io::Read;
 
 pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
@@ -13,18 +10,10 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
 
     while let Some(byte) = decode_byte(reader)? {
         if byte & 1 == 0 {
-            let r#type = decode_integer_rest(byte >> 3, VARIADIC_LINK_PAYLOAD_BASE, reader)?;
-            let payload = decode_integer(reader)?;
-
             let left = nodes.pop().ok_or(Error::MissingNode)?;
-            nodes.push(
-                Link::new(
-                    r#type as usize + VARIADIC_LINK_TYPE,
-                    decode_value(payload).into(),
-                    left,
-                )
-                .into(),
-            );
+            let right = nodes.pop().ok_or(Error::MissingNode)?;
+            let r#type = decode_integer_rest(byte >> 3, TYPE_BASE, reader)?;
+            nodes.push(Link::new(r#type as usize, left, right).into());
         } else {
             nodes.push(Node::Value(decode_value(decode_integer_rest(
                 byte >> 1,
@@ -45,11 +34,6 @@ fn decode_value(integer: u128) -> f64 {
     } else {
         panic!("non-positive integer not supported")
     }
-}
-
-fn decode_integer(reader: &mut impl Read) -> Result<u128, Error> {
-    let byte = decode_byte(reader)?.ok_or_else(|| Error::EndOfStream)?;
-    decode_integer_rest(byte, INTEGER_BASE, reader)
 }
 
 fn decode_integer_rest(rest: u8, base: u128, reader: &mut impl Read) -> Result<u128, Error> {

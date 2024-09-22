@@ -16,8 +16,7 @@ pub use node::Node;
 
 const INTEGER_BASE: u128 = 1 << 7;
 const VALUE_BASE: u128 = 1 << 6;
-const VARIADIC_LINK_PAYLOAD_BASE: u128 = 1 << 5;
-const VARIADIC_LINK_TYPE: usize = 4;
+const TYPE_BASE: u128 = 1 << 5;
 
 #[cfg(test)]
 mod tests {
