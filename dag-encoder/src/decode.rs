@@ -1,6 +1,6 @@
 use crate::{
-    Error, Graph, Link, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VALUE_BASE,
-    VARIADIC_LINK_PAYLOAD_BASE, VARIADIC_LINK_TYPE,
+    Error, Graph, Link, Node, INTEGER_BASE, VALUE_BASE, VARIADIC_LINK_PAYLOAD_BASE,
+    VARIADIC_LINK_TYPE,
 };
 use std::io::Read;
 
@@ -13,37 +13,18 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
 
     while let Some(byte) = decode_byte(reader)? {
         if byte & 1 == 0 {
-            match (byte & 0b10 != 0, byte & 0b100 != 0) {
-                (false, false) => {
-                    let payload = decode_integer_rest(byte >> 5, FIXED_LINK_PAYLOAD_BASE, reader)?;
+            let r#type = decode_integer_rest(byte >> 3, VARIADIC_LINK_PAYLOAD_BASE, reader)?;
+            let payload = decode_integer(reader)?;
 
-                    node = Some(
-                        Link::new(
-                            ((byte >> 3) & 0b11) as usize,
-                            decode_value(payload).into(),
-                            node.ok_or(Error::MissingNode)?,
-                        )
-                        .into(),
-                    );
-                }
-                (false, true) => {
-                    let r#type =
-                        decode_integer_rest(byte >> 3, VARIADIC_LINK_PAYLOAD_BASE, reader)?;
-                    let payload = decode_integer(reader)?;
-
-                    node = Some(
-                        Link::new(
-                            r#type as usize + VARIADIC_LINK_TYPE,
-                            decode_value(payload).into(),
-                            node.ok_or(Error::MissingNode)?,
-                        )
-                        .into(),
-                    );
-                }
-                (true, _) => {
-                    panic!("merge not supported")
-                }
-            }
+            let left = nodes.pop().ok_or(Error::MissingNode)?;
+            nodes.push(
+                Link::new(
+                    r#type as usize + VARIADIC_LINK_TYPE,
+                    decode_value(payload).into(),
+                    left,
+                )
+                .into(),
+            );
         } else {
             nodes.push(Node::Value(decode_value(decode_integer_rest(
                 byte >> 1,
