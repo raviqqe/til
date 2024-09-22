@@ -34,7 +34,7 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
 
                 node = link.right();
             }
-            Node::Number(..) => {
+            Node::Value(..) => {
                 panic!("number not supported")
             }
         }

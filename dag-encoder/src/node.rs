@@ -4,12 +4,12 @@ use alloc::rc::Rc;
 #[derive(Debug, PartialEq)]
 pub enum Node {
     Link(Rc<Link>),
-    Number(f64),
+    Value(f64),
 }
 
 impl Default for Node {
     fn default() -> Self {
-        Self::Number(0.0)
+        Self::Value(0.0)
     }
 }
 
@@ -21,6 +21,6 @@ impl From<Link> for Node {
 
 impl From<f64> for Node {
     fn from(number: f64) -> Self {
-        Self::Number(number)
+        Self::Value(number)
     }
 }
