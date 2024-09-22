@@ -1,7 +1,4 @@
-use crate::{
-    Error, Graph, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VALUE_BASE,
-    VARIADIC_LINK_PAYLOAD_BASE, VARIADIC_LINK_TYPE,
-};
+use crate::{Error, Graph, Node, INTEGER_BASE, TYPE_BASE, VALUE_BASE};
 use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
@@ -14,28 +11,9 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
     loop {
         match node {
             Node::Link(link) => {
-                let r#type = link.r#type();
-                let Node::Value(value) = link.left() else {
-                    panic!("merge not supported")
-                };
-
-                if r#type < VARIADIC_LINK_TYPE {
-                    let integer = encode_integer_with_base(
-                        encode_value(*value),
-                        FIXED_LINK_PAYLOAD_BASE,
-                        writer,
-                    )?;
-
-                    writer.write_all(&[(integer << 5) | ((r#type as u8) << 3)])?;
-                } else {
-                    let r#type = r#type - VARIADIC_LINK_TYPE;
-
-                    encode_integer(encode_value(*value), writer)?;
-                    let integer =
-                        encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
-
-                    writer.write_all(&[(integer << 3) | (1 << 2)])?;
-                }
+                let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
+                writer.write_all(&[integer << 1])?;
+                encode_node(link.left(), writer)?;
 
                 node = link.right();
             }
@@ -56,13 +34,6 @@ fn encode_value(value: f64) -> u128 {
     } else {
         (value as u128) << 1
     }
-}
-
-fn encode_integer(integer: u128, writer: &mut impl Write) -> Result<(), Error> {
-    let byte = encode_integer_with_base(integer, INTEGER_BASE, writer)?;
-    writer.write_all(&[byte])?;
-
-    Ok(())
 }
 
 fn encode_integer_with_base(
