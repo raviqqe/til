@@ -6,7 +6,6 @@ mod error;
 mod graph;
 mod link;
 mod node;
-mod payload;
 
 pub use decode::decode;
 pub use encode::encode;
@@ -14,7 +13,6 @@ pub use error::Error;
 pub use graph::Graph;
 pub use link::Link;
 pub use node::Node;
-pub use payload::Payload;
 
 const INTEGER_BASE: u128 = 1 << 7;
 const FIXED_LINK_PAYLOAD_BASE: u128 = 1 << 2;
@@ -45,49 +43,53 @@ mod tests {
 
     #[test]
     fn encode_node() {
-        assert_encode_decode!(Graph::new(Some(
-            Node::Link(Link::new(0, Payload::Number(0.0), None).into()).into()
-        )));
+        assert_encode_decode!(Graph::new(
+            Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into()).into()
+        ));
     }
 
     #[test]
     fn encode_two_nodes() {
-        assert_encode_decode!(Graph::new(Some(
-            Node::Link(Link::new(
+        assert_encode_decode!(Graph::new(Node::Link(
+            Link::new(
                 0,
-                Payload::Number(0.0),
-                Some(Node::Link(Link::new(0, Payload::Number(0.0), None).into()).into())
-            ))
+                0.0.into(),
+                Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into()).into()
+            )
             .into()
         )));
     }
 
     #[test]
     fn encode_three_nodes() {
-        assert_encode_decode!(Graph::new(Some(
-            Node::Link(Link::new(
-                0,
-                Payload::Number(0.0),
-                Some(
-                    Node::Link(Link::new(
-                        0,
-                        Payload::Number(0.0),
-                        Some(Node::Link(Link::new(0, Payload::Number(0.0), None).into()).into())
-                    ))
+        assert_encode_decode!(Graph::new(
+            Node::Link(
+                Link::new(
+                    0,
+                    0.0.into(),
+                    Node::Link(
+                        Link::new(
+                            0,
+                            0.0.into(),
+                            Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into())
+                        )
+                        .into()
+                    )
                     .into()
                 )
-            ))
+                .into()
+            )
             .into()
-        )));
+        ));
     }
 
     macro_rules! test_link_payload {
         ($name:ident, $payload:literal) => {
             #[test]
             fn $name() {
-                assert_encode_decode!(Graph::new(Some(
-                    Node::Link(Link::new(0, Payload::Number($payload), None).into()).into()
-                )));
+                assert_encode_decode!(Graph::new(
+                    Node::Link(Link::new(0, $payload.into(), 0.0.into()).into()).into()
+                ));
             }
         };
     }
@@ -101,9 +103,9 @@ mod tests {
         ($name:ident, $type:literal) => {
             #[test]
             fn $name() {
-                assert_encode_decode!(Graph::new(Some(
-                    Node::Link(Link::new($type, Payload::Number(0.0), None).into()).into()
-                )));
+                assert_encode_decode!(Graph::new(
+                    Node::Link(Link::new($type, 0.0.into(), 0.0.into()).into()).into()
+                ));
             }
         };
     }
