@@ -1,4 +1,4 @@
-use crate::{Node, Payload};
+use crate::Node;
 
 #[derive(Debug, PartialEq)]
 pub struct Link {

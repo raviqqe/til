@@ -7,6 +7,16 @@ pub enum Node {
     Value(f64),
 }
 
+impl Node {
+    pub fn is_link(&self) -> bool {
+        matches!(self, Self::Link(_))
+    }
+
+    pub fn is_value(&self) -> bool {
+        matches!(self, Self::Value(_))
+    }
+}
+
 impl Default for Node {
     fn default() -> Self {
         Self::Value(0.0)
