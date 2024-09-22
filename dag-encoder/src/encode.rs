@@ -12,35 +12,39 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
     let mut node = node;
 
     loop {
-        let link = match node {
-            Node::Link(link) => link,
+        match node {
+            Node::Link(link) => {
+                let r#type = link.r#type();
+                let Node::Value(value) = link.left() else {
+                    panic!("merge not supported")
+                };
+
+                if r#type < VARIADIC_LINK_TYPE {
+                    let integer = encode_integer_with_base(
+                        encode_value(*value),
+                        FIXED_LINK_PAYLOAD_BASE,
+                        writer,
+                    )?;
+
+                    writer.write_all(&[(integer << 5) | ((r#type as u8) << 3)])?;
+                } else {
+                    let r#type = r#type - VARIADIC_LINK_TYPE;
+
+                    encode_integer(encode_value(*value), writer)?;
+                    let integer =
+                        encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
+
+                    writer.write_all(&[(integer << 3) | (1 << 2)])?;
+                }
+
+                node = link.right();
+            }
             Node::Value(value) => {
                 let integer = encode_integer_with_base(encode_value(*value), VALUE_BASE, writer)?;
                 writer.write_all(&[(integer << 1) | 1])?;
                 return Ok(());
             }
         };
-        let r#type = link.r#type();
-        let Node::Value(value) = link.left() else {
-            panic!("merge not supported")
-        };
-
-        if r#type < VARIADIC_LINK_TYPE {
-            let integer =
-                encode_integer_with_base(encode_value(*value), FIXED_LINK_PAYLOAD_BASE, writer)?;
-
-            writer.write_all(&[(integer << 5) | ((r#type as u8) << 3)])?;
-        } else {
-            let r#type = r#type - VARIADIC_LINK_TYPE;
-
-            encode_integer(encode_value(*value), writer)?;
-            let integer =
-                encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
-
-            writer.write_all(&[(integer << 3) | (1 << 2)])?;
-        }
-
-        node = link.right();
     }
 }
 
