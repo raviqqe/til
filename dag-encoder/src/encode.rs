@@ -21,7 +21,6 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
             }
         };
         let r#type = link.r#type();
-        let r#return = link.right().is_value() as u8;
         let Node::Value(value) = link.left() else {
             panic!("merge not supported")
         };
@@ -30,7 +29,7 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
             let integer =
                 encode_integer_with_base(encode_value(*value), FIXED_LINK_PAYLOAD_BASE, writer)?;
 
-            writer.write_all(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
+            writer.write_all(&[(integer << 5) | ((r#type as u8) << 3)])?;
         } else {
             let r#type = r#type - VARIADIC_LINK_TYPE;
 
@@ -38,7 +37,7 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
             let integer =
                 encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
 
-            writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
+            writer.write_all(&[(integer << 3) | (1 << 2)])?;
         }
 
         node = link.right();
