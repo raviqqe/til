@@ -5,15 +5,15 @@ use alloc::rc::Rc;
 pub struct Link {
     r#type: usize,
     left: Payload,
-    right: Option<Rc<Node>>,
+    right: Payload,
 }
 
 impl Link {
-    pub const fn new(r#type: usize, payload: Payload, next: Option<Rc<Node>>) -> Self {
+    pub const fn new(r#type: usize, left: Payload, right: Payload) -> Self {
         Self {
             r#type,
-            left: payload,
-            right: next,
+            left,
+            right,
         }
     }
 
@@ -25,7 +25,7 @@ impl Link {
         &self.left
     }
 
-    pub const fn right(&self) -> Option<&Rc<Node>> {
-        self.right.as_ref()
+    pub const fn right(&self) -> &Payload {
+        &self.right
     }
 }
