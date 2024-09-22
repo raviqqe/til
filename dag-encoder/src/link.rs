@@ -4,16 +4,16 @@ use alloc::rc::Rc;
 #[derive(Debug, PartialEq)]
 pub struct Link {
     r#type: usize,
-    payload: Payload,
-    next: Option<Rc<Node>>,
+    left: Payload,
+    right: Option<Rc<Node>>,
 }
 
 impl Link {
     pub const fn new(r#type: usize, payload: Payload, next: Option<Rc<Node>>) -> Self {
         Self {
             r#type,
-            payload,
-            next,
+            left: payload,
+            right: next,
         }
     }
 
@@ -22,10 +22,10 @@ impl Link {
     }
 
     pub const fn payload(&self) -> &Payload {
-        &self.payload
+        &self.left
     }
 
     pub const fn next(&self) -> Option<&Rc<Node>> {
-        self.next.as_ref()
+        self.right.as_ref()
     }
 }
