@@ -43,41 +43,25 @@ mod tests {
 
     #[test]
     fn encode_node() {
-        assert_encode_decode!(Graph::new(
-            Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into())
-        ));
+        assert_encode_decode!(Graph::new(Link::new(0, 0.0.into(), 0.0.into()).into()));
     }
 
     #[test]
     fn encode_two_nodes() {
-        assert_encode_decode!(Graph::new(Node::Link(
-            Link::new(
-                0,
-                0.0.into(),
-                Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into())
-            )
-            .into()
-        )));
+        assert_encode_decode!(Graph::new(
+            Link::new(0, 0.0.into(), Link::new(0, 0.0.into(), 0.0.into()).into()).into()
+        ));
     }
 
     #[test]
     fn encode_three_nodes() {
         assert_encode_decode!(Graph::new(
-            Node::Link(
-                Link::new(
-                    0,
-                    0.0.into(),
-                    Node::Link(
-                        Link::new(
-                            0,
-                            0.0.into(),
-                            Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into())
-                        )
-                        .into()
-                    )
-                )
-                .into()
+            Link::new(
+                0,
+                0.0.into(),
+                Link::new(0, 0.0.into(), Link::new(0, 0.0.into(), 0.0.into()).into()).into()
             )
+            .into()
         ));
     }
 
@@ -85,9 +69,7 @@ mod tests {
         ($name:ident, $payload:literal) => {
             #[test]
             fn $name() {
-                assert_encode_decode!(Graph::new(
-                    Node::Link(Link::new(0, $payload.into(), 0.0.into()).into()).into()
-                ));
+                assert_encode_decode!(Graph::new(Link::new(0, $payload.into(), 0.0.into()).into()));
             }
         };
     }
@@ -101,9 +83,7 @@ mod tests {
         ($name:ident, $type:literal) => {
             #[test]
             fn $name() {
-                assert_encode_decode!(Graph::new(
-                    Node::Link(Link::new($type, 0.0.into(), 0.0.into()).into()).into()
-                ));
+                assert_encode_decode!(Graph::new(Link::new($type, 0.0.into(), 0.0.into()).into()));
             }
         };
     }
