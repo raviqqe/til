@@ -1,5 +1,5 @@
 use crate::{
-    Error, Graph, Node, Payload, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
+    Error, Graph, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
     VARIADIC_LINK_TYPE,
 };
 use std::io::Write;
