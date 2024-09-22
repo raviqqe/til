@@ -5,35 +5,7 @@ use crate::{
 use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
-    let writer = &mut writer;
-    let mut node = graph.root();
-
-    while let Node::Link(link) = node {
-        let r#type = link.r#type();
-        let r#return = link.right().is_value() as u8;
-        let Node::Value(value) = link.left() else {
-            panic!("merge not supported")
-        };
-
-        if r#type < VARIADIC_LINK_TYPE {
-            let integer =
-                encode_integer_with_base(encode_value(*value), FIXED_LINK_PAYLOAD_BASE, writer)?;
-
-            writer.write_all(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
-        } else {
-            let r#type = r#type - VARIADIC_LINK_TYPE;
-
-            encode_integer(encode_value(*value), writer)?;
-            let integer =
-                encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
-
-            writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
-        }
-
-        node = link.right();
-    }
-
-    Ok(())
+    encode_node(graph.root(), &mut writer)
 }
 
 fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
@@ -44,7 +16,6 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
             Node::Link(link) => link,
             Node::Value(value) => {
                 let integer = encode_integer_with_base(encode_value(*value), 1 << 6, writer)?;
-
                 writer.write_all(&[(integer << 1) | 1])?;
                 return Ok(());
             }
