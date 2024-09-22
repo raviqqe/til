@@ -45,6 +45,9 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
 
 fn encode_payload(payload: &Payload) -> u128 {
     match payload {
+        Payload::Node(_node) => {
+            todo!()
+        }
         &Payload::Number(number) => {
             if number.fract() != 0.0 {
                 panic!("floating point number not supported")
