@@ -7,6 +7,12 @@ pub enum Node {
     Number(f64),
 }
 
+impl Default for Node {
+    fn default() -> Self {
+        Self::Number(0.0)
+    }
+}
+
 impl From<Link> for Node {
     fn from(link: Link) -> Self {
         Self::Link(Rc::new(link))
