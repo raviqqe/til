@@ -43,7 +43,9 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
         let link = match node {
             Node::Link(link) => link,
             Node::Value(value) => {
-                node;
+                let integer = encode_integer_with_base(encode_value(*value), 1 << 6, writer)?;
+
+                writer.write_all(&[(integer << 1) | 1])?;
                 return Ok(());
             }
         };
