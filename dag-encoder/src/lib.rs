@@ -44,7 +44,7 @@ mod tests {
     #[test]
     fn encode_node() {
         assert_encode_decode!(Graph::new(
-            Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into()).into()
+            Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into())
         ));
     }
 
@@ -54,7 +54,7 @@ mod tests {
             Link::new(
                 0,
                 0.0.into(),
-                Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into()).into()
+                Node::Link(Link::new(0, 0.0.into(), 0.0.into()).into())
             )
             .into()
         )));
@@ -75,11 +75,9 @@ mod tests {
                         )
                         .into()
                     )
-                    .into()
                 )
                 .into()
             )
-            .into()
         ));
     }
 

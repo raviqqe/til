@@ -8,11 +8,11 @@ pub enum Node {
 }
 
 impl Node {
-    pub fn is_link(&self) -> bool {
+    pub const fn is_link(&self) -> bool {
         matches!(self, Self::Link(_))
     }
 
-    pub fn is_value(&self) -> bool {
+    pub const fn is_value(&self) -> bool {
         matches!(self, Self::Value(_))
     }
 }
