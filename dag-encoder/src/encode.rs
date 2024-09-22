@@ -39,7 +39,14 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
 fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
     let mut node = node;
 
-    while let Node::Link(link) = node {
+    loop {
+        let link = match node {
+            Node::Link(link) => link,
+            Node::Value(value) => {
+                node;
+                return Ok(());
+            }
+        };
         let r#type = link.r#type();
         let r#return = link.right().is_value() as u8;
         let Node::Value(value) = link.left() else {
@@ -63,8 +70,6 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
 
         node = link.right();
     }
-
-    Ok(())
 }
 
 fn encode_value(value: f64) -> u128 {
