@@ -5,6 +5,7 @@ use std::{error, io};
 pub enum Error {
     EndOfStream,
     Io(io::Error),
+    MissingNode,
 }
 
 impl From<io::Error> for Error {
@@ -20,6 +21,7 @@ impl Display for Error {
         match self {
             Self::EndOfStream => write!(formatter, "end of stream"),
             Self::Io(error) => write!(formatter, "{error}"),
+            Self::MissingNode => write!(formatter, "missing node"),
         }
     }
 }

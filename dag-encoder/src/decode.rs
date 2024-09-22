@@ -9,38 +9,51 @@ pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
 }
 
 fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
-    let mut node = Node::Value(0.0);
+    let mut node = None;
 
     while let Some(byte) = decode_byte(reader)? {
-        match (byte & 0b10 != 0, byte & 0b100 != 0) {
-            (false, false) => {
-                let payload = decode_integer_rest(byte >> 5, FIXED_LINK_PAYLOAD_BASE, reader)?;
+        if byte & 1 == 1 {
+            node = Some(Node::Value(decode_value(decode_integer_rest(
+                byte >> 1,
+                1 << 7,
+                reader,
+            )?)));
+        } else {
+            match (byte & 0b10 != 0, byte & 0b100 != 0) {
+                (false, false) => {
+                    let payload = decode_integer_rest(byte >> 5, FIXED_LINK_PAYLOAD_BASE, reader)?;
 
-                node = Link::new(
-                    ((byte >> 3) & 0b11) as usize,
-                    decode_value(payload).into(),
-                    node,
-                )
-                .into();
-            }
-            (false, true) => {
-                let r#type = decode_integer_rest(byte >> 3, VARIADIC_LINK_PAYLOAD_BASE, reader)?;
-                let payload = decode_integer(reader)?;
+                    node = Some(
+                        Link::new(
+                            ((byte >> 3) & 0b11) as usize,
+                            decode_value(payload).into(),
+                            node.ok_or(Error::MissingNode)?,
+                        )
+                        .into(),
+                    );
+                }
+                (false, true) => {
+                    let r#type =
+                        decode_integer_rest(byte >> 3, VARIADIC_LINK_PAYLOAD_BASE, reader)?;
+                    let payload = decode_integer(reader)?;
 
-                node = Link::new(
-                    r#type as usize + VARIADIC_LINK_TYPE,
-                    decode_value(payload).into(),
-                    node,
-                )
-                .into();
-            }
-            (true, _) => {
-                panic!("merge not supported")
+                    node = Some(
+                        Link::new(
+                            r#type as usize + VARIADIC_LINK_TYPE,
+                            decode_value(payload).into(),
+                            node.ok_or(Error::MissingNode)?,
+                        )
+                        .into(),
+                    );
+                }
+                (true, _) => {
+                    panic!("merge not supported")
+                }
             }
         }
     }
 
-    Ok(node)
+    node.ok_or(Error::MissingNode)
 }
 
 fn decode_value(integer: u128) -> f64 {
@@ -84,7 +97,7 @@ mod tests {
     use insta::assert_debug_snapshot;
 
     #[test]
-    fn encode_empty() {
-        assert_debug_snapshot!(decode([].as_slice()));
+    fn decode_empty() {
+        assert_debug_snapshot!(decode([1].as_slice()));
     }
 }

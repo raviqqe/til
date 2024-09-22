@@ -2,10 +2,6 @@
 source: dag-encoder/src/decode.rs
 expression: "decode([].as_slice())"
 ---
-Ok(
-    Graph {
-        root: Value(
-            0.0,
-        ),
-    },
+Err(
+    MissingNode,
 )
