@@ -34,8 +34,8 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
 
                 node = link.right();
             }
-            Node::Merge { .. } => {
-                panic!("merge not supported")
+            Node::Number(..) => {
+                panic!("number not supported")
             }
         }
     }
