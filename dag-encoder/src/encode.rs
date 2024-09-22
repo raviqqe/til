@@ -1,39 +1,51 @@
 use crate::{
-    Error, Graph, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VARIADIC_LINK_PAYLOAD_BASE,
-    VARIADIC_LINK_TYPE,
+    Error, Graph, Node, FIXED_LINK_PAYLOAD_BASE, INTEGER_BASE, VALUE_BASE,
+    VARIADIC_LINK_PAYLOAD_BASE, VARIADIC_LINK_TYPE,
 };
 use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
-    let writer = &mut writer;
-    let mut node = graph.root();
+    encode_node(graph.root(), &mut writer)
+}
 
-    while let Node::Link(link) = node {
-        let r#type = link.r#type();
-        let r#return = link.right().is_value() as u8;
-        let Node::Value(value) = link.left() else {
-            panic!("merge not supported")
+fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
+    let mut node = node;
+
+    loop {
+        match node {
+            Node::Link(link) => {
+                let r#type = link.r#type();
+                let Node::Value(value) = link.left() else {
+                    panic!("merge not supported")
+                };
+
+                if r#type < VARIADIC_LINK_TYPE {
+                    let integer = encode_integer_with_base(
+                        encode_value(*value),
+                        FIXED_LINK_PAYLOAD_BASE,
+                        writer,
+                    )?;
+
+                    writer.write_all(&[(integer << 5) | ((r#type as u8) << 3)])?;
+                } else {
+                    let r#type = r#type - VARIADIC_LINK_TYPE;
+
+                    encode_integer(encode_value(*value), writer)?;
+                    let integer =
+                        encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
+
+                    writer.write_all(&[(integer << 3) | (1 << 2)])?;
+                }
+
+                node = link.right();
+            }
+            Node::Value(value) => {
+                let integer = encode_integer_with_base(encode_value(*value), VALUE_BASE, writer)?;
+                writer.write_all(&[(integer << 1) | 1])?;
+                return Ok(());
+            }
         };
-
-        if r#type < VARIADIC_LINK_TYPE {
-            let integer =
-                encode_integer_with_base(encode_value(*value), FIXED_LINK_PAYLOAD_BASE, writer)?;
-
-            writer.write_all(&[(integer << 5) | ((r#type as u8) << 3) | r#return])?;
-        } else {
-            let r#type = r#type - VARIADIC_LINK_TYPE;
-
-            encode_integer(encode_value(*value), writer)?;
-            let integer =
-                encode_integer_with_base(r#type as _, VARIADIC_LINK_PAYLOAD_BASE, writer)?;
-
-            writer.write_all(&[(integer << 3) | (1 << 2) | r#return])?;
-        }
-
-        node = link.right();
     }
-
-    Ok(())
 }
 
 fn encode_value(value: f64) -> u128 {

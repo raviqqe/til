@@ -15,6 +15,7 @@ pub use link::Link;
 pub use node::Node;
 
 const INTEGER_BASE: u128 = 1 << 7;
+const VALUE_BASE: u128 = 1 << 6;
 const FIXED_LINK_PAYLOAD_BASE: u128 = 1 << 2;
 const VARIADIC_LINK_PAYLOAD_BASE: u128 = 1 << 5;
 const VARIADIC_LINK_TYPE: usize = 4;
@@ -64,6 +65,20 @@ mod tests {
             .into()
         ));
     }
+
+    macro_rules! test_value {
+        ($name:ident, $value:literal) => {
+            #[test]
+            fn $name() {
+                assert_encode_decode!(Graph::new(Node::Value($value)));
+            }
+        };
+    }
+
+    test_value!(zero_value, 0.0);
+    test_value!(one_value, 1.0);
+    test_value!(two_value, 2.0);
+    test_value!(positive_integer_value, 42.0);
 
     macro_rules! test_link_payload {
         ($name:ident, $payload:literal) => {

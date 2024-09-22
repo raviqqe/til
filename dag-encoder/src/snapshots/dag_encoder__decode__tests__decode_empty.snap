@@ -1,0 +1,11 @@
+---
+source: dag-encoder/src/decode.rs
+expression: "decode([1].as_slice())"
+---
+Ok(
+    Graph {
+        root: Value(
+            0.0,
+        ),
+    },
+)
