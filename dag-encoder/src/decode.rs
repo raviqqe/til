@@ -9,7 +9,7 @@ pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
 }
 
 fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
-    let mut node = None;
+    let mut nodes = vec![];
 
     while let Some(byte) = decode_byte(reader)? {
         if byte & 1 == 0 {
@@ -45,7 +45,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
                 }
             }
         } else {
-            node = Some(Node::Value(decode_value(decode_integer_rest(
+            nodes.push(Node::Value(decode_value(decode_integer_rest(
                 byte >> 1,
                 VALUE_BASE,
                 reader,
@@ -53,7 +53,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
         }
     }
 
-    node.ok_or(Error::MissingNode)
+    nodes.pop().ok_or(Error::MissingNode)
 }
 
 fn decode_value(integer: u128) -> f64 {
