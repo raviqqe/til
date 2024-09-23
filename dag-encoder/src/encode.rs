@@ -82,4 +82,44 @@ mod tests {
             Link::new(0, 0.0.into(), 0.0.into()).into()
         )));
     }
+
+    mod left_value {
+        use super::*;
+
+        macro_rules! encode_left_value {
+            ($name:ident, $value:expr) => {
+                #[test]
+                fn $name() {
+                    assert_debug_snapshot!(encode_to_vec(&Graph::new(
+                        Link::new(0, $value.into(), 0.0.into()).into(),
+                    )));
+                }
+            };
+        }
+
+        encode_left_value!(zero, 0.0);
+        encode_left_value!(one, 1.0);
+        encode_left_value!(two, 2.0);
+        encode_left_value!(positive, 42.0);
+    }
+
+    mod right_value {
+        use super::*;
+
+        macro_rules! encode_right_value {
+            ($name:ident, $value:expr) => {
+                #[test]
+                fn $name() {
+                    assert_debug_snapshot!(encode_to_vec(&Graph::new(
+                        Link::new(0, 0.0.into(), $value.into()).into(),
+                    )));
+                }
+            };
+        }
+
+        encode_right_value!(zero, 0.0);
+        encode_right_value!(one, 1.0);
+        encode_right_value!(two, 2.0);
+        encode_right_value!(positive, 42.0);
+    }
 }
