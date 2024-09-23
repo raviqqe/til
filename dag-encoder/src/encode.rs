@@ -12,7 +12,7 @@ fn encode_node(
 ) -> Result<(), Error> {
     match node {
         Node::Link(link) => {
-            if link.unique() {
+            if link.is_unique() {
                 if let Some(index) = dictionary.iter().position(|other| node == other) {
                     let node = dictionary.remove(index);
                     dictionary.push(node);
@@ -46,7 +46,7 @@ fn encode_node(
                 | 1])?;
             encode_integer(rest, writer)?;
 
-            if link.unique() {
+            if link.is_unique() {
                 dictionary.push(node.clone());
                 writer.write_all(&[0b11])?;
             }
