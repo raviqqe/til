@@ -79,6 +79,13 @@ mod tests {
         ));
     }
 
+    #[test]
+    fn encode_unique_node() {
+        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), true).into());
+
+        assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
+    }
+
     mod right_value {
         use super::*;
         use pretty_assertions::assert_eq;
