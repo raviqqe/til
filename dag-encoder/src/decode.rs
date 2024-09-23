@@ -6,6 +6,7 @@ pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
 }
 
 fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
+    let mut dictionary = vec![];
     let mut nodes = vec![];
 
     while let Some(byte) = decode_byte(reader)? {
