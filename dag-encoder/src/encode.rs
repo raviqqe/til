@@ -22,7 +22,7 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
             }
             Node::Value(value) => {
                 let integer = encode_integer_with_base(encode_value(*value), VALUE_BASE, writer)?;
-                writer.write_all(&[(integer << 1)])?;
+                writer.write_all(&[integer << 1])?;
                 return Ok(());
             }
         };
