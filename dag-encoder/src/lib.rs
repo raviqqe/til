@@ -86,26 +86,6 @@ mod tests {
         assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
     }
 
-    mod right_value {
-        use super::*;
-        use pretty_assertions::assert_eq;
-
-        macro_rules! test_value {
-            ($name:ident, $value:expr) => {
-                #[test]
-                fn $name() {
-                    assert_encode_decode!(Graph::new(Node::Value($value)));
-                }
-            };
-        }
-
-        test_value!(zero, 0.0);
-        test_value!(one, 1.0);
-        test_value!(two, 2.0);
-        test_value!(positive_integer, 42.0);
-        test_value!(big_positive_integer, u32::MAX as f64);
-    }
-
     mod left_value {
         use super::*;
         use pretty_assertions::assert_eq;
@@ -117,6 +97,26 @@ mod tests {
                     assert_encode_decode!(Graph::new(
                         Link::new(0, $value.into(), 0.0.into(), false).into()
                     ));
+                }
+            };
+        }
+
+        test_value!(zero, 0.0);
+        test_value!(one, 1.0);
+        test_value!(two, 2.0);
+        test_value!(positive_integer, 42.0);
+        test_value!(big_positive_integer, u32::MAX as f64);
+    }
+
+    mod right_value {
+        use super::*;
+        use pretty_assertions::assert_eq;
+
+        macro_rules! test_value {
+            ($name:ident, $value:expr) => {
+                #[test]
+                fn $name() {
+                    assert_encode_decode!(Graph::new(Node::Value($value)));
                 }
             };
         }
