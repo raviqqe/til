@@ -10,6 +10,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
     let mut nodes = vec![];
 
     while let Some(byte) = decode_byte(reader)? {
+        dbg!(byte, &nodes, &dictionary);
         if byte & 1 == 0 {
             nodes.push(Node::Value(decode_value(decode_integer_rest(
                 byte >> 1,
@@ -27,8 +28,8 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
             if index == 0 {
                 dictionary.push(nodes.last().ok_or(Error::MissingNode)?.clone());
             } else {
-                let index = decode_integer_rest(index, SHARE_BASE, reader)?;
-                let node = dictionary.remove(dictionary.len() - index as usize);
+                let index = decode_integer_rest(index - 1, SHARE_BASE, reader)?;
+                let node = dictionary.remove(dictionary.len() - 1 - index as usize);
                 dictionary.push(node.clone());
                 nodes.push(node);
             }
