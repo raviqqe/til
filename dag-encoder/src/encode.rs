@@ -88,7 +88,7 @@ mod tests {
             #[test]
             fn $name() {
                 assert_debug_snapshot!(encode_to_vec(&Graph::new(
-                    Link::new($type, value.into(), 0.0.into()).into(),
+                    Link::new(0, value.into(), 0.0.into()).into(),
                 )));
             }
         };
