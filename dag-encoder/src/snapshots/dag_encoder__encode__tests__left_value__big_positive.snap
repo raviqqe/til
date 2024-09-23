@@ -1,0 +1,18 @@
+---
+source: dag-encoder/src/encode.rs
+expression: "encode_to_vec(& Graph ::\nnew(Link :: new(0, u64::MAX as f64.into(), 0.0.into()).into(),))"
+---
+[
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    17,
+    3,
+    1,
+]
