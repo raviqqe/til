@@ -17,7 +17,8 @@ fn encode_node(
                     let node = dictionary.remove(index);
                     dictionary.push(node);
 
-                    let (head, rest) = encode_integer_parts(index as _, SHARE_BASE);
+                    let (head, rest) =
+                        encode_integer_parts((dictionary.len() - 1 - index) as _, SHARE_BASE);
 
                     writer.write_all(&[(head + 1) << 2 | 0b11])?;
                     encode_integer_rest(rest, writer)?;
