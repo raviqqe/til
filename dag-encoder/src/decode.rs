@@ -59,10 +59,10 @@ fn decode_byte(reader: &mut impl Read) -> Result<Option<u8>, Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use insta::assert_debug_snapshot;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn decode_empty() {
-        assert_debug_snapshot!(decode([0].as_slice()));
+        assert_eq!(decode([0].as_slice()).unwrap(), Graph::new(0.0.into()));
     }
 }
