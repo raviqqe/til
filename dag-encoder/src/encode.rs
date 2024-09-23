@@ -82,4 +82,26 @@ mod tests {
             Link::new(0, 0.0.into(), 0.0.into()).into()
         )));
     }
+
+    macro_rules! encode_left_value {
+        ($name:ident, $value:expr) => {
+            #[test]
+            fn $name() {
+                assert_encode_decode!(Graph::new(
+                    Link::new($type, value.into(), 0.0.into()).into()
+                ));
+            }
+        };
+    }
+
+    macro_rules! encode_right_value {
+        ($name:ident, $value:expr) => {
+            #[test]
+            fn $name() {
+                assert_encode_decode!(Graph::new(
+                    Link::new($type, 0.0.into(), $value.into()).into()
+                ));
+            }
+        };
+    }
 }
