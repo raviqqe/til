@@ -153,15 +153,24 @@ mod tests {
 
         #[test]
         fn encode_one_node() {
-            let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), true).into());
+            let node = Node::Link(Link::new(1, 0.0.into(), 0.0.into(), true).into());
 
             assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
         }
 
         #[test]
         fn encode_two_nodes() {
-            let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), true).into());
-            let node = Node::Link(Link::new(0, node.clone(), node, true).into());
+            let node = Node::Link(Link::new(1, 0.0.into(), 0.0.into(), true).into());
+            let node = Node::Link(Link::new(2, node.clone(), node, true).into());
+
+            assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
+        }
+
+        #[test]
+        fn encode_three_nodes() {
+            let node = Node::Link(Link::new(1, 0.0.into(), 0.0.into(), true).into());
+            let node = Node::Link(Link::new(2, node.clone(), node, true).into());
+            let node = Node::Link(Link::new(3, node.clone(), node, true).into());
 
             assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
         }
