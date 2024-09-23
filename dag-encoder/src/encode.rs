@@ -44,7 +44,8 @@ fn encode_node(
                 r#type,
                 TYPE_BASE,
                 if rest == 0 { 0 } else { 1 },
-            ) << 1])?;
+            ) << 2
+                | 1])?;
             encode_integer(rest, writer)?;
         }
         Node::Value(value) => {

@@ -6,5 +6,5 @@ expression: "encode_to_vec(& Graph ::\nnew(Link :: new(0, 0.0.into(), 42.0.into(
     82,
     3,
     0,
-    0,
+    1,
 ]

@@ -9,5 +9,5 @@ expression: "encode_to_vec(& Graph ::\nnew(Link :: new(0, 0.0.into(), u32::MAX a
     255,
     127,
     0,
-    0,
+    1,
 ]
