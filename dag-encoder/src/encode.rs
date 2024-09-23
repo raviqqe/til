@@ -1,24 +1,23 @@
 use crate::{Error, Graph, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
-use std::io::Write;
+use std::{collections::VecDeque, io::Write};
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
-    encode_node(graph.root(), &mut vec![], &mut writer)
+    encode_node(graph.root(), &mut Default::default(), &mut writer)
 }
 
 fn encode_node(
     node: &Node,
-    dictionary: &mut Vec<Node>,
+    dictionary: &mut VecDeque<Node>,
     writer: &mut impl Write,
 ) -> Result<(), Error> {
     match node {
         Node::Link(link) => {
             if link.is_unique() {
                 if let Some(index) = dictionary.iter().position(|other| node == other) {
-                    let node = dictionary.remove(index);
-                    dictionary.push(node);
+                    let node = dictionary.remove(index).ok_or(Error::MissingNode)?;
+                    dictionary.push_front(node);
 
-                    let (head, rest) =
-                        encode_integer_parts((dictionary.len() - 1 - index) as _, SHARE_BASE);
+                    let (head, rest) = encode_integer_parts(index as _, SHARE_BASE);
 
                     writer.write_all(&[(head + 1) << 2 | 0b11])?;
                     encode_integer_rest(rest, writer)?;
@@ -35,7 +34,7 @@ fn encode_node(
             encode_integer_rest(rest, writer)?;
 
             if link.is_unique() {
-                dictionary.push(node.clone());
+                dictionary.push_front(node.clone());
                 writer.write_all(&[0b11])?;
             }
         }
