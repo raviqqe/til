@@ -1,13 +1,13 @@
 use crate::{Error, Graph, Link, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
 use alloc::rc::Rc;
-use std::io::Read;
+use std::{collections::VecDeque, io::Read};
 
 pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
     Ok(Graph::new(decode_nodes(&mut reader)?))
 }
 
 fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
-    let mut dictionary = vec![];
+    let mut dictionary = VecDeque::new();
     let mut nodes = vec![];
 
     while let Some(byte) = decode_byte(reader)? {
@@ -32,11 +32,11 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
                     }
                 };
 
-                dictionary.push(nodes.last().ok_or(Error::MissingNode)?.clone());
+                dictionary.push_front(nodes.last().ok_or(Error::MissingNode)?.clone());
             } else {
                 let index = decode_integer_rest(index - 1, SHARE_BASE, reader)?;
-                let node = dictionary.remove(dictionary.len() - 1 - index as usize);
-                dictionary.push(node.clone());
+                let node = dictionary.remove(index as _).ok_or(Error::MissingNode)?;
+                dictionary.push_front(node.clone());
                 nodes.push(node);
             }
         }
