@@ -14,7 +14,6 @@ fn encode_node(
         Node::Link(link) => {
             if link.unique() {
                 if let Some(index) = dictionary.iter().position(|other| node == other) {
-                    dbg!(index);
                     let node = dictionary.remove(index);
                     dictionary.push(node);
 
@@ -129,7 +128,6 @@ mod tests {
         assert_debug_snapshot!(encode_to_vec(&Graph::new(
             Link::new(0, node.clone(), node, false).into()
         )));
-        panic!();
     }
 
     mod left_value {
