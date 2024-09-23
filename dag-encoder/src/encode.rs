@@ -1,25 +1,42 @@
-use crate::{Error, Graph, Node, INTEGER_BASE, TYPE_BASE, VALUE_BASE};
+use crate::{Error, Graph, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
 use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
-    encode_node(graph.root(), &mut writer)
+    encode_node(graph.root(), &mut vec![], &mut writer)
 }
 
-fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
+fn encode_node(
+    node: &Node,
+    dictionary: &mut Vec<Node>,
+    writer: &mut impl Write,
+) -> Result<(), Error> {
     let mut node = node;
 
     loop {
         match node {
             Node::Link(link) => {
+                if link.unique() {
+                    if let Some(index) = dictionary.iter().position(|other| node == other) {
+                        let node = dictionary.remove(index);
+                        dictionary.push(node);
+                        let integer = encode_integer_with_base(index as _, SHARE_BASE, writer)? + 1;
+                        writer.write_all(&[integer << 2 | 0b11])?;
+                        return Ok(());
+                    } else {
+                        dictionary.push(node.clone());
+                        writer.write_all(&[0b11])?;
+                    }
+                }
+
                 let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
-                writer.write_all(&[integer << 1 | 1])?;
-                encode_node(link.left(), writer)?;
+                writer.write_all(&[integer << 2 | 1])?;
+                encode_node(link.left(), dictionary, writer)?;
 
                 node = link.right();
             }
             Node::Value(value) => {
                 let integer = encode_integer_with_base(encode_value(*value), VALUE_BASE, writer)?;
-                writer.write_all(&[(integer << 1)])?;
+                writer.write_all(&[integer << 1])?;
                 return Ok(());
             }
         };
@@ -80,6 +97,15 @@ mod tests {
     fn encode_node() {
         assert_debug_snapshot!(encode_to_vec(&Graph::new(
             Link::new(0, 0.0.into(), 0.0.into(), false).into()
+        )));
+    }
+
+    #[test]
+    fn encode_unique_node() {
+        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), true).into());
+
+        assert_debug_snapshot!(encode_to_vec(&Graph::new(
+            Link::new(0, node.clone(), node, false).into()
         )));
     }
 

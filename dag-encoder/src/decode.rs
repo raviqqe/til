@@ -18,7 +18,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
         } else {
             let left = nodes.pop().ok_or(Error::MissingNode)?;
             let right = nodes.pop().ok_or(Error::MissingNode)?;
-            let r#type = decode_integer_rest(byte >> 1, TYPE_BASE, reader)?;
+            let r#type = decode_integer_rest(byte >> 2, TYPE_BASE, reader)?;
             nodes.push(Link::new(r#type as usize, left, right, false).into());
         }
     }
