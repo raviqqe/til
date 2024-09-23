@@ -19,8 +19,17 @@ fn encode_node(
                     if let Some(index) = dictionary.iter().position(|other| node == other) {
                         let node = dictionary.remove(index);
                         dictionary.push(node);
-                        let integer = encode_integer_with_base(index as _, SHARE_BASE, writer)? + 1;
-                        writer.write_all(&[integer << 2 | 0b11])?;
+
+                        let index = index as u128;
+                        let rest = index / SHARE_BASE;
+
+                        writer.write_all(&[encode_integer_part(
+                            index,
+                            SHARE_BASE,
+                            if rest == 0 { 0 } else { 1 },
+                        ) << 2
+                            | 0b11])?;
+                        encode_integer(rest, writer)?;
                         return Ok(());
                     } else {
                         dictionary.push(node.clone());
@@ -28,15 +37,31 @@ fn encode_node(
                     }
                 }
 
-                let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
-                writer.write_all(&[integer << 2 | 1])?;
                 encode_node(link.left(), dictionary, writer)?;
+
+                let value = link.r#type() as u128;
+                let rest = value / TYPE_BASE;
+
+                writer.write_all(&[encode_integer_part(
+                    value,
+                    TYPE_BASE,
+                    if rest == 0 { 0 } else { 1 },
+                ) << 1])?;
+                encode_integer(rest, writer)?;
 
                 node = link.right();
             }
             Node::Value(value) => {
-                let integer = encode_integer_with_base(encode_value(*value), VALUE_BASE, writer)?;
-                writer.write_all(&[integer << 1])?;
+                let value = encode_value(*value);
+                let rest = value / VALUE_BASE;
+
+                writer.write_all(&[encode_integer_part(
+                    value,
+                    VALUE_BASE,
+                    if rest == 0 { 0 } else { 1 },
+                ) << 1])?;
+                encode_integer(rest, writer)?;
+
                 return Ok(());
             }
         };
@@ -53,21 +78,13 @@ fn encode_value(value: f64) -> u128 {
     }
 }
 
-fn encode_integer_with_base(
-    integer: u128,
-    base: u128,
-    writer: &mut impl Write,
-) -> Result<u8, Error> {
-    let mut rest = integer / base;
-    let mut bit = 0;
-
-    while rest != 0 {
-        writer.write_all(&[encode_integer_part(rest, INTEGER_BASE, bit)])?;
-        bit = 1;
-        rest /= INTEGER_BASE;
+fn encode_integer(mut integer: u128, writer: &mut impl Write) -> Result<(), Error> {
+    while integer != 0 {
+        writer.write_all(&[encode_integer_part(integer, INTEGER_BASE, 1)])?;
+        integer /= INTEGER_BASE;
     }
 
-    Ok(encode_integer_part(integer, base, bit))
+    Ok(())
 }
 
 const fn encode_integer_part(integer: u128, base: u128, bit: u128) -> u8 {
