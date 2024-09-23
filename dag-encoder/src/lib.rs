@@ -64,19 +64,24 @@ mod tests {
         ));
     }
 
-    macro_rules! test_value {
-        ($name:ident, $value:literal) => {
-            #[test]
-            fn $name() {
-                assert_encode_decode!(Graph::new(Node::Value($value)));
-            }
-        };
-    }
+    mod right_value {
+        use super::*;
+        use pretty_assertions::assert_eq;
 
-    test_value!(zero_value, 0.0);
-    test_value!(one_value, 1.0);
-    test_value!(two_value, 2.0);
-    test_value!(positive_integer_value, 42.0);
+        macro_rules! test_value {
+            ($name:ident, $value:literal) => {
+                #[test]
+                fn $name() {
+                    assert_encode_decode!(Graph::new(Node::Value($value)));
+                }
+            };
+        }
+
+        test_value!(zero_value, 0.0);
+        test_value!(one_value, 1.0);
+        test_value!(two_value, 2.0);
+        test_value!(positive_integer_value, 42.0);
+    }
 
     mod left_value {
         use super::*;
