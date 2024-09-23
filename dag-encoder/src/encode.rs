@@ -26,7 +26,7 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
     }
 }
 
-fn find_common<'a>(left: &'a Node, right: &Node) -> Option<&Node> {
+fn find_common<'a>(left: &'a Node, right: &Node) -> Option<&'a Node> {
     match (left, right) {
         (Node::Link(left), Node::Link(right)) => {
             if left.r#type() == right.r#type() {
