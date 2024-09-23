@@ -1,4 +1,5 @@
 use crate::{Error, Graph, Node, INTEGER_BASE, TYPE_BASE, VALUE_BASE};
+use alloc::rc::Rc;
 use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
@@ -13,6 +14,8 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
             Node::Link(link) => {
                 let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
                 writer.write_all(&[integer << 1 | 1])?;
+
+                let shared = find_shared(link.left(), link.right());
                 encode_node(link.left(), writer)?;
 
                 node = link.right();
@@ -26,13 +29,13 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
     }
 }
 
-fn find_common<'a>(left: &'a Node, right: &Node) -> Option<&'a Node> {
-    match (left, right) {
+fn find_shared<'a>(left_node: &'a Node, right_node: &Node) -> Option<&'a Node> {
+    match (left_node, right_node) {
         (Node::Link(left), Node::Link(right)) => {
-            if left.r#type() == right.r#type() {
-                find_common(left.right(), right.right())
+            if Rc::ptr_eq(left, right) {
+                Some(left_node)
             } else {
-                None
+                find_shared(left.right(), right.right())
             }
         }
         (left, right) => (left == right).then_some(left),
