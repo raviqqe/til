@@ -96,6 +96,15 @@ mod tests {
         )));
     }
 
+    #[test]
+    fn encode_unique_node() {
+        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), true).into());
+
+        assert_debug_snapshot!(encode_to_vec(&Graph::new(
+            Link::new(0, node.clone(), node, false).into()
+        )));
+    }
+
     mod left_value {
         use super::*;
 
