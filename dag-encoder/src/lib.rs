@@ -79,13 +79,6 @@ mod tests {
         ));
     }
 
-    #[test]
-    fn encode_unique_node() {
-        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), true).into());
-
-        assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
-    }
-
     mod left_value {
         use super::*;
         use pretty_assertions::assert_eq;
@@ -152,5 +145,17 @@ mod tests {
         test_type!(six, 6);
         test_type!(positive_integer, 42);
         test_type!(big_positive_integer, u32::MAX as _);
+    }
+
+    mod unique {
+        use super::*;
+        use pretty_assertions::assert_eq;
+
+        #[test]
+        fn encode_unique_node() {
+            let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), true).into());
+
+            assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
+        }
     }
 }
