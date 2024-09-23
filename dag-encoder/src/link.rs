@@ -5,14 +5,16 @@ pub struct Link {
     r#type: usize,
     left: Node,
     right: Node,
+    unique: bool,
 }
 
 impl Link {
-    pub const fn new(r#type: usize, left: Node, right: Node) -> Self {
+    pub const fn new(r#type: usize, left: Node, right: Node, unique: bool) -> Self {
         Self {
             r#type,
             left,
             right,
+            unique,
         }
     }
 
@@ -26,5 +28,9 @@ impl Link {
 
     pub const fn right(&self) -> &Node {
         &self.right
+    }
+
+    pub const fn unique(&self) -> bool {
+        self.unique
     }
 }
