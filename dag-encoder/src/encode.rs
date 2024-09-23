@@ -1,5 +1,4 @@
-use crate::{Error, Graph, Node, INTEGER_BASE, TYPE_BASE, VALUE_BASE};
-use alloc::rc::Rc;
+use crate::{Error, Graph, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
 use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
@@ -7,15 +6,25 @@ pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
 }
 
 fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
+    let mut dictionary = vec![];
     let mut node = node;
 
     loop {
         match node {
             Node::Link(link) => {
+                if link.unique() {
+                    if let Some(index) = dictionary.iter().position(|other| &node == other) {
+                        let integer = encode_integer_with_base(index as _, SHARE_BASE, writer)?;
+                        writer.write_all(&[(integer + 1) | 0b11])?;
+                    } else {
+                        writer.write_all(&[0b11])?;
+                        dictionary.push(node);
+                    }
+                }
+
                 let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
                 writer.write_all(&[integer << 1 | 1])?;
 
-                let shared = find_shared(link.left(), link.right());
                 encode_node(link.left(), writer)?;
 
                 node = link.right();
@@ -26,19 +35,6 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
                 return Ok(());
             }
         };
-    }
-}
-
-fn find_shared<'a>(left_node: &'a Node, right_node: &Node) -> Option<&'a Node> {
-    match (left_node, right_node) {
-        (Node::Link(left), Node::Link(right)) => {
-            if Rc::ptr_eq(left, right) {
-                Some(left_node)
-            } else {
-                find_shared(left.right(), right.right())
-            }
-        }
-        (left, right) => (left == right).then_some(left),
     }
 }
 

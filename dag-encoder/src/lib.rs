@@ -16,6 +16,7 @@ pub use node::Node;
 
 const INTEGER_BASE: u128 = 1 << 7;
 const VALUE_BASE: u128 = 1 << 6;
+const SHARE_BASE: u128 = 1 << 5 - 1;
 const TYPE_BASE: u128 = 1 << 6;
 
 #[cfg(test)]
