@@ -22,11 +22,12 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
             let r#type = decode_integer_rest(byte >> 2, TYPE_BASE, reader)?;
             nodes.push(Link::new(r#type as usize, left, right, false).into());
         } else {
-            let index = decode_integer_rest(byte >> 2, SHARE_BASE, reader)?;
+            let index = byte >> 2;
 
             if index == 0 {
                 dictionary.push(nodes.last().ok_or(Error::MissingNode)?.clone());
             } else {
+                let index = decode_integer_rest(index, SHARE_BASE, reader)?;
                 let node = dictionary.remove(dictionary.len() - index as usize);
                 dictionary.push(node.clone());
                 nodes.push(node);
