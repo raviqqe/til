@@ -1,4 +1,4 @@
-use crate::{Error, Graph, Link, Node, INTEGER_BASE, TYPE_BASE, VALUE_BASE};
+use crate::{Error, Graph, Link, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
 use std::io::Read;
 
 pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
@@ -22,7 +22,15 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
             let r#type = decode_integer_rest(byte >> 2, TYPE_BASE, reader)?;
             nodes.push(Link::new(r#type as usize, left, right, false).into());
         } else {
-            panic!()
+            let index = decode_integer_rest(byte >> 2, SHARE_BASE, reader)?;
+
+            if index == 0 {
+                dictionary.push(nodes.last().ok_or(Error::MissingNode)?.clone());
+            } else {
+                let node = dictionary.remove(dictionary.len() - index as usize);
+                dictionary.push(node.clone());
+                nodes.push(node);
+            }
         }
     }
 
