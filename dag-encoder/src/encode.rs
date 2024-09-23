@@ -13,13 +13,15 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
         match node {
             Node::Link(link) => {
                 if link.unique() {
+                    let mut integer = 0;
+
                     if let Some(index) = dictionary.iter().position(|other| &node == other) {
-                        let integer = encode_integer_with_base(index as _, SHARE_BASE, writer)?;
-                        writer.write_all(&[(integer + 1) | 0b11])?;
-                    } else {
-                        writer.write_all(&[0b11])?;
-                        dictionary.push(node);
+                        integer = encode_integer_with_base(index as _, SHARE_BASE, writer)? + 1;
+                        dictionary.remove(index);
                     }
+
+                    writer.write_all(&[integer + 1 | 0b11])?;
+                    dictionary.push(node);
                 }
 
                 let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
