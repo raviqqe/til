@@ -20,7 +20,7 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
                         dictionary.remove(index);
                     }
 
-                    writer.write_all(&[integer + 1 | 0b11])?;
+                    writer.write_all(&[integer | 0b11])?;
                     dictionary.push(node);
                 }
 
