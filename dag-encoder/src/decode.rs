@@ -10,16 +10,16 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
 
     while let Some(byte) = decode_byte(reader)? {
         if byte & 1 == 0 {
-            let left = nodes.pop().ok_or(Error::MissingNode)?;
-            let right = nodes.pop().ok_or(Error::MissingNode)?;
-            let r#type = decode_integer_rest(byte >> 1, TYPE_BASE, reader)?;
-            nodes.push(Link::new(r#type as usize, left, right).into());
-        } else {
             nodes.push(Node::Value(decode_value(decode_integer_rest(
                 byte >> 1,
                 VALUE_BASE,
                 reader,
             )?)));
+        } else {
+            let left = nodes.pop().ok_or(Error::MissingNode)?;
+            let right = nodes.pop().ok_or(Error::MissingNode)?;
+            let r#type = decode_integer_rest(byte >> 1, TYPE_BASE, reader)?;
+            nodes.push(Link::new(r#type as usize, left, right).into());
         }
     }
 
