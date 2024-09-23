@@ -100,6 +100,7 @@ mod tests {
         encode_left_value!(zero, 0.0);
         encode_left_value!(one, 1.0);
         encode_left_value!(two, 2.0);
+        encode_left_value!(positive, 42.0);
     }
 
     mod right_value {
@@ -119,5 +120,6 @@ mod tests {
         encode_right_value!(zero, 0.0);
         encode_right_value!(one, 1.0);
         encode_right_value!(two, 2.0);
+        encode_right_value!(positive, 42.0);
     }
 }
