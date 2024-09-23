@@ -69,7 +69,7 @@ mod tests {
         use pretty_assertions::assert_eq;
 
         macro_rules! test_value {
-            ($name:ident, $value:literal) => {
+            ($name:ident, $value:expr) => {
                 #[test]
                 fn $name() {
                     assert_encode_decode!(Graph::new(Node::Value($value)));
@@ -77,10 +77,11 @@ mod tests {
             };
         }
 
-        test_value!(zero_value, 0.0);
-        test_value!(one_value, 1.0);
-        test_value!(two_value, 2.0);
-        test_value!(positive_integer_value, 42.0);
+        test_value!(zero, 0.0);
+        test_value!(one, 1.0);
+        test_value!(two, 2.0);
+        test_value!(positive_integer, 42.0);
+        test_value!(big_positive_integer, u32::MAX as f64);
     }
 
     mod left_value {
@@ -88,7 +89,7 @@ mod tests {
         use pretty_assertions::assert_eq;
 
         macro_rules! test_value {
-            ($name:ident, $value:literal) => {
+            ($name:ident, $value:expr) => {
                 #[test]
                 fn $name() {
                     assert_encode_decode!(Graph::new(
@@ -102,6 +103,7 @@ mod tests {
         test_value!(one, 1.0);
         test_value!(two, 2.0);
         test_value!(positive_integer, 42.0);
+        test_value!(big_positive_integer, u32::MAX as f64);
     }
 
     mod link_type {
@@ -127,6 +129,6 @@ mod tests {
         test_type!(five, 5);
         test_type!(six, 6);
         test_type!(positive_integer, 42);
-        test_type!(big_positive_integer, u64::MAX as _);
+        test_type!(big_positive_integer, u32::MAX as _);
     }
 }
