@@ -42,13 +42,21 @@ mod tests {
 
     #[test]
     fn encode_node() {
-        assert_encode_decode!(Graph::new(Link::new(0, 0.0.into(), 0.0.into()).into()));
+        assert_encode_decode!(Graph::new(
+            Link::new(0, 0.0.into(), 0.0.into(), false).into()
+        ));
     }
 
     #[test]
     fn encode_two_nodes() {
         assert_encode_decode!(Graph::new(
-            Link::new(0, 0.0.into(), Link::new(0, 0.0.into(), 0.0.into()).into()).into()
+            Link::new(
+                0,
+                0.0.into(),
+                Link::new(0, 0.0.into(), 0.0.into(), false).into(),
+                false,
+            )
+            .into()
         ));
     }
 
@@ -58,7 +66,14 @@ mod tests {
             Link::new(
                 0,
                 0.0.into(),
-                Link::new(0, 0.0.into(), Link::new(0, 0.0.into(), 0.0.into()).into()).into()
+                Link::new(
+                    0,
+                    0.0.into(),
+                    Link::new(0, 0.0.into(), 0.0.into(), false).into(),
+                    false,
+                )
+                .into(),
+                false
             )
             .into()
         ));
@@ -93,7 +108,7 @@ mod tests {
                 #[test]
                 fn $name() {
                     assert_encode_decode!(Graph::new(
-                        Link::new(0, $value.into(), 0.0.into()).into()
+                        Link::new(0, $value.into(), 0.0.into(), false).into()
                     ));
                 }
             };
@@ -115,7 +130,7 @@ mod tests {
                 #[test]
                 fn $name() {
                     assert_encode_decode!(Graph::new(
-                        Link::new($type, 0.0.into(), 0.0.into()).into()
+                        Link::new($type, 0.0.into(), 0.0.into(), false).into()
                     ));
                 }
             };
