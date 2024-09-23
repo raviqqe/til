@@ -26,6 +26,19 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
     }
 }
 
+fn find_common_branch(link: &Link) -> &Node {
+    match (link.left(), link.right()) {
+        (Node::Link(left), Node::Link(right)) => {
+            if left.r#type() == right.r#type() {
+                find_common_branch(left)
+            } else {
+                Foo::Link(link)
+            }
+        }
+        (left, right) => (left == right).then_some(left),
+    }
+}
+
 fn encode_value(value: f64) -> u128 {
     if value.fract() != 0.0 {
         panic!("floating point value not supported")
