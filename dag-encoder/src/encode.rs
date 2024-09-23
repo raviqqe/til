@@ -95,7 +95,7 @@ mod tests {
     #[test]
     fn encode_node() {
         assert_debug_snapshot!(encode_to_vec(&Graph::new(
-            Link::new(0, 0.0.into(), 0.0.into()).into()
+            Link::new(0, 0.0.into(), 0.0.into(), false).into()
         )));
     }
 
@@ -107,7 +107,7 @@ mod tests {
                 #[test]
                 fn $name() {
                     assert_debug_snapshot!(encode_to_vec(&Graph::new(
-                        Link::new(0, $value.into(), 0.0.into()).into(),
+                        Link::new(0, $value.into(), 0.0.into(), false).into(),
                     )));
                 }
             };
@@ -128,7 +128,7 @@ mod tests {
                 #[test]
                 fn $name() {
                     assert_debug_snapshot!(encode_to_vec(&Graph::new(
-                        Link::new(0, 0.0.into(), $value.into()).into(),
+                        Link::new(0, 0.0.into(), $value.into(), false).into(),
                     )));
                 }
             };
