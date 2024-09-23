@@ -3,7 +3,7 @@ source: dag-encoder/src/encode.rs
 expression: "encode_to_vec(& Graph ::\nnew(Link :: new(0, 0.0.into(), 2.0.into(), false).into(),))"
 ---
 [
-    0,
-    0,
     16,
+    0,
+    0,
 ]

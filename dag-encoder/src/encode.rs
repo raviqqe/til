@@ -10,62 +10,59 @@ fn encode_node(
     dictionary: &mut Vec<Node>,
     writer: &mut impl Write,
 ) -> Result<(), Error> {
-    let mut node = node;
+    match node {
+        Node::Link(link) => {
+            if link.unique() {
+                if let Some(index) = dictionary.iter().position(|other| node == other) {
+                    let node = dictionary.remove(index);
+                    dictionary.push(node);
 
-    loop {
-        match node {
-            Node::Link(link) => {
-                if link.unique() {
-                    if let Some(index) = dictionary.iter().position(|other| node == other) {
-                        let node = dictionary.remove(index);
-                        dictionary.push(node);
+                    let index = index as u128;
+                    let rest = index / SHARE_BASE;
 
-                        let index = index as u128;
-                        let rest = index / SHARE_BASE;
-
-                        writer.write_all(&[encode_integer_part(
-                            index,
-                            SHARE_BASE,
-                            if rest == 0 { 0 } else { 1 },
-                        ) << 2
-                            | 0b11])?;
-                        encode_integer(rest, writer)?;
-                        return Ok(());
-                    } else {
-                        dictionary.push(node.clone());
-                        writer.write_all(&[0b11])?;
-                    }
+                    writer.write_all(&[encode_integer_part(
+                        index,
+                        SHARE_BASE,
+                        if rest == 0 { 0 } else { 1 },
+                    ) << 2
+                        | 0b11])?;
+                    encode_integer(rest, writer)?;
+                    return Ok(());
+                } else {
+                    dictionary.push(node.clone());
+                    writer.write_all(&[0b11])?;
                 }
-
-                encode_node(link.left(), dictionary, writer)?;
-
-                let value = link.r#type() as u128;
-                let rest = value / TYPE_BASE;
-
-                writer.write_all(&[encode_integer_part(
-                    value,
-                    TYPE_BASE,
-                    if rest == 0 { 0 } else { 1 },
-                ) << 1])?;
-                encode_integer(rest, writer)?;
-
-                node = link.right();
             }
-            Node::Value(value) => {
-                let value = encode_value(*value);
-                let rest = value / VALUE_BASE;
 
-                writer.write_all(&[encode_integer_part(
-                    value,
-                    VALUE_BASE,
-                    if rest == 0 { 0 } else { 1 },
-                ) << 1])?;
-                encode_integer(rest, writer)?;
+            encode_node(link.right(), dictionary, writer)?;
+            encode_node(link.left(), dictionary, writer)?;
 
-                return Ok(());
-            }
-        };
+            let value = link.r#type() as u128;
+            let rest = value / TYPE_BASE;
+
+            writer.write_all(&[encode_integer_part(
+                value,
+                TYPE_BASE,
+                if rest == 0 { 0 } else { 1 },
+            ) << 1])?;
+            encode_integer(rest, writer)?;
+        }
+        Node::Value(value) => {
+            let value = encode_value(*value);
+            let rest = value / VALUE_BASE;
+
+            writer.write_all(&[encode_integer_part(
+                value,
+                VALUE_BASE,
+                if rest == 0 { 0 } else { 1 },
+            ) << 1])?;
+            encode_integer(rest, writer)?;
+
+            return Ok(());
+        }
     }
+
+    Ok(())
 }
 
 fn encode_value(value: f64) -> u128 {
