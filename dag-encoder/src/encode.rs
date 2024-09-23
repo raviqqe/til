@@ -83,31 +83,41 @@ mod tests {
         )));
     }
 
-    macro_rules! encode_left_value {
-        ($name:ident, $value:expr) => {
-            #[test]
-            fn $name() {
-                assert_debug_snapshot!(encode_to_vec(&Graph::new(
-                    Link::new(0, $value.into(), 0.0.into()).into(),
-                )));
-            }
-        };
+    mod left_value {
+        use super::*;
+
+        macro_rules! encode_left_value {
+            ($name:ident, $value:expr) => {
+                #[test]
+                fn $name() {
+                    assert_debug_snapshot!(encode_to_vec(&Graph::new(
+                        Link::new(0, $value.into(), 0.0.into()).into(),
+                    )));
+                }
+            };
+        }
+
+        encode_left_value!(zero, 0.0);
+        encode_left_value!(one, 1.0);
+        encode_left_value!(two, 2.0);
     }
 
-    encode_left_value!(encode_zero_left_value, 0.0);
+    mod right_value {
+        use super::*;
 
-    macro_rules! encode_right_value {
-        ($name:ident, $value:expr) => {
-            #[test]
-            fn $name() {
-                assert_encode_decode!(Graph::new(
-                    Link::new($type, 0.0.into(), $value.into()).into()
-                ));
-            }
-        };
+        macro_rules! encode_right_value {
+            ($name:ident, $value:expr) => {
+                #[test]
+                fn $name() {
+                    assert_debug_snapshot!(encode_to_vec(&Graph::new(
+                        Link::new(0, 0.0.into(), $value.into()).into(),
+                    )));
+                }
+            };
+        }
+
+        encode_right_value!(zero, 0.0);
+        encode_right_value!(one, 1.0);
+        encode_right_value!(two, 2.0);
     }
-
-    encode_left_value!(encode_zero_right_value, 0.0);
-    encode_left_value!(encode_one_right_value, 1.0);
-    encode_left_value!(encode_two_right_value, 2.0);
 }
