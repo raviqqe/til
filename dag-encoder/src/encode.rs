@@ -1,5 +1,6 @@
 use crate::{Error, Graph, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
-use std::{collections::VecDeque, io::Write};
+use alloc::collections::VecDeque;
+use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
     encode_node(graph.root(), &mut Default::default(), &mut writer)

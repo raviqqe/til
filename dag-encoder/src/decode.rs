@@ -1,6 +1,6 @@
 use crate::{Error, Graph, Link, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
-use alloc::rc::Rc;
-use std::{collections::VecDeque, io::Read};
+use alloc::{collections::VecDeque, rc::Rc};
+use std::io::Read;
 
 pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
     Ok(Graph::new(decode_nodes(&mut reader)?))
