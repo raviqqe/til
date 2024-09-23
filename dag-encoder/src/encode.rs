@@ -26,11 +26,11 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
     }
 }
 
-fn find_common_branch(link: &Link) -> &Node {
-    match (link.left(), link.right()) {
+fn find_common_branch(left: &Node, right: Node) -> Option<&Node> {
+    match (left, right) {
         (Node::Link(left), Node::Link(right)) => {
             if left.r#type() == right.r#type() {
-                find_common_branch(left)
+                find_common_branch(left.right(), right.right())
             } else {
                 Foo::Link(link)
             }
