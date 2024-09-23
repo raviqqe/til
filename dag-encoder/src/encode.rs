@@ -23,7 +23,7 @@ fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
                 }
 
                 let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
-                writer.write_all(&[integer << 1 | 1])?;
+                writer.write_all(&[integer << 2 | 1])?;
                 encode_node(link.left(), writer)?;
 
                 node = link.right();
