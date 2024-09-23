@@ -29,9 +29,6 @@ fn encode_node(
                         | 0b11])?;
                     encode_integer(rest, writer)?;
                     return Ok(());
-                } else {
-                    dictionary.push(node.clone());
-                    writer.write_all(&[0b11])?;
                 }
             }
 
@@ -48,6 +45,11 @@ fn encode_node(
             ) << 2
                 | 1])?;
             encode_integer(rest, writer)?;
+
+            if link.unique() {
+                dictionary.push(node.clone());
+                writer.write_all(&[0b11])?;
+            }
         }
         Node::Value(value) => {
             let value = encode_value(*value);
