@@ -61,7 +61,7 @@ fn encode_value(value: f64) -> u128 {
     }
 }
 
-fn encode_integer_parts(integer: u128, base: u128) -> (u8, u128) {
+const fn encode_integer_parts(integer: u128, base: u128) -> (u8, u128) {
     let rest = integer / base;
 
     (
