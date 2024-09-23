@@ -78,8 +78,13 @@ fn encode_value(value: f64) -> u128 {
 
 fn encode_integer(mut integer: u128, writer: &mut impl Write) -> Result<(), Error> {
     while integer != 0 {
-        writer.write_all(&[encode_integer_part(integer, INTEGER_BASE, 1)])?;
-        integer /= INTEGER_BASE;
+        let rest = integer / INTEGER_BASE;
+        writer.write_all(&[encode_integer_part(
+            integer,
+            INTEGER_BASE,
+            if rest == 0 { 0 } else { 1 },
+        )])?;
+        integer = rest;
     }
 
     Ok(())
