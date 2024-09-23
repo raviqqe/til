@@ -87,12 +87,14 @@ mod tests {
         ($name:ident, $value:expr) => {
             #[test]
             fn $name() {
-                assert_encode_decode!(Graph::new(
-                    Link::new($type, value.into(), 0.0.into()).into()
-                ));
+                assert_debug_snapshot!(encode_to_vec(&Graph::new(
+                    Link::new($type, value.into(), 0.0.into()).into(),
+                )));
             }
         };
     }
+
+    encode_left_value!();
 
     macro_rules! encode_right_value {
         ($name:ident, $value:expr) => {
