@@ -36,17 +36,16 @@ fn decode_value(integer: u128) -> f64 {
     }
 }
 
-fn decode_integer_rest(rest: u8, base: u128, reader: &mut impl Read) -> Result<u128, Error> {
-    let mut x = rest;
-    let mut y = 0u128;
+fn decode_integer_rest(mut x: u8, mut base: u128, reader: &mut impl Read) -> Result<u128, Error> {
+    let mut y = (x >> 1) as u128;
 
     while x & 1 != 0 {
-        y *= INTEGER_BASE;
         x = decode_byte(reader)?.ok_or_else(|| Error::EndOfStream)?;
-        y += x as u128 >> 1;
+        y += (x as u128 >> 1) * base;
+        base *= INTEGER_BASE;
     }
 
-    Ok(y * base + (rest as u128 >> 1))
+    Ok(y)
 }
 
 fn decode_byte(reader: &mut impl Read) -> Result<Option<u8>, Error> {

@@ -10,37 +10,45 @@ fn encode_node(
     dictionary: &mut Vec<Node>,
     writer: &mut impl Write,
 ) -> Result<(), Error> {
-    let mut node = node;
+    match node {
+        Node::Link(link) => {
+            if link.is_unique() {
+                if let Some(index) = dictionary.iter().position(|other| node == other) {
+                    let node = dictionary.remove(index);
+                    dictionary.push(node);
 
-    loop {
-        match node {
-            Node::Link(link) => {
-                if link.unique() {
-                    if let Some(index) = dictionary.iter().position(|other| node == other) {
-                        let node = dictionary.remove(index);
-                        dictionary.push(node);
-                        let integer = encode_integer_with_base(index as _, SHARE_BASE, writer)? + 1;
-                        writer.write_all(&[integer << 2 | 0b11])?;
-                        return Ok(());
-                    } else {
-                        dictionary.push(node.clone());
-                        writer.write_all(&[0b11])?;
-                    }
+                    let (head, rest) = encode_integer_parts(index as _, SHARE_BASE);
+
+                    writer.write_all(&[(head + 1) << 2 | 0b11])?;
+                    encode_integer_rest(rest, writer)?;
+                    return Ok(());
                 }
-
-                let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
-                writer.write_all(&[integer << 2 | 1])?;
-                encode_node(link.left(), dictionary, writer)?;
-
-                node = link.right();
             }
-            Node::Value(value) => {
-                let integer = encode_integer_with_base(encode_value(*value), VALUE_BASE, writer)?;
-                writer.write_all(&[integer << 1])?;
-                return Ok(());
+
+            encode_node(link.right(), dictionary, writer)?;
+            encode_node(link.left(), dictionary, writer)?;
+
+            let (head, rest) = encode_integer_parts(link.r#type() as _, TYPE_BASE);
+
+            writer.write_all(&[head << 2 | 1])?;
+            encode_integer_rest(rest, writer)?;
+
+            if link.is_unique() {
+                dictionary.push(node.clone());
+                writer.write_all(&[0b11])?;
             }
-        };
+        }
+        Node::Value(value) => {
+            let (head, rest) = encode_integer_parts(encode_value(*value), VALUE_BASE);
+
+            writer.write_all(&[head << 1])?;
+            encode_integer_rest(rest, writer)?;
+
+            return Ok(());
+        }
     }
+
+    Ok(())
 }
 
 fn encode_value(value: f64) -> u128 {
@@ -53,21 +61,27 @@ fn encode_value(value: f64) -> u128 {
     }
 }
 
-fn encode_integer_with_base(
-    integer: u128,
-    base: u128,
-    writer: &mut impl Write,
-) -> Result<u8, Error> {
-    let mut rest = integer / base;
-    let mut bit = 0;
+const fn encode_integer_parts(integer: u128, base: u128) -> (u8, u128) {
+    let rest = integer / base;
 
-    while rest != 0 {
-        writer.write_all(&[encode_integer_part(rest, INTEGER_BASE, bit)])?;
-        bit = 1;
-        rest /= INTEGER_BASE;
+    (
+        encode_integer_part(integer, base, if rest == 0 { 0 } else { 1 }),
+        rest,
+    )
+}
+
+fn encode_integer_rest(mut integer: u128, writer: &mut impl Write) -> Result<(), Error> {
+    while integer != 0 {
+        let rest = integer / INTEGER_BASE;
+        writer.write_all(&[encode_integer_part(
+            integer,
+            INTEGER_BASE,
+            if rest == 0 { 0 } else { 1 },
+        )])?;
+        integer = rest;
     }
 
-    Ok(encode_integer_part(integer, base, bit))
+    Ok(())
 }
 
 const fn encode_integer_part(integer: u128, base: u128, bit: u128) -> u8 {

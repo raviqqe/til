@@ -30,7 +30,7 @@ impl Link {
         &self.right
     }
 
-    pub const fn unique(&self) -> bool {
+    pub const fn is_unique(&self) -> bool {
         self.unique
     }
 }

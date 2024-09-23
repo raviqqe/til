@@ -30,7 +30,6 @@ mod tests {
             let mut buffer = vec![];
 
             encode(&graph, &mut buffer).unwrap();
-            buffer.reverse();
 
             assert_eq!(&decode(&*buffer).unwrap(), &graph);
         };
