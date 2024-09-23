@@ -64,50 +64,71 @@ mod tests {
         ));
     }
 
-    macro_rules! test_value {
-        ($name:ident, $value:literal) => {
-            #[test]
-            fn $name() {
-                assert_encode_decode!(Graph::new(Node::Value($value)));
-            }
-        };
+    mod right_value {
+        use super::*;
+        use pretty_assertions::assert_eq;
+
+        macro_rules! test_value {
+            ($name:ident, $value:expr) => {
+                #[test]
+                fn $name() {
+                    assert_encode_decode!(Graph::new(Node::Value($value)));
+                }
+            };
+        }
+
+        test_value!(zero, 0.0);
+        test_value!(one, 1.0);
+        test_value!(two, 2.0);
+        test_value!(positive_integer, 42.0);
+        test_value!(big_positive_integer, u32::MAX as f64);
     }
 
-    test_value!(zero_value, 0.0);
-    test_value!(one_value, 1.0);
-    test_value!(two_value, 2.0);
-    test_value!(positive_integer_value, 42.0);
+    mod left_value {
+        use super::*;
+        use pretty_assertions::assert_eq;
 
-    macro_rules! test_link_payload {
-        ($name:ident, $payload:literal) => {
-            #[test]
-            fn $name() {
-                assert_encode_decode!(Graph::new(Link::new(0, $payload.into(), 0.0.into()).into()));
-            }
-        };
+        macro_rules! test_value {
+            ($name:ident, $value:expr) => {
+                #[test]
+                fn $name() {
+                    assert_encode_decode!(Graph::new(
+                        Link::new(0, $value.into(), 0.0.into()).into()
+                    ));
+                }
+            };
+        }
+
+        test_value!(zero, 0.0);
+        test_value!(one, 1.0);
+        test_value!(two, 2.0);
+        test_value!(positive_integer, 42.0);
+        test_value!(big_positive_integer, u32::MAX as f64);
     }
 
-    test_link_payload!(zero_link_payload, 0.0);
-    test_link_payload!(one_link_payload, 1.0);
-    test_link_payload!(two_link_payload, 2.0);
-    test_link_payload!(positive_integer_link_payload, 42.0);
+    mod link_type {
+        use super::*;
+        use pretty_assertions::assert_eq;
 
-    macro_rules! test_link_type {
-        ($name:ident, $type:expr) => {
-            #[test]
-            fn $name() {
-                assert_encode_decode!(Graph::new(Link::new($type, 0.0.into(), 0.0.into()).into()));
-            }
-        };
+        macro_rules! test_type {
+            ($name:ident, $type:expr) => {
+                #[test]
+                fn $name() {
+                    assert_encode_decode!(Graph::new(
+                        Link::new($type, 0.0.into(), 0.0.into()).into()
+                    ));
+                }
+            };
+        }
+
+        test_type!(zero, 0);
+        test_type!(one, 1);
+        test_type!(two, 2);
+        test_type!(three, 3);
+        test_type!(four, 4);
+        test_type!(five, 5);
+        test_type!(six, 6);
+        test_type!(positive_integer, 42);
+        test_type!(big_positive_integer, u32::MAX as _);
     }
-
-    test_link_type!(zero_link_type, 0);
-    test_link_type!(one_link_type, 1);
-    test_link_type!(two_link_type, 2);
-    test_link_type!(three_link_type, 3);
-    test_link_type!(four_link_type, 4);
-    test_link_type!(five_link_type, 5);
-    test_link_type!(six_link_type, 6);
-    test_link_type!(positive_integer_link_type, 42);
-    test_link_type!(big_integer_link_type, u64::MAX as _);
 }
