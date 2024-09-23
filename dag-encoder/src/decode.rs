@@ -63,6 +63,6 @@ mod tests {
 
     #[test]
     fn decode_empty() {
-        assert_debug_snapshot!(decode([1].as_slice()));
+        assert_debug_snapshot!(decode([0].as_slice()));
     }
 }
