@@ -1,4 +1,5 @@
 use crate::{Error, Graph, Link, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
+use alloc::rc::Rc;
 use std::io::Read;
 
 pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
@@ -26,6 +27,12 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
             let index = byte >> 2;
 
             if index == 0 {
+                if let Some(Node::Link(link)) = nodes.last_mut() {
+                    if let Some(link) = Rc::get_mut(link) {
+                        link.set_unique(true);
+                    }
+                };
+
                 dictionary.push(nodes.last().ok_or(Error::MissingNode)?.clone());
             } else {
                 let index = decode_integer_rest(index - 1, SHARE_BASE, reader)?;

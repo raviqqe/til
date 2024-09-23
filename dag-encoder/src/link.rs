@@ -33,4 +33,8 @@ impl Link {
     pub const fn is_unique(&self) -> bool {
         self.unique
     }
+
+    pub fn set_unique(&mut self, unique: bool) {
+        self.unique = unique;
+    }
 }
