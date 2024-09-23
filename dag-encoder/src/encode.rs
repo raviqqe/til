@@ -88,13 +88,13 @@ mod tests {
             #[test]
             fn $name() {
                 assert_debug_snapshot!(encode_to_vec(&Graph::new(
-                    Link::new(0, value.into(), 0.0.into()).into(),
+                    Link::new(0, $value.into(), 0.0.into()).into(),
                 )));
             }
         };
     }
 
-    encode_left_value!();
+    encode_left_value!(encode_zero_left_value, 0.0);
 
     macro_rules! encode_right_value {
         ($name:ident, $value:expr) => {
@@ -106,4 +106,8 @@ mod tests {
             }
         };
     }
+
+    encode_left_value!(encode_zero_right_value, 0.0);
+    encode_left_value!(encode_one_right_value, 1.0);
+    encode_left_value!(encode_two_right_value, 2.0);
 }
