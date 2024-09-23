@@ -15,11 +15,13 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
                 VALUE_BASE,
                 reader,
             )?)));
-        } else {
+        } else if byte & 0b10 == 0 {
             let left = nodes.pop().ok_or(Error::MissingNode)?;
             let right = nodes.pop().ok_or(Error::MissingNode)?;
             let r#type = decode_integer_rest(byte >> 2, TYPE_BASE, reader)?;
             nodes.push(Link::new(r#type as usize, left, right, false).into());
+        } else {
+            panic!()
         }
     }
 
