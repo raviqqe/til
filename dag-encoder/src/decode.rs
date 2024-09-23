@@ -11,7 +11,6 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
     let mut nodes = vec![];
 
     while let Some(byte) = decode_byte(reader)? {
-        dbg!(byte, &nodes, &dictionary);
         if byte & 1 == 0 {
             nodes.push(Node::Value(decode_value(decode_integer_rest(
                 byte >> 1,
