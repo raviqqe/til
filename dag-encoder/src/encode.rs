@@ -2,31 +2,35 @@ use crate::{Error, Graph, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE}
 use std::io::Write;
 
 pub fn encode(graph: &Graph, mut writer: impl Write) -> Result<(), Error> {
-    encode_node(graph.root(), &mut writer)
+    encode_node(graph.root(), &mut vec![], &mut writer)
 }
 
-fn encode_node(node: &Node, writer: &mut impl Write) -> Result<(), Error> {
-    let mut dictionary = vec![];
+fn encode_node(
+    node: &Node,
+    dictionary: &mut Vec<Node>,
+    writer: &mut impl Write,
+) -> Result<(), Error> {
     let mut node = node;
 
     loop {
         match node {
             Node::Link(link) => {
                 if link.unique() {
-                    let mut integer = 0;
-
-                    if let Some(index) = dictionary.iter().position(|other| &node == other) {
-                        integer = encode_integer_with_base(index as _, SHARE_BASE, writer)? + 1;
-                        dictionary.remove(index);
+                    if let Some(index) = dictionary.iter().position(|other| node == other) {
+                        let node = dictionary.remove(index);
+                        dictionary.push(node);
+                        let integer = encode_integer_with_base(index as _, SHARE_BASE, writer)? + 1;
+                        writer.write_all(&[integer << 2 | 0b11])?;
+                        return Ok(());
+                    } else {
+                        dictionary.push(node.clone());
+                        writer.write_all(&[0b11])?;
                     }
-
-                    writer.write_all(&[integer | 0b11])?;
-                    dictionary.push(node);
                 }
 
                 let integer = encode_integer_with_base(link.r#type() as _, TYPE_BASE, writer)?;
                 writer.write_all(&[integer << 2 | 1])?;
-                encode_node(link.left(), writer)?;
+                encode_node(link.left(), dictionary, writer)?;
 
                 node = link.right();
             }
