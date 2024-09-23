@@ -17,7 +17,7 @@ fn encode_node(
                     let node = dictionary.remove(index);
                     dictionary.push(node);
 
-                    let (head, rest) = encode_integer_head(index as _, SHARE_BASE);
+                    let (head, rest) = encode_integer_parts(index as _, SHARE_BASE);
 
                     writer.write_all(&[(head + 1) << 2 | 0b11])?;
                     encode_integer_rest(rest, writer)?;
@@ -28,7 +28,7 @@ fn encode_node(
             encode_node(link.right(), dictionary, writer)?;
             encode_node(link.left(), dictionary, writer)?;
 
-            let (head, rest) = encode_integer_head(link.r#type() as _, TYPE_BASE);
+            let (head, rest) = encode_integer_parts(link.r#type() as _, TYPE_BASE);
 
             writer.write_all(&[head << 2 | 1])?;
             encode_integer_rest(rest, writer)?;
@@ -39,7 +39,7 @@ fn encode_node(
             }
         }
         Node::Value(value) => {
-            let (head, rest) = encode_integer_head(encode_value(*value), VALUE_BASE);
+            let (head, rest) = encode_integer_parts(encode_value(*value), VALUE_BASE);
 
             writer.write_all(&[head << 1])?;
             encode_integer_rest(rest, writer)?;
@@ -61,7 +61,7 @@ fn encode_value(value: f64) -> u128 {
     }
 }
 
-fn encode_integer_head(integer: u128, base: u128) -> (u8, u128) {
+fn encode_integer_parts(integer: u128, base: u128) -> (u8, u128) {
     let rest = integer / base;
 
     (
