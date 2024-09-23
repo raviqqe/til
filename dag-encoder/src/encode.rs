@@ -37,11 +37,11 @@ fn encode_node(
             encode_node(link.right(), dictionary, writer)?;
             encode_node(link.left(), dictionary, writer)?;
 
-            let value = link.r#type() as u128;
-            let rest = value / TYPE_BASE;
+            let r#type = link.r#type() as u128;
+            let rest = r#type / TYPE_BASE;
 
             writer.write_all(&[encode_integer_part(
-                value,
+                r#type,
                 TYPE_BASE,
                 if rest == 0 { 0 } else { 1 },
             ) << 1])?;
