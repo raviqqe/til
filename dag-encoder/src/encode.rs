@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 use crate::{Error, Graph, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
+=======
+use crate::{Error, Graph, Node, Share, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
+>>>>>>> Stashed changes
 use alloc::collections::VecDeque;
 use std::io::Write;
 
@@ -13,12 +17,15 @@ fn encode_node(
 ) -> Result<(), Error> {
     match node {
         Node::Link(link) => {
-            if link.is_unique() {
+            if let Some(share) = link.share() {
                 if let Some(index) = dictionary.iter().position(|other| node == other) {
                     let node = dictionary.remove(index).ok_or(Error::MissingNode)?;
                     dictionary.push_front(node);
 
-                    let (head, rest) = encode_integer_parts(index as _, SHARE_BASE);
+                    let (head, rest) = encode_integer_parts(
+                        ((index << 1) + if share == Share::Single { 0 } else { 1 }) as _,
+                        SHARE_BASE,
+                    );
 
                     writer.write_all(&[(head + 1) << 2 | 0b11])?;
                     encode_integer_rest(rest, writer)?;
@@ -34,7 +41,7 @@ fn encode_node(
             writer.write_all(&[head << 2 | 1])?;
             encode_integer_rest(rest, writer)?;
 
-            if link.is_unique() {
+            if link.share().is_some() {
                 dictionary.push_front(node.clone());
                 writer.write_all(&[0b11])?;
             }
@@ -92,7 +99,7 @@ const fn encode_integer_part(integer: u128, base: u128, bit: u128) -> u8 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::Link;
+    use crate::{Link, Share};
     use insta::assert_debug_snapshot;
 
     fn encode_to_vec(graph: &Graph) -> Vec<u8> {
@@ -111,16 +118,16 @@ mod tests {
     #[test]
     fn encode_node() {
         assert_debug_snapshot!(encode_to_vec(&Graph::new(
-            Link::new(0, 0.0.into(), 0.0.into(), false).into()
+            Link::new(0, 0.0.into(), 0.0.into(), None).into()
         )));
     }
 
     #[test]
     fn encode_unique_node() {
-        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), true).into());
+        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), Share::Multiple.into()).into());
 
         assert_debug_snapshot!(encode_to_vec(&Graph::new(
-            Link::new(0, node.clone(), node, false).into()
+            Link::new(0, node.clone(), node, None).into()
         )));
     }
 
@@ -132,7 +139,7 @@ mod tests {
                 #[test]
                 fn $name() {
                     assert_debug_snapshot!(encode_to_vec(&Graph::new(
-                        Link::new(0, $value.into(), 0.0.into(), false).into(),
+                        Link::new(0, $value.into(), 0.0.into(), None).into(),
                     )));
                 }
             };
@@ -153,7 +160,7 @@ mod tests {
                 #[test]
                 fn $name() {
                     assert_debug_snapshot!(encode_to_vec(&Graph::new(
-                        Link::new(0, 0.0.into(), $value.into(), false).into(),
+                        Link::new(0, 0.0.into(), $value.into(), None).into(),
                     )));
                 }
             };

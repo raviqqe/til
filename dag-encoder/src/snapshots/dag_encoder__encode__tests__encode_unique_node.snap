@@ -1,12 +1,12 @@
 ---
 source: dag-encoder/src/encode.rs
-expression: "encode_to_vec(&Graph::new(Link::new(0, node.clone(), node, false).into()))"
+expression: "encode_to_vec(&Graph::new(Link::new(0, node.clone(), node, None).into()))"
 ---
 [
     0,
     0,
     1,
     3,
-    7,
+    15,
     1,
 ]

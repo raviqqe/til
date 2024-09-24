@@ -13,3 +13,6 @@ pretty_assertions = "1.4.1"
 
 [lints]
 workspace = true
+
+[dependencies]
+derivative = "2.2.0"

@@ -1,20 +1,23 @@
-use crate::Node;
+use crate::{Node, Share};
+use derivative::Derivative;
 
-#[derive(Debug, PartialEq)]
+#[derive(Derivative)]
+#[derivative(Debug, PartialEq)]
 pub struct Link {
     r#type: usize,
     left: Node,
     right: Node,
-    unique: bool,
+    #[derivative(PartialEq = "ignore")]
+    share: Option<Share>,
 }
 
 impl Link {
-    pub const fn new(r#type: usize, left: Node, right: Node, unique: bool) -> Self {
+    pub const fn new(r#type: usize, left: Node, right: Node, share: Option<Share>) -> Self {
         Self {
             r#type,
             left,
             right,
-            unique,
+            share,
         }
     }
 
@@ -30,11 +33,11 @@ impl Link {
         &self.right
     }
 
-    pub const fn is_unique(&self) -> bool {
-        self.unique
+    pub const fn share(&self) -> Option<Share> {
+        self.share
     }
 
-    pub fn set_unique(&mut self, unique: bool) {
-        self.unique = unique;
+    pub fn set_share(&mut self, share: Option<Share>) {
+        self.share = share;
     }
 }
