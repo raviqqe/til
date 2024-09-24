@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-use crate::{Error, Graph, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
-=======
 use crate::{Error, Graph, Node, Share, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
->>>>>>> Stashed changes
 use alloc::collections::VecDeque;
 use std::io::Write;
 
