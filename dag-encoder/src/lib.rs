@@ -93,7 +93,22 @@ mod tests {
     }
 
     #[test]
-    fn encode_single_node_multiple_times() {
+    fn decode_multiple_node_multiple_times() {
+        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), Share::Multiple.into()).into());
+
+        assert_encode_decode!(Graph::new(
+            Link::new(
+                0,
+                Link::new(0, node.clone(), node.clone(), None).into(),
+                node,
+                None
+            )
+            .into()
+        ));
+    }
+
+    #[test]
+    fn decode_single_node_multiple_times() {
         let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), Share::Single.into()).into());
 
         assert_decode_error!(
