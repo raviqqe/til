@@ -37,6 +37,17 @@ mod tests {
         };
     }
 
+    macro_rules! assert_decode_error {
+        ($graph:expr, $error:expr) => {
+            let graph = $graph;
+            let mut buffer = vec![];
+
+            encode(&graph, &mut buffer).unwrap();
+
+            assert_eq!(&decode(&*buffer), $error);
+        };
+    }
+
     #[test]
     fn encode_empty() {
         assert_encode_decode!(Graph::default());
@@ -82,10 +93,21 @@ mod tests {
     }
 
     #[test]
-    fn encode_node() {
-        assert_encode_decode!(Graph::new(
-            Link::new(0, 0.0.into(), 0.0.into(), None).into()
-        ));
+    fn encode_single_node_multiple_times() {
+        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), Share::Single.into()).into());
+
+        assert_decode_error!(
+            Graph::new(
+                Link::new(
+                    0,
+                    Link::new(0, node.clone(), node.clone(), None).into(),
+                    node,
+                    None
+                )
+                .into()
+            ),
+            Error::MissingNode,
+        );
     }
 
     mod left_value {
