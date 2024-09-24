@@ -1,9 +1,5 @@
 use crate::{Error, Graph, Link, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
-<<<<<<< Updated upstream
 use alloc::{collections::VecDeque, rc::Rc};
-=======
-use alloc::collections::VecDeque;
->>>>>>> Stashed changes
 use std::io::Read;
 
 pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
