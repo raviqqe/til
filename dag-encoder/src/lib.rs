@@ -6,6 +6,7 @@ mod error;
 mod graph;
 mod link;
 mod node;
+mod share;
 
 pub use decode::decode;
 pub use encode::encode;
@@ -13,6 +14,7 @@ pub use error::Error;
 pub use graph::Graph;
 pub use link::Link;
 pub use node::Node;
+pub use share::Share;
 
 const INTEGER_BASE: u128 = 1 << 7;
 const VALUE_BASE: u128 = 1 << 6;
@@ -43,7 +45,7 @@ mod tests {
     #[test]
     fn encode_node() {
         assert_encode_decode!(Graph::new(
-            Link::new(0, 0.0.into(), 0.0.into(), false).into()
+            Link::new(0, 0.0.into(), 0.0.into(), None).into()
         ));
     }
 
@@ -53,8 +55,8 @@ mod tests {
             Link::new(
                 0,
                 0.0.into(),
-                Link::new(0, 0.0.into(), 0.0.into(), false).into(),
-                false,
+                Link::new(0, 0.0.into(), 0.0.into(), None).into(),
+                None,
             )
             .into()
         ));
@@ -69,11 +71,11 @@ mod tests {
                 Link::new(
                     0,
                     0.0.into(),
-                    Link::new(0, 0.0.into(), 0.0.into(), false).into(),
-                    false,
+                    Link::new(0, 0.0.into(), 0.0.into(), None).into(),
+                    None,
                 )
                 .into(),
-                false
+                None,
             )
             .into()
         ));
@@ -88,7 +90,7 @@ mod tests {
                 #[test]
                 fn $name() {
                     assert_encode_decode!(Graph::new(
-                        Link::new(0, $value.into(), 0.0.into(), false).into()
+                        Link::new(0, $value.into(), 0.0.into(), None).into()
                     ));
                 }
             };
@@ -130,7 +132,7 @@ mod tests {
                 #[test]
                 fn $name() {
                     assert_encode_decode!(Graph::new(
-                        Link::new($type, 0.0.into(), 0.0.into(), false).into()
+                        Link::new($type, 0.0.into(), 0.0.into(), None).into()
                     ));
                 }
             };
@@ -153,26 +155,29 @@ mod tests {
 
         #[test]
         fn encode_one_node() {
-            let node = Node::Link(Link::new(1, 0.0.into(), 0.0.into(), true).into());
+            let node =
+                Node::Link(Link::new(1, 0.0.into(), 0.0.into(), Share::Single.into()).into());
 
-            assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
+            assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, None).into()));
         }
 
         #[test]
         fn encode_two_nodes() {
-            let node = Node::Link(Link::new(1, 0.0.into(), 0.0.into(), true).into());
-            let node = Node::Link(Link::new(2, node.clone(), node, true).into());
+            let node =
+                Node::Link(Link::new(1, 0.0.into(), 0.0.into(), Share::Single.into()).into());
+            let node = Node::Link(Link::new(2, node.clone(), node, Share::Single.into()).into());
 
-            assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
+            assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, None).into()));
         }
 
         #[test]
         fn encode_three_nodes() {
-            let node = Node::Link(Link::new(1, 0.0.into(), 0.0.into(), true).into());
-            let node = Node::Link(Link::new(2, node.clone(), node, true).into());
-            let node = Node::Link(Link::new(3, node.clone(), node, true).into());
+            let node =
+                Node::Link(Link::new(1, 0.0.into(), 0.0.into(), Share::Single.into()).into());
+            let node = Node::Link(Link::new(2, node.clone(), node, Share::Single.into()).into());
+            let node = Node::Link(Link::new(3, node.clone(), node, Share::Single.into()).into());
 
-            assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, false).into()));
+            assert_encode_decode!(Graph::new(Link::new(0, node.clone(), node, None).into()));
         }
     }
 }
