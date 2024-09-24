@@ -7,6 +7,9 @@ edition = "2021"
 [features]
 alloc = []
 
+[dependencies]
+derivative = "2.2.0"
+
 [dev-dependencies]
 insta = "1.40.0"
 pretty_assertions = "1.4.1"

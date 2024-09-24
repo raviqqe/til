@@ -1,5 +1,5 @@
 use crate::{Error, Graph, Link, Node, INTEGER_BASE, SHARE_BASE, TYPE_BASE, VALUE_BASE};
-use alloc::{collections::VecDeque, rc::Rc};
+use alloc::collections::VecDeque;
 use std::io::Read;
 
 pub fn decode(mut reader: impl Read) -> Result<Graph, Error> {
@@ -21,22 +21,19 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
             let left = nodes.pop().ok_or(Error::MissingNode)?;
             let right = nodes.pop().ok_or(Error::MissingNode)?;
             let r#type = decode_integer_rest(byte >> 2, TYPE_BASE, reader)?;
-            nodes.push(Link::new(r#type as usize, left, right, false).into());
+            nodes.push(Link::new(r#type as usize, left, right, None).into());
         } else {
-            let index = byte >> 2;
+            let byte = byte >> 2;
 
-            if index == 0 {
-                if let Some(Node::Link(link)) = nodes.last_mut() {
-                    if let Some(link) = Rc::get_mut(link) {
-                        link.set_unique(true);
-                    }
-                };
-
+            if byte == 0 {
                 dictionary.push_front(nodes.last().ok_or(Error::MissingNode)?.clone());
             } else {
-                let index = decode_integer_rest(index - 1, SHARE_BASE, reader)?;
+                let byte = byte - 1;
+                let index = decode_integer_rest(byte >> 1, SHARE_BASE, reader)?;
                 let node = dictionary.remove(index as _).ok_or(Error::MissingNode)?;
-                dictionary.push_front(node.clone());
+                if byte & 1 != 0 {
+                    dictionary.push_front(node.clone());
+                }
                 nodes.push(node);
             }
         }
