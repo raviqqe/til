@@ -36,8 +36,4 @@ impl Link {
     pub const fn share(&self) -> Option<Share> {
         self.share
     }
-
-    pub fn set_share(&mut self, share: Option<Share>) {
-        self.share = share;
-    }
 }
