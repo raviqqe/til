@@ -23,16 +23,15 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
             let r#type = decode_integer_rest(byte >> 2, TYPE_BASE, reader)?;
             nodes.push(Link::new(r#type as usize, left, right, None).into());
         } else {
-            let index = byte >> 2;
+            let byte = byte >> 2;
 
-            if index == 0 {
+            if byte == 0 {
                 dictionary.push_front(nodes.last().ok_or(Error::MissingNode)?.clone());
             } else {
-                let index = index - 1;
-                let single = index & 1 == 0;
-                let index = decode_integer_rest(index >> 1, SHARE_BASE, reader)?;
+                let byte = byte - 1;
+                let index = decode_integer_rest(byte >> 1, SHARE_BASE, reader)?;
                 let node = dictionary.remove(index as _).ok_or(Error::MissingNode)?;
-                if !single {
+                if byte & 1 != 0 {
                     dictionary.push_front(node.clone());
                 }
                 nodes.push(node);
