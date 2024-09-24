@@ -38,13 +38,13 @@ mod tests {
     }
 
     macro_rules! assert_decode_error {
-        ($graph:expr, $error:expr) => {
+        ($graph:expr, $error:pat $(,)?) => {
             let graph = $graph;
             let mut buffer = vec![];
 
             encode(&graph, &mut buffer).unwrap();
 
-            assert_eq!(&decode(&*buffer), $error);
+            assert!(matches!(decode(&*buffer), Err($error)));
         };
     }
 
