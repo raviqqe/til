@@ -81,6 +81,13 @@ mod tests {
         ));
     }
 
+    #[test]
+    fn encode_node() {
+        assert_encode_decode!(Graph::new(
+            Link::new(0, 0.0.into(), 0.0.into(), None).into()
+        ));
+    }
+
     mod left_value {
         use super::*;
         use pretty_assertions::assert_eq;
