@@ -10,25 +10,25 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
     let mut dictionary = VecDeque::new();
     let mut nodes = vec![];
 
-    while let Some(byte) = decode_byte(reader)? {
-        if byte & 1 == 0 {
-            nodes.push(Node::Value(decode_value(decode_integer_rest(
-                byte >> 1,
+    while let Some(head) = decode_byte(reader)? {
+        if head & 1 == 0 {
+            nodes.push(Node::Value(decode_value(decode_integer_tail(
+                head >> 1,
                 VALUE_BASE,
                 reader,
             )?)));
-        } else if byte & 0b10 == 0 {
+        } else if head & 0b10 == 0 {
             let left = nodes.pop().ok_or(Error::MissingNode)?;
             let right = nodes.pop().ok_or(Error::MissingNode)?;
-            let r#type = decode_integer_rest(byte >> 2, TYPE_BASE, reader)?;
+            let r#type = decode_integer_tail(head >> 2, TYPE_BASE, reader)?;
             nodes.push(Link::new(r#type as usize, left, right, None).into());
         } else {
-            let byte = byte >> 2;
+            let head = head >> 2;
 
-            if byte == 0 {
+            if head == 0 {
                 dictionary.push_front(nodes.last().ok_or(Error::MissingNode)?.clone());
             } else {
-                let integer = decode_integer_rest(byte - 1, SHARE_BASE, reader)?;
+                let integer = decode_integer_tail(head - 1, SHARE_BASE, reader)?;
                 let node = dictionary
                     .remove((integer >> 1) as _)
                     .ok_or(Error::MissingNode)?;
@@ -53,7 +53,7 @@ fn decode_value(integer: u128) -> f64 {
     }
 }
 
-fn decode_integer_rest(mut x: u8, mut base: u128, reader: &mut impl Read) -> Result<u128, Error> {
+fn decode_integer_tail(mut x: u8, mut base: u128, reader: &mut impl Read) -> Result<u128, Error> {
     let mut y = (x >> 1) as u128;
 
     while x & 1 != 0 {
