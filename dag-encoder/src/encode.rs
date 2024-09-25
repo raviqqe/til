@@ -18,13 +18,13 @@ fn encode_node(
                     let node = dictionary.remove(index).ok_or(Error::MissingNode)?;
                     dictionary.push_front(node);
 
-                    let (head, rest) = encode_integer_parts(
+                    let (head, tail) = encode_integer_parts(
                         ((index << 1) + if share == Share::Single { 0 } else { 1 }) as _,
                         SHARE_BASE,
                     );
 
                     writer.write_all(&[(head + 1) << 2 | 0b11])?;
-                    encode_integer_rest(rest, writer)?;
+                    encode_integer_tail(tail, writer)?;
                     return Ok(());
                 }
             }
@@ -32,10 +32,10 @@ fn encode_node(
             encode_node(link.right(), dictionary, writer)?;
             encode_node(link.left(), dictionary, writer)?;
 
-            let (head, rest) = encode_integer_parts(link.r#type() as _, TYPE_BASE);
+            let (head, tail) = encode_integer_parts(link.r#type() as _, TYPE_BASE);
 
             writer.write_all(&[head << 2 | 1])?;
-            encode_integer_rest(rest, writer)?;
+            encode_integer_tail(tail, writer)?;
 
             if link.share().is_some() {
                 dictionary.push_front(node.clone());
@@ -43,10 +43,10 @@ fn encode_node(
             }
         }
         Node::Value(value) => {
-            let (head, rest) = encode_integer_parts(encode_value(*value), VALUE_BASE);
+            let (head, tail) = encode_integer_parts(encode_value(*value), VALUE_BASE);
 
             writer.write_all(&[head << 1])?;
-            encode_integer_rest(rest, writer)?;
+            encode_integer_tail(tail, writer)?;
 
             return Ok(());
         }
@@ -74,7 +74,7 @@ const fn encode_integer_parts(integer: u128, base: u128) -> (u8, u128) {
     )
 }
 
-fn encode_integer_rest(mut integer: u128, writer: &mut impl Write) -> Result<(), Error> {
+fn encode_integer_tail(mut integer: u128, writer: &mut impl Write) -> Result<(), Error> {
     while integer != 0 {
         let rest = integer / INTEGER_BASE;
         writer.write_all(&[encode_integer_part(

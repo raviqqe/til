@@ -125,6 +125,25 @@ mod tests {
         ));
     }
 
+    #[test]
+    fn decode_complex_graph() {
+        let node0 = Node::Link(Link::new(1, 2.0.into(), 3.0.into(), Share::Multiple.into()).into());
+        let node1 =
+            Node::Link(Link::new(2, node0.clone(), node0.clone(), Share::Single.into()).into());
+        let node2 = Node::Link(Link::new(3, node1.clone(), node0, Share::Multiple.into()).into());
+        let node3 = Node::Link(Link::new(4, Node::Value(42.0), node1.clone(), None).into());
+
+        assert_encode_decode!(Graph::new(
+            Link::new(
+                0,
+                Link::new(0, node2.clone(), Node::Value(2045.0), None).into(),
+                node3,
+                None
+            )
+            .into()
+        ));
+    }
+
     mod left_value {
         use super::*;
         use pretty_assertions::assert_eq;
