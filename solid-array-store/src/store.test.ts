@@ -2,7 +2,7 @@ import { createStore, reconcile } from "solid-js/store";
 import { expect, it } from "vitest";
 
 it("swaps an object with an array", () => {
-  const [store, setStore] = createStore<{ value: {} | [] }>({
+  const [store, setStore] = createStore<{ value: unknown }>({
     value: {},
   });
 
@@ -12,7 +12,7 @@ it("swaps an object with an array", () => {
 });
 
 it("swaps an array with an object", () => {
-  const [store, setStore] = createStore<{ value: {} | [] }>({
+  const [store, setStore] = createStore<{ value: unknown }>({
     value: [],
   });
 
@@ -22,7 +22,7 @@ it("swaps an array with an object", () => {
 });
 
 it("reconciles an object with an array", () => {
-  const [store, setStore] = createStore<{ value: {} | [] }>({
+  const [store, setStore] = createStore<{ value: unknown }>({
     value: { foo: "bar" },
   });
 
@@ -33,7 +33,7 @@ it("reconciles an object with an array", () => {
 });
 
 it("reconciles an array with an object", () => {
-  const [store, setStore] = createStore<{ value: {} | [] }>({
+  const [store, setStore] = createStore<{ value: unknown }>({
     value: [0, 1, 2],
   });
 

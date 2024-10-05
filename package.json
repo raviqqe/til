@@ -4,5 +4,8 @@
     "solid-array-store",
     "webpack-exports-extension-alias",
     "webpack-wildcard-exports"
-  ]
+  ],
+  "devDependencies": {
+    "nx": "19.8.4"
+  }
 }

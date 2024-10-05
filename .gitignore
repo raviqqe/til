@@ -2,6 +2,8 @@
 *.o
 *.s
 .ninja*
+.nx/cache
+.nx/workspace-data
 .pen
 .turtle*
 a.out
