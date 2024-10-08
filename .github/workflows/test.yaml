@@ -67,8 +67,8 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt update --fix-missing
-      - run: sudo apt install racket
+      - uses: homebrew/actions/setup-homebrew@master
+      - run: brew install minimal-racket
       - run: racket --script main.scm
   shell_test:
     strategy:
