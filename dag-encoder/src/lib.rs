@@ -27,16 +27,14 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     macro_rules! assert_encode_decode {
-        ($graph:expr) => {{
+        ($graph:expr) => {
             let graph = $graph;
             let mut buffer = vec![];
 
             encode(&graph, &mut buffer).unwrap();
 
             assert_eq!(&decode(&*buffer).unwrap(), &graph);
-
-            graph
-        }};
+        };
     }
 
     macro_rules! assert_decode_error {
