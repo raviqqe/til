@@ -94,14 +94,23 @@ mod tests {
 
     #[test]
     fn decode_single_node_multiple_times() {
-        let node = Node::Link(Link::new(0, 0.0.into(), 0.0.into(), Share::Single.into()).into());
+        let nodes = [
+            Node::Link(Link::new(0, 0.0.into(), 0.0.into(), Share::Single.into()).into()),
+            Link::new(1, 0.0.into(), 0.0.into(), Share::Multiple.into()).into(),
+        ];
 
         assert_decode_error!(
             Graph::new(
                 Link::new(
                     0,
-                    Link::new(0, node.clone(), node.clone(), None).into(),
-                    node,
+                    Link::new(0, nodes[1].clone(), nodes[0].clone(), None).into(),
+                    Link::new(
+                        0,
+                        Link::new(0, nodes[0].clone(), nodes[0].clone(), None).into(),
+                        Link::new(0, nodes[0].clone(), nodes[1].clone(), None).into(),
+                        None
+                    )
+                    .into(),
                     None
                 )
                 .into()
