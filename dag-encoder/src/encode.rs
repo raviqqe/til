@@ -16,7 +16,10 @@ fn encode_node(
             if let Some(share) = link.share() {
                 if let Some(index) = dictionary.iter().position(|other| node == other) {
                     let node = dictionary.remove(index).ok_or(Error::MissingNode)?;
-                    dictionary.push_front(node);
+
+                    if share == Share::Multiple {
+                        dictionary.push_front(node);
+                    }
 
                     let (head, tail) = encode_integer_parts(
                         ((index << 1) + if share == Share::Single { 0 } else { 1 }) as _,
