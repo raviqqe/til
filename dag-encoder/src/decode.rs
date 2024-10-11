@@ -32,6 +32,7 @@ fn decode_nodes(reader: &mut impl Read) -> Result<Node, Error> {
                 let node = dictionary
                     .remove((integer >> 1) as _)
                     .ok_or(Error::MissingNode)?;
+                dbg!(integer & 1 != 0);
                 if integer & 1 != 0 {
                     dictionary.push_front(node.clone());
                 }

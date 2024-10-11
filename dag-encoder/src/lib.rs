@@ -37,17 +37,6 @@ mod tests {
         };
     }
 
-    macro_rules! assert_decode_error {
-        ($graph:expr, $error:pat $(,)?) => {
-            let graph = $graph;
-            let mut buffer = vec![];
-
-            encode(&graph, &mut buffer).unwrap();
-
-            assert!(matches!(decode(&*buffer), Err($error)));
-        };
-    }
-
     #[test]
     fn encode_empty() {
         assert_encode_decode!(Graph::default());
@@ -93,30 +82,21 @@ mod tests {
     }
 
     #[test]
-    fn decode_single_node_multiple_times() {
+    fn decode_singly_shared_nodes_between_multiply_shared_nodes() {
         let nodes = [
             Node::Link(Link::new(0, 0.0.into(), 0.0.into(), Share::Single.into()).into()),
             Link::new(1, 0.0.into(), 0.0.into(), Share::Multiple.into()).into(),
         ];
 
-        assert_decode_error!(
-            Graph::new(
-                Link::new(
-                    0,
-                    Link::new(0, nodes[1].clone(), nodes[0].clone(), None).into(),
-                    Link::new(
-                        0,
-                        Link::new(0, nodes[0].clone(), nodes[0].clone(), None).into(),
-                        Link::new(0, nodes[0].clone(), nodes[1].clone(), None).into(),
-                        None
-                    )
-                    .into(),
-                    None
-                )
-                .into()
-            ),
-            Error::MissingNode,
-        );
+        assert_encode_decode!(Graph::new(
+            Link::new(
+                0,
+                Link::new(0, nodes[1].clone(), nodes[0].clone(), None).into(),
+                Link::new(0, nodes[0].clone(), nodes[1].clone(), None).into(),
+                None
+            )
+            .into()
+        ));
     }
 
     #[test]
