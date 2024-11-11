@@ -6,6 +6,6 @@
     "webpack-wildcard-exports"
   ],
   "devDependencies": {
-    "nx": "20.0.11"
+    "nx": "20.0.12"
   }
 }
