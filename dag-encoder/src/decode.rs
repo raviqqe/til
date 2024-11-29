@@ -57,7 +57,7 @@ fn decode_integer_tail(mut x: u8, mut base: u128, reader: &mut impl Read) -> Res
     let mut y = (x >> 1) as u128;
 
     while x & 1 != 0 {
-        x = decode_byte(reader)?.ok_or_else(|| Error::EndOfStream)?;
+        x = decode_byte(reader)?.ok_or(Error::EndOfStream)?;
         y += (x as u128 >> 1) * base;
         base *= INTEGER_BASE;
     }
