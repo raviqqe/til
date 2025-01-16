@@ -1,0 +1,14 @@
+use core::any::Any;
+
+const NUMBER: usize = 42;
+
+fn r#box<T: Any>(value: T) -> Box<dyn Any> {
+    Box::new(value)
+}
+
+fn main() {
+    r#box(());
+    r#box("");
+    r#box(42);
+    r#box(&NUMBER);
+}

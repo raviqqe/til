@@ -3,4 +3,9 @@ name = "rust-cfg-macro"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+foo = []
+bar = []
+baz = []
+
 [dependencies]
