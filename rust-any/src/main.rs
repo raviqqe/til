@@ -2,7 +2,7 @@ use core::any::Any;
 
 const NUMBER: usize = 42;
 
-fn r#box<'a, T: Any>(value: T) -> Box<dyn Any> {
+fn r#box<T: Any>(value: T) -> Box<dyn Any> {
     Box::new(value)
 }
 
