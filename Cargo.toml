@@ -8,6 +8,7 @@ members = [
   "rust-cfg-macro",
   "rust-fibonacci",
   "rust-float-decomposition",
+  "rust-macro",
   "rust-stack-vec",
   "rust-stream",
   "rust-sum",
