@@ -1,0 +1,9 @@
+[package]
+name = "rust-associated-function-argument-lifetime"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

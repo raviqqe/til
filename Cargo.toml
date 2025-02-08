@@ -4,6 +4,7 @@ members = [
   "cranelift-module",
   "dag-encoder",
   "rust-any",
+  "rust-associated-function-argument-lifetime",
   "rust-boxed-closure",
   "rust-cfg-macro",
   "rust-fibonacci",
@@ -26,6 +27,14 @@ edition = "2021"
 warnings = "deny"
 
 [workspace.lints.clippy]
+all = "deny"
+complexity = "deny"
+correctness = "deny"
+nursery = "deny"
+perf = "deny"
+style = "deny"
+suspecious = "deny"
+
 alloc_instead_of_core = "deny"
 dbg_macro = "deny"
 derive_partial_eq_without_eq = "deny"
