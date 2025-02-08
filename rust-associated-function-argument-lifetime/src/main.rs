@@ -1,19 +1,20 @@
-struct Foo {
-    foo: usize,
+struct Foo<'a> {
+    _foo: &'a (),
 }
 
-impl Foo {
-    pub fn foo(&mut self, x: &usize) {}
+impl<'a> Foo<'a> {
+    pub fn foo(&mut self, _x: impl IntoIterator<Item = u8>) {}
 }
 
-fn foo(x: &usize) {
-    let mut foo = Foo { foo: 0 };
+fn foo(x: &[u8]) {
+    let a = ();
+    let mut foo = Foo { _foo: &a };
 
-    foo.foo(x);
+    foo.foo(x.iter().copied());
 }
 
 fn main() {
-    let x = 42;
+    let x = [42];
 
     foo(&x);
 }
