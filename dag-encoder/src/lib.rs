@@ -120,12 +120,12 @@ mod tests {
         let node1 =
             Node::Link(Link::new(2, node0.clone(), node0.clone(), Share::Single.into()).into());
         let node2 = Node::Link(Link::new(3, node1.clone(), node0, Share::Multiple.into()).into());
-        let node3 = Node::Link(Link::new(4, Node::Value(42.0), node1.clone(), None).into());
+        let node3 = Node::Link(Link::new(4, Node::Value(42.0), node1, None).into());
 
         assert_encode_decode!(Graph::new(
             Link::new(
                 0,
-                Link::new(0, node2.clone(), Node::Value(2045.0), None).into(),
+                Link::new(0, node2, Node::Value(2045.0), None).into(),
                 node3,
                 None
             )
