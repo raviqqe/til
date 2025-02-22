@@ -2,7 +2,7 @@
 name = "dag-encoder"
 description = "DAG encoder and decoder"
 version = "0.1.0"
-edition = "2021"
+edition.workspace = true
 
 [features]
 alloc = []
