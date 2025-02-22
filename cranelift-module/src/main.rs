@@ -2,7 +2,7 @@ use core::error::Error;
 use cranelift::{
     codegen::{
         entity::EntityRef,
-        ir::{types, AbiParam, Function, InstBuilder, Signature},
+        ir::{AbiParam, Function, InstBuilder, Signature, types},
         isa,
         isa::CallConv,
         settings::{self, Flags},
@@ -11,7 +11,7 @@ use cranelift::{
     frontend::{FunctionBuilder, FunctionBuilderContext, Variable},
     prelude::Configurable,
 };
-use cranelift_module::{default_libcall_names, Linkage, Module};
+use cranelift_module::{Linkage, Module, default_libcall_names};
 use cranelift_object::{ObjectBuilder, ObjectModule};
 use std::{fs::File, io::Write};
 
