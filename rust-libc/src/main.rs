@@ -1,9 +1,9 @@
 #![no_std]
 #![cfg_attr(not(test), no_main)]
 
-#[cfg_attr(not(test), no_mangle)]
+#[cfg_attr(not(test), unsafe(no_mangle))]
 unsafe extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
-    libc::printf(c"Hello, World!".as_ptr() as _);
+    unsafe { libc::printf(c"Hello, World!".as_ptr() as _) }
 
     0
 }
