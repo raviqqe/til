@@ -26,7 +26,7 @@ fn encode_node(
                         SHARE_BASE,
                     );
 
-                    writer.write_all(&[(head + 1) << 2 | 0b11])?;
+                    writer.write_all(&[((head + 1) << 2) | 0b11])?;
                     encode_integer_tail(tail, writer)?;
                     return Ok(());
                 }
@@ -37,7 +37,7 @@ fn encode_node(
 
             let (head, tail) = encode_integer_parts(link.r#type() as _, TYPE_BASE);
 
-            writer.write_all(&[head << 2 | 1])?;
+            writer.write_all(&[(head << 2) | 1])?;
             encode_integer_tail(tail, writer)?;
 
             if link.share().is_some() {
