@@ -15,6 +15,6 @@
     "@raviqqe/tsconfig": "^1.2.2",
     "eslint": "^9.21.0",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.8"
   }
 }
