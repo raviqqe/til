@@ -1,5 +1,5 @@
 rule cc
-  command = clang -Werror -emit-llvm -c -S -o $out $in
+  command = clang -Werror -emit-llvm -S -o $out $in
 
 rule sed
   command = sed 's/define\(.*\)).*{/define\1) {/' $in > $out
