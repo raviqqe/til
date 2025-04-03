@@ -18,4 +18,6 @@ impl Baz for Foo {}
 
 impl Baz for &Foo {}
 
-fn main() {}
+fn main() {
+    Foo
+}
