@@ -1,16 +1,21 @@
-use std::rc::Rc;
+trait Bar {
+    fn bar(self) {
+        println!("Hello");
+    }
+}
+
+trait Baz {
+    fn baz(&self) {
+        println!("Hello");
+    }
+}
+
+struct Foo {}
+
+impl Bar for Foo {}
+
+impl Baz for Foo {}
+
+impl Baz for &Foo {}
 
 fn main() {}
-
-trait Foo {
-    fn foo(foo) {
-        println("Hello");
-    }
-}
-
-trait RefTrait {
-    fn foo(foo) {
-        println("Hello");
-    }
-
-}
