@@ -4,6 +4,7 @@ members = [
   "cranelift-module",
   "dag-encoder",
   "rust-any",
+  "rust-ref-ref-trait",
   "rust-boxed-closure",
   "rust-cfg-macro",
   "rust-fibonacci",
