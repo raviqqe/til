@@ -18,7 +18,6 @@ func main() {
 	go func() {
 		for {
 			cs <- struct{}{}
-			time.Sleep(time.Second)
 
 			go func() {
 				bs := []byte{}
@@ -26,6 +25,8 @@ func main() {
 				es <- err
 				<-cs
 			}()
+
+			time.Sleep(time.Second)
 		}
 	}()
 
