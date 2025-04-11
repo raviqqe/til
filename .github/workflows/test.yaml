@@ -5,6 +5,21 @@ on:
       - main
   pull_request:
 jobs:
+  go_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - go-fasthttp-dual-stack
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+      - run: go build
+      - uses: golangci/golangci-lint-action@v7
   ninja_test:
     strategy:
       fail-fast: false
