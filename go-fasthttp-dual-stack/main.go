@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/valyala/fasthttp"
 )
@@ -17,6 +18,7 @@ func main() {
 	go func() {
 		for {
 			cs <- struct{}{}
+			time.Sleep(time.Second)
 
 			go func() {
 				bs := []byte{}
