@@ -7,12 +7,11 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-const concurrency = 1
 const address = "http://localhost:8000"
 
 func main() {
 	client := fasthttp.Client{DialDualStack: true}
-	cs := make(chan struct{}, concurrency)
+	cs := make(chan struct{}, 1)
 	es := make(chan error)
 
 	go func() {
