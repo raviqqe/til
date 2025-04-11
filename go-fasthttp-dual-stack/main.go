@@ -10,12 +10,12 @@ import (
 const address = "http://localhost:8000"
 
 func main() {
-	client := fasthttp.Client{DialDualStack: true}
+	c := fasthttp.Client{DialDualStack: true}
 	es := make(chan error)
 
 	go func() {
 		for {
-			_, _, err := client.Get([]byte{}, address)
+			_, _, err := c.Get([]byte{}, address)
 			es <- err
 
 			time.Sleep(time.Second)
