@@ -20,8 +20,7 @@ func main() {
 			cs <- struct{}{}
 
 			go func() {
-				bs := []byte{}
-				_, _, err := client.Get(bs, address)
+				_, _, err := client.Get([]byte{}, address)
 				es <- err
 				<-cs
 			}()
