@@ -20,7 +20,8 @@ jobs:
       - uses: actions/setup-go@v5
       - run: go build
       - uses: golangci/golangci-lint-action@v7
-        working-directory: ${{ matrix.directory }}
+        with:
+          working-directory: ${{ matrix.directory }}
   ninja_test:
     strategy:
       fail-fast: false
