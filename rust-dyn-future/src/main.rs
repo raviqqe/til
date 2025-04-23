@@ -1,8 +1,10 @@
-use allocator_api2::{
+#![feature(allocator_api)]
+
+use core::pin::Pin;
+use std::{
     alloc::{Allocator, Global},
     boxed::Box,
 };
-use core::pin::Pin;
 
 fn foo<A: Allocator + 'static>(
     allocator: A,
