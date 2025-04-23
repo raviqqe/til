@@ -4,18 +4,18 @@ members = [
   "cranelift-module",
   "dag-encoder",
   "rust-any",
-  "rust-ref-ref-trait",
   "rust-boxed-closure",
   "rust-cfg-macro",
   "rust-fibonacci",
   "rust-float-decomposition",
   "rust-macro",
+  "rust-ref-ref-trait",
   "rust-stack-vec",
   "rust-stream",
   "rust-sum",
   "rust-vec-to-rc",
 ]
-exclude = ["rust-generator", "rust-hello-world", "rust-libc"]
+exclude = ["rust-dyn-future", "rust-generator", "rust-hello-world", "rust-libc"]
 
 [profile.release]
 lto = true
