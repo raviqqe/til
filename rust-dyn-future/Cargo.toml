@@ -1,9 +1,4 @@
 [package]
-name = "hello"
+name = "dyn-future"
 version = "0.1.0"
 edition = "2024"
-
-[profile.release]
-lto = true
-panic = "abort"
-strip = true
