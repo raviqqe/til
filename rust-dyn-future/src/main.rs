@@ -4,7 +4,7 @@ use allocator_api2::{
 };
 use core::pin::Pin;
 
-fn foo<A: Allocator>(
+fn foo<A: Allocator + 'static>(
     allocator: A,
     future: impl Future<Output = isize> + 'static,
 ) -> Pin<Box<dyn Future<Output = isize> + 'static, A>> {
