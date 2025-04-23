@@ -1,5 +1,7 @@
 #![feature(allocator_api)]
 
+// Swapping `std` with `allocator_api2` fails to compile.
+
 use core::pin::Pin;
 use std::{
     alloc::{Allocator, Global},
