@@ -6,7 +6,6 @@ members = [
   "rust-any",
   "rust-boxed-closure",
   "rust-cfg-macro",
-  "rust-dyn-future",
   "rust-fibonacci",
   "rust-float-decomposition",
   "rust-macro",
@@ -16,7 +15,7 @@ members = [
   "rust-sum",
   "rust-vec-to-rc",
 ]
-exclude = ["rust-generator", "rust-hello-world", "rust-libc"]
+exclude = ["rust-dyn-future", "rust-generator", "rust-hello-world", "rust-libc"]
 
 [profile.release]
 lto = true

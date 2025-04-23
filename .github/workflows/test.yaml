@@ -55,6 +55,7 @@ jobs:
       matrix:
         directory:
           - .
+          - rust-dyn-future
           - rust-generator
           - rust-hello-world
           - rust-libc
