@@ -5,7 +5,9 @@
     "start": "node src/index.ts",
     "build": "tsc"
   },
-  "dependencies": {},
+  "dependencies": {
+    "valibot": "^1.1.0"
+  },
   "devDependencies": {
     "@raviqqe/tsconfig": "^1.2.2",
     "@types/node": "^22.15.29",
