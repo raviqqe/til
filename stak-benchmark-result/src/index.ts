@@ -19,6 +19,10 @@ const commands = [
   "lua",
 ];
 
+const numberFormat = new Intl.NumberFormat(undefined, {
+  minimumFractionDigits: 3,
+});
+
 const benchmarkSchema = object({
   results: array(
     object({
@@ -68,7 +72,9 @@ console.log(
       results.map(([name, results]) => [
         name,
         ...commands.map((command) =>
-          results[command] === undefined ? "N/A" : results[command].toString(),
+          results[command] === undefined
+            ? "N/A"
+            : numberFormat.format(results[command]),
         ),
       ]),
     ),
