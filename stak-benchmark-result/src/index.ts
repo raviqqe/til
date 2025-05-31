@@ -28,7 +28,7 @@ const benchmarkSchema = object({
   ),
 });
 
-const readResults = async (path: string) => {
+const readResults = async (path: string): Promise<Record<string, number>> => {
   const data = parse(
     benchmarkSchema,
     JSON.parse(await readFile(path, "utf-8")),
@@ -52,10 +52,12 @@ const results = (
   await Promise.all(
     (await readdir(directory))
       .filter((path) => path.endsWith(".json"))
-      .map(async (path) => [
-        path.replace(".json", ""),
-        await readResults(join(directory, path)),
-      ]),
+      .map(
+        async (path): Promise<[string, Record<string, number>]> => [
+          path.replace(".json", ""),
+          await readResults(join(directory, path)),
+        ],
+      ),
   )
 ).toSorted();
 
@@ -66,7 +68,7 @@ console.log(
       results.map(([name, results]) => [
         name,
         ...commands.map((command) =>
-          Object.hasOwn(results, command) ? results[command].toString() : "N/A",
+          results[command] === undefined ? "N/A" : results[command].toString(),
         ),
       ]),
     ),
