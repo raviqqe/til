@@ -1,8 +1,14 @@
 import { readdir, readFile } from "fs/promises";
-import { object, array, parse, number } from "valibot";
+import { join } from "path";
+import { object, array, parse, number, string } from "valibot";
 
 const benchmarkSchema = object({
-  results: array(object({ median: number() })),
+  results: array(
+    object({
+      command: string(),
+      median: number(),
+    }),
+  ),
 });
 
 const [, , directory] = process.argv;
@@ -18,8 +24,8 @@ for (const path of await readdir(directory)) {
 
   const data = parse(
     benchmarkSchema,
-    JSON.parse(await readFile(path, "utf-8")),
+    JSON.parse(await readFile(join(directory, path), "utf-8")),
   );
 
-  console.log(data);
+  cons;
 }
