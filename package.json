@@ -1,5 +1,9 @@
 {
   "name": "til",
+  "engines": {
+    "node": ">=24.1.0",
+    "npm": ">=11.0.0"
+  },
   "workspaces": [
     "solid-array-store",
     "stak-benchmark-result",
