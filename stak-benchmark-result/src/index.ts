@@ -36,7 +36,7 @@ for (const path of await readdir(directory)) {
     joinBlocks([
       table(
         results.map(({ command }) => command),
-        [],
+        [results.map(({ median }) => median.toString())],
       ),
     ]),
   );
