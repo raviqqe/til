@@ -107,6 +107,11 @@ jobs:
       - run: sudo apt update --fix-missing
       - run: sudo apt install gcc-multilib
       - run: ./main.sh
+  spell_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: streetsidesoftware/cspell-action@v7
   test:
     runs-on: ubuntu-latest
     needs:
@@ -116,6 +121,7 @@ jobs:
       - rust_test
       - scheme_test
       - shell_test
+      - spell_check
     if: ${{ always() }}
     steps:
       - run: |
