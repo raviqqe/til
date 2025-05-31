@@ -28,16 +28,10 @@ const benchmarkSchema = object({
   ),
 });
 
-const [, , directory] = process.argv;
-
-if (!directory) {
-  throw new Error("directory argument not defined");
-}
-
-const readResults = (path: string) => {
+const readResults = async (path: string) => {
   const data = parse(
     benchmarkSchema,
-    JSON.parse(await readFile(join(directory, path), "utf-8")),
+    JSON.parse(await readFile(path, "utf-8")),
   );
 
   return Object.fromEntries(
@@ -48,19 +42,33 @@ const readResults = (path: string) => {
   );
 };
 
-for (const path of await readdir(directory)) {
-  if (!path.endsWith(".json")) {
-    continue;
-  }
+const [, , directory] = process.argv;
 
-  const results = results;
+if (!directory) {
+  throw new Error("directory argument not defined");
 }
+
+const results = (
+  await Promise.all(
+    (await readdir(directory))
+      .filter((path) => path.endsWith(".json"))
+      .map(async (path) => [
+        path.replace(".json", ""),
+        await readResults(join(directory, path)),
+      ]),
+  )
+).toSorted();
 
 console.log(
   joinBlocks([
     table(
-      ["Benchmark", ...results.map(({ command }) => command)],
-      [results.map(({ median }) => median.toString())],
+      ["Benchmark", ...commands],
+      results.map(([name, results]) => [
+        name,
+        ...commands.map((command) =>
+          Object.hasOwn(results, command) ? results[command].toString() : "N/A",
+        ),
+      ]),
     ),
   ]),
 );
