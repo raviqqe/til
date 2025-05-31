@@ -11,5 +11,5 @@ for (const path of await readdir(directory)) {
     continue;
   }
 
-  const data = JSON.parse(await readFile(path));
+  const data = JSON.parse(await readFile(path, "utf-8"));
 }
