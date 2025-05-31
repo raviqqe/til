@@ -6,6 +6,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "ts-markdown-builder": "^0.4.1",
     "valibot": "^1.1.0"
   },
   "devDependencies": {
