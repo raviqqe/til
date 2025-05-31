@@ -21,8 +21,10 @@ const commands = [
   "lua",
 ];
 
+const fractionDigits = 2;
 const numberFormat = new Intl.NumberFormat(undefined, {
-  minimumFractionDigits: 2,
+  maximumFractionDigits: fractionDigits,
+  minimumFractionDigits: fractionDigits,
 });
 
 const benchmarkSchema = object({
