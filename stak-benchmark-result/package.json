@@ -1,0 +1,18 @@
+{
+  "name": "stak-benchmark-result",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "es-toolkit": "^1.38.0",
+    "ts-markdown-builder": "^0.4.1",
+    "valibot": "^1.1.0"
+  },
+  "devDependencies": {
+    "@raviqqe/tsconfig": "^1.2.2",
+    "@types/node": "^22.15.29",
+    "typescript": "^5.8.3"
+  }
+}
