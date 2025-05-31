@@ -22,7 +22,7 @@ const commands = [
 ];
 
 const numberFormat = new Intl.NumberFormat(undefined, {
-  minimumFractionDigits: 3,
+  minimumFractionDigits: 2,
 });
 
 const benchmarkSchema = object({
