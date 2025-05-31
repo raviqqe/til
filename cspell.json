@@ -1,3 +1,14 @@
 {
-  "words": ["raviqqe", "stak", "valibot"]
+  "words": [
+    "callcc",
+    "clippy",
+    "fasthttp",
+    "golangci",
+    "libc",
+    "mlir",
+    "multilib",
+    "raviqqe",
+    "stak",
+    "valibot"
+  ]
 }
