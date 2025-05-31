@@ -27,6 +27,17 @@ for (const path of await readdir(directory)) {
     benchmarkSchema,
     JSON.parse(await readFile(join(directory, path), "utf-8")),
   );
+  const results = data.results.map(({ command, ...rest }) => ({
+    command: command.split(" ")[0] ?? command,
+    ...rest,
+  }));
 
-  console.log(joinBlocks());
+  console.log(
+    joinBlocks([
+      table(
+        results.map(({ command }) => command),
+        [],
+      ),
+    ]),
+  );
 }
