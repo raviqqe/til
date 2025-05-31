@@ -2,9 +2,11 @@ import { readdir, readFile } from "fs/promises";
 import { join } from "path";
 import { object, array, parse, number, string } from "valibot";
 import { joinBlocks, table } from "ts-markdown-builder";
+import { mapValues } from "es-toolkit";
 
+const referenceCommand = "stak";
 const commands = [
-  "stak",
+  referenceCommand,
   "mstak",
   "stak-interpret",
   "mstak-interpret",
@@ -63,7 +65,12 @@ const results = (
         ],
       ),
   )
-).toSorted();
+)
+  .map(([name, results]): [string, Record<string, number>] => [
+    name,
+    mapValues(results, (value) => value / (results[referenceCommand] ?? 0)),
+  ])
+  .toSorted();
 
 console.log(
   joinBlocks([
