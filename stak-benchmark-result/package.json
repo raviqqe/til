@@ -2,10 +2,13 @@
   "name": "stak-benchmark-result",
   "type": "module",
   "scripts": {
-    "start": "node src/index.ts"
+    "start": "node src/index.ts",
+    "build": "tsc"
   },
+  "dependencies": {},
   "devDependencies": {
     "@raviqqe/tsconfig": "^1.2.2",
+    "@types/node": "^22.15.29",
     "typescript": "^5.8.3"
   }
 }
