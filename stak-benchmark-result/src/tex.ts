@@ -6,7 +6,6 @@ const commands = [
   "stak",
   "gsi",
   "chibi-scheme",
-  "gosh",
   "python3",
   "micropython",
   "ruby",
