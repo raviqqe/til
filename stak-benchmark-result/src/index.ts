@@ -4,12 +4,12 @@ import { object, array, parse, number, string } from "valibot";
 import { table, tsMarkdown } from "ts-markdown";
 import { mapValues } from "es-toolkit";
 
-const referenceCommand = "stak-interpret";
+const referenceCommand = "mstak-interpret";
 const commands = [
   referenceCommand,
-  "mstak-interpret",
-  "stak",
+  "stak-interpret",
   "mstak",
+  "stak",
   "chibi-scheme",
   "gosh",
   "guile",
