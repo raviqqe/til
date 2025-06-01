@@ -1,15 +1,15 @@
 import { readdir, readFile } from "fs/promises";
 import { join } from "path";
 import { object, array, parse, number, string } from "valibot";
-import { joinBlocks, table } from "ts-markdown-builder";
+import { table, tsMarkdown } from "ts-markdown";
 import { mapValues } from "es-toolkit";
 
-const referenceCommand = "stak";
+const referenceCommand = "mstak-interpret";
 const commands = [
   referenceCommand,
-  "mstak",
   "stak-interpret",
-  "mstak-interpret",
+  "mstak",
+  "stak",
   "chibi-scheme",
   "gosh",
   "guile",
@@ -21,8 +21,10 @@ const commands = [
   "lua",
 ];
 
+const fractionDigits = 2;
 const numberFormat = new Intl.NumberFormat(undefined, {
-  minimumFractionDigits: 2,
+  maximumFractionDigits: fractionDigits,
+  minimumFractionDigits: fractionDigits,
 });
 
 const benchmarkSchema = object({
@@ -73,17 +75,17 @@ const results = (
   .toSorted();
 
 console.log(
-  joinBlocks([
-    table(
-      ["Benchmark", ...commands],
-      results.map(([name, results]) => [
+  tsMarkdown([
+    table({
+      columns: ["Benchmark", ...commands],
+      rows: results.map(([name, results]) => [
         name,
         ...commands.map((command) =>
           results[command] === undefined
-            ? "N/A"
+            ? "-"
             : numberFormat.format(results[command]),
         ),
       ]),
-    ),
+    }),
   ]),
 );
