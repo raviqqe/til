@@ -13,7 +13,7 @@ const commands = [
   "mruby",
   "lua",
 ];
-const benchmarkNames = ["fibonacci", "sum", "stak"];
+const benchmarkNames = ["fibonacci", "sum", "tak"];
 
 const columnSeparator = " & ";
 
