@@ -1,7 +1,7 @@
 import { readdir, readFile } from "fs/promises";
 import { join } from "path";
 import { object, array, parse, number, string } from "valibot";
-import { joinBlocks, table } from "ts-markdown-builder";
+import { table, tsMarkdown } from "ts-markdown";
 import { mapValues } from "es-toolkit";
 
 const referenceCommand = "stak";
@@ -75,10 +75,10 @@ const results = (
   .toSorted();
 
 console.log(
-  joinBlocks([
-    table(
-      ["Benchmark", ...commands],
-      results.map(([name, results]) => [
+  tsMarkdown([
+    table({
+      columns: ["Benchmark", ...commands],
+      rows: results.map(([name, results]) => [
         name,
         ...commands.map((command) =>
           results[command] === undefined
@@ -86,6 +86,6 @@ console.log(
             : numberFormat.format(results[command]),
         ),
       ]),
-    ),
+    }),
   ]),
 );
