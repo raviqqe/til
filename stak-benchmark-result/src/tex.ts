@@ -11,11 +11,8 @@ const commands = [
   "micropython",
   "ruby",
   "mruby",
-  "lua",
 ];
 const benchmarkNames = ["fibonacci", "sum", "tak"];
-
-const columnSeparator = " & ";
 
 const fractionDigits = 2;
 const numberFormat = new Intl.NumberFormat(undefined, {
@@ -23,7 +20,8 @@ const numberFormat = new Intl.NumberFormat(undefined, {
   minimumFractionDigits: fractionDigits,
 });
 
-const horizontalLine = () => console.log("\\hline");
+const printLine = () => console.log("\\hline");
+const printRow = (row: string[]) => console.log(row.join(" & ") + " \\\\");
 
 const [, , directory] = process.argv;
 
@@ -33,25 +31,23 @@ if (!directory) {
 
 const benchmarks = await readBenchmarks(directory, referenceCommand);
 
-horizontalLine();
-console.log(["Benchmark", ...commands].join(columnSeparator));
-horizontalLine();
+printLine();
+printRow(["Benchmark", ...commands]);
+printLine();
 
 for (const [name, results] of benchmarks) {
   if (!benchmarkNames.includes(name)) {
     continue;
   }
 
-  console.log(
-    [
-      name,
-      ...commands.map((command) =>
-        results[command] === undefined
-          ? "-"
-          : numberFormat.format(results[command]),
-      ),
-    ].join(columnSeparator) + " \\\\",
-  );
+  printRow([
+    name,
+    ...commands.map((command) =>
+      results[command] === undefined
+        ? "-"
+        : numberFormat.format(results[command]),
+    ),
+  ]);
 }
 
-horizontalLine();
+printLine();
