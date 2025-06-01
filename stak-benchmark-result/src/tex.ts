@@ -23,6 +23,8 @@ const numberFormat = new Intl.NumberFormat(undefined, {
   minimumFractionDigits: fractionDigits,
 });
 
+const horizontalLine = () => console.log("\\hline");
+
 const [, , directory] = process.argv;
 
 if (!directory) {
@@ -31,7 +33,9 @@ if (!directory) {
 
 const benchmarks = await readBenchmarks(directory, referenceCommand);
 
+horizontalLine();
 console.log(["Benchmark", ...commands].join(columnSeparator));
+horizontalLine();
 
 for (const [name, results] of benchmarks) {
   if (!benchmarkNames.includes(name)) {
@@ -49,3 +53,5 @@ for (const [name, results] of benchmarks) {
     ].join(columnSeparator) + " \\\\",
   );
 }
+
+horizontalLine();
