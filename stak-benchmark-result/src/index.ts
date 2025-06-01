@@ -82,7 +82,7 @@ console.log(
         name,
         ...commands.map((command) =>
           results[command] === undefined
-            ? "N/A"
+            ? "-"
             : numberFormat.format(results[command]),
         ),
       ]),
