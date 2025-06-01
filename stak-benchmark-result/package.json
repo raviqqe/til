@@ -3,6 +3,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.ts",
+    "start:tex": "node src/tex.ts",
     "build": "tsc"
   },
   "dependencies": {
