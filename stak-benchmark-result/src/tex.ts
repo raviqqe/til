@@ -1,22 +1,21 @@
 import { table, tsMarkdown } from "ts-markdown";
 import { readBenchmarks } from "./benchmark.ts";
 
-const referenceCommand = "mstak-interpret";
+const referenceCommand = "mstak";
 const commands = [
   referenceCommand,
-  "stak-interpret",
-  "mstak",
   "stak",
   "gsi",
   "chibi-scheme",
   "gosh",
-  "guile",
   "python3",
   "micropython",
   "ruby",
   "mruby",
   "lua",
 ];
+
+const columnSeparator = " & ";
 
 const fractionDigits = 2;
 const numberFormat = new Intl.NumberFormat(undefined, {
@@ -32,18 +31,17 @@ if (!directory) {
 
 const benchmarks = await readBenchmarks(directory, referenceCommand);
 
-console.log(
-  tsMarkdown([
-    table({
-      columns: ["Benchmark", ...commands],
-      rows: benchmarks.map(([name, results]) => [
-        name,
-        ...commands.map((command) =>
-          results[command] === undefined
-            ? "-"
-            : numberFormat.format(results[command]),
-        ),
-      ]),
-    }),
-  ]),
-);
+console.log(["Benchmark", ...commands].join(columnSeparator));
+
+for (const [name, results] of benchmarks) {
+  console.log(
+    [
+      name,
+      ...commands.map((command) =>
+        results[command] === undefined
+          ? "-"
+          : numberFormat.format(results[command]),
+      ),
+    ].join(columnSeparator) + " \\\\",
+  );
+}
