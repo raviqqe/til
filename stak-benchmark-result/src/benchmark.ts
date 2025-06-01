@@ -28,6 +28,7 @@ const readBenchmark = async (path: string): Promise<Record<string, number>> => {
 
 export const readBenchmarks = async (
   directory: string,
+  reference: string,
 ): Promise<[string, Record<string, number>][]> => {
   return (
     await Promise.all(
@@ -41,9 +42,14 @@ export const readBenchmarks = async (
         ),
     )
   )
-    .map(([name, results]): [string, Record<string, number>] => [
-      name,
-      mapValues(results, (value) => value / (results[referenceCommand] ?? 0)),
-    ])
+    .map(([name, results]): [string, Record<string, number>] => {
+      const referenceValue = results[reference];
+
+      if (referenceValue === undefined) {
+        throw new Error("reference not found");
+      }
+
+      return [name, mapValues(results, (value) => value / referenceValue)];
+    })
     .toSorted();
 };
