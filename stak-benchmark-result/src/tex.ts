@@ -1,4 +1,3 @@
-import { table, tsMarkdown } from "ts-markdown";
 import { readBenchmarks } from "./benchmark.ts";
 
 const referenceCommand = "mstak";
@@ -14,6 +13,7 @@ const commands = [
   "mruby",
   "lua",
 ];
+const benchmarkNames = ["fibonacci", "sum", "stak"];
 
 const columnSeparator = " & ";
 
@@ -34,6 +34,10 @@ const benchmarks = await readBenchmarks(directory, referenceCommand);
 console.log(["Benchmark", ...commands].join(columnSeparator));
 
 for (const [name, results] of benchmarks) {
+  if (!benchmarkNames.includes(name)) {
+    continue;
+  }
+
   console.log(
     [
       name,
