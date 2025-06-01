@@ -1,5 +1,5 @@
 import { table, tsMarkdown } from "ts-markdown";
-import { readBenchmarks } from "./benchmark.js";
+import { readBenchmarks } from "./benchmark.ts";
 
 const referenceCommand = "mstak-interpret";
 const commands = [
