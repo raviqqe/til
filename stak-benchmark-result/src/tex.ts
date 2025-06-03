@@ -4,6 +4,7 @@ const referenceCommand = "mstak";
 const commands = [
   referenceCommand,
   "stak",
+  "tr7i",
   "gsi",
   "chibi-scheme",
   "python3",
