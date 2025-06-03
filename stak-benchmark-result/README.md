@@ -6,3 +6,7 @@
 npm start
 npm run start:tex
 ```
+
+## References
+
+- [Stak Scheme](https://github.com/raviqqe/stak)
