@@ -7,7 +7,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "es-toolkit": "^1.39.5",
+    "es-toolkit": "^1.39.6",
     "ts-markdown": "^1.3.0",
     "valibot": "^1.1.0"
   },
