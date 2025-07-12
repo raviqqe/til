@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given("{string} is {string}") do |x, y|
   expect(x).to eq(y)
 end
