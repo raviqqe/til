@@ -4,6 +4,7 @@ Feature: Main
 
     Examples:
       | value    |
+      | \\\\\\   |
       | \\\\\\\\ |
 
   Scenario Outline: Escape a newline
