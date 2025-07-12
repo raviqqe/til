@@ -3,6 +3,7 @@
     "callcc",
     "chibi",
     "clippy",
+    "cranelift",
     "fasthttp",
     "golangci",
     "hidash",
