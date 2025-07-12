@@ -49,6 +49,21 @@ jobs:
       - run: npx nx affected -t build
       - run: npx nx affected -t lint
       - run: npx nx affected -t test
+  ruby_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - cucumber-example-escape
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+      - run: bundler
+      - run: bundler exec cucumber
   rust_test:
     strategy:
       fail-fast: false
