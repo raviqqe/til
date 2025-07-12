@@ -3,15 +3,21 @@ Feature: Main
     Then "\\" is "<value>"
 
     Examples:
-      | value |
-      | \\\\  |
+      | value    |
+      | \\\\\\\\ |
 
   Scenario Outline: Escape a newline
-    Then "\n" is "<value>"
+    Then "<value>" is a newline
 
     Examples:
       | value |
       | \n    |
+
+  Scenario Outline: Escape a newline's backslash
+    Then "\n" is "<value>"
+
+    Examples:
+      | value |
       | \\n   |
 
   Scenario Outline: Escape a vertical bar
