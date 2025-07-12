@@ -133,6 +133,7 @@ jobs:
       - go_test
       - ninja_test
       - npm_test
+      - ruby_test
       - rust_test
       - scheme_test
       - shell_test
