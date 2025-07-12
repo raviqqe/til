@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
       - run: bundler
-      - run: bundler exec cucumber
+      - run: bundler exec cucumber --publish-quiet
   rust_test:
     strategy:
       fail-fast: false
