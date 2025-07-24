@@ -5,6 +5,7 @@
     "chibi",
     "clippy",
     "codegen",
+    "conv",
     "cranelift",
     "fasthttp",
     "golangci",
