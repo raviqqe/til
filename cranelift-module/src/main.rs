@@ -1,14 +1,13 @@
 use core::error::Error;
 use cranelift::{
     codegen::{
-        entity::EntityRef,
         ir::{AbiParam, Function, InstBuilder, Signature, types},
         isa,
         isa::CallConv,
         settings::{self, Flags},
         verifier::verify_function,
     },
-    frontend::{FunctionBuilder, FunctionBuilderContext, Variable},
+    frontend::{FunctionBuilder, FunctionBuilderContext},
     prelude::Configurable,
 };
 use cranelift_module::{Linkage, Module, default_libcall_names};
@@ -81,13 +80,9 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
     let block2 = builder.create_block();
     let block3 = builder.create_block();
 
-    let x = Variable::new(0);
-    let y = Variable::new(1);
-    let z = Variable::new(2);
-
-    builder.declare_var(x, types::I32);
-    builder.declare_var(y, types::I32);
-    builder.declare_var(z, types::I32);
+    let x = builder.declare_var(types::I32);
+    let y = builder.declare_var(types::I32);
+    let z = builder.declare_var(types::I32);
     builder.append_block_params_for_function_params(block0);
 
     builder.switch_to_block(block0);
