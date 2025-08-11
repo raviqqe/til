@@ -8,5 +8,7 @@
 .turtle*
 a.out
 app
+dist
+node_modules
 target
 tmp
