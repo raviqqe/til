@@ -1,7 +1,7 @@
+import { readdir, readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { mapValues } from "es-toolkit";
-import { readdir, readFile } from "fs/promises";
-import { join } from "path";
-import { object, array, parse, number, string } from "valibot";
+import { array, number, object, parse, string } from "valibot";
 
 const benchmarkSchema = object({
   results: array(
@@ -32,7 +32,9 @@ export const readBenchmarks = async (
 ): Promise<[string, Record<string, number>][]> => {
   return (
     await Promise.all(
-      (await readdir(directory))
+      (
+        await readdir(directory)
+      )
         .filter((path) => path.endsWith(".json"))
         .map(
           async (path): Promise<[string, Record<string, number>]> => [
