@@ -1,8 +1,7 @@
-import { table, tsMarkdown } from "ts-markdown";
 import { readBenchmarks } from "./benchmark.ts";
 
 const referenceCommand = "mstak-interpret";
-const commands = [
+const _commands = [
   referenceCommand,
   "stak-interpret",
   "mstak",
@@ -19,7 +18,7 @@ const commands = [
 ];
 
 const fractionDigits = 2;
-const numberFormat = new Intl.NumberFormat(undefined, {
+const _numberFormat = new Intl.NumberFormat(undefined, {
   maximumFractionDigits: fractionDigits,
   minimumFractionDigits: fractionDigits,
 });
@@ -30,20 +29,4 @@ if (!directory) {
   throw new Error("directory argument not defined");
 }
 
-const benchmarks = await readBenchmarks(directory, referenceCommand);
-
-console.log(
-  tsMarkdown([
-    table({
-      columns: ["Benchmark", ...commands],
-      rows: benchmarks.map(([name, results]) => [
-        name,
-        ...commands.map((command) =>
-          results[command] === undefined
-            ? "-"
-            : numberFormat.format(results[command]),
-        ),
-      ]),
-    }),
-  ]),
-);
+const _benchmarks = await readBenchmarks(directory, referenceCommand);

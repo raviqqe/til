@@ -1,18 +1,18 @@
 {
-	"name": "solid-array-store",
-	"version": "1.0.0",
-	"type": "module",
-	"scripts": {
-		"build": "tsc",
-		"lint": "biome ci",
-		"test": "vitest"
-	},
-	"dependencies": {
-		"solid-js": "^1.9.8"
-	},
-	"devDependencies": {
-		"@raviqqe/tsconfig": "^2.0.0",
-		"typescript": "^5.9.2",
-		"vitest": "^3.2.4"
-	}
+  "name": "solid-array-store",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "lint": "biome ci",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.8"
+  },
+  "devDependencies": {
+    "@raviqqe/tsconfig": "^2.0.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
 }

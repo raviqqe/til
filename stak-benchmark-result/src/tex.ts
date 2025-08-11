@@ -20,8 +20,8 @@ const numberFormat = new Intl.NumberFormat(undefined, {
   minimumFractionDigits: fractionDigits,
 });
 
-const printLine = () => console.log("\\hline");
-const printRow = (row: string[]) => console.log(row.join(" & ") + " \\\\");
+const printLine = () => {};
+const printRow = (_row: string[]) => {};
 
 const [, , directory] = process.argv;
 
