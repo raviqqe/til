@@ -1,0 +1,10 @@
+{
+  "extends": ["./node_modules/@raviqqe/biome-config/biome.json"],
+  "linter": {
+    "rules": {
+      "suspicious": {
+        "noConsole": "off"
+      }
+    }
+  }
+}
