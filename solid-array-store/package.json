@@ -11,7 +11,7 @@
     "solid-js": "^1.9.8"
   },
   "devDependencies": {
-    "@raviqqe/eslint-config": "^4.1.17",
+    "@raviqqe/eslint-config": "^5.0.0",
     "@raviqqe/tsconfig": "^2.0.0",
     "eslint": "^9.33.0",
     "typescript": "^5.9.2",
