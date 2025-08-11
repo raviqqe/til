@@ -1,8 +1,11 @@
 {
   "name": "til",
   "engines": {
-    "node": ">=24.1.0",
-    "npm": ">=11.0.0"
+    "node": ">=24.5.0",
+    "npm": ">=11.5.1"
+  },
+  "scripts": {
+    "lint": "biome ci"
   },
   "workspaces": [
     "solid-array-store",
@@ -11,6 +14,8 @@
     "webpack-wildcard-exports"
   ],
   "devDependencies": {
+    "@biomejs/biome": "^2.1.4",
+    "@raviqqe/biome-config": "^2.0.16",
     "nx": "21.3.11"
   }
 }

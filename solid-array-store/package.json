@@ -4,16 +4,13 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint --cache src",
     "test": "vitest"
   },
   "dependencies": {
     "solid-js": "^1.9.8"
   },
   "devDependencies": {
-    "@raviqqe/eslint-config": "^5.0.0",
-    "@raviqqe/tsconfig": "^2.0.1",
-    "eslint": "^9.33.0",
+    "@raviqqe/tsconfig": "^2.0.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }

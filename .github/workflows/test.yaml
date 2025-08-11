@@ -45,9 +45,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
       - run: npm ci
       - run: npx nx affected -t build
-      - run: npx nx affected -t lint
+      - run: node --run lint
       - run: npx nx affected -t test
   ruby_test:
     strategy:
