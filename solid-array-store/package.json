@@ -4,7 +4,6 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "lint": "biome ci",
     "test": "vitest"
   },
   "dependencies": {
