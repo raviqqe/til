@@ -1,12 +1,12 @@
 export default {
-  entry: "./src/index.js",
-  experiments: {
-    outputModule: true,
-  },
   mode: "production",
+  entry: "./src/index.js",
   output: {
     library: {
       type: "module",
     },
+  },
+  experiments: {
+    outputModule: true,
   },
 };

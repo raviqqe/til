@@ -1,18 +1,18 @@
 export default {
-  entry: "./src/main.js",
-  experiments: {
-    outputModule: true,
-  },
   mode: "production",
+  entry: "./src/main.js",
+  resolve: {
+    extensions: [".js"],
+    extensionAlias: {
+      ".js": [".lisp", ".js"],
+    },
+  },
   output: {
     library: {
       type: "module",
     },
   },
-  resolve: {
-    extensionAlias: {
-      ".js": [".lisp", ".js"],
-    },
-    extensions: [".js"],
+  experiments: {
+    outputModule: true,
   },
 };
