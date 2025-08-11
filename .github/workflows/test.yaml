@@ -47,7 +47,7 @@ jobs:
           fetch-depth: 0
       - run: npm ci
       - run: npx nx affected -t build
-      - run: npx nx affected -t lint
+      - run: node --run lint
       - run: npx nx affected -t test
   ruby_test:
     strategy:
