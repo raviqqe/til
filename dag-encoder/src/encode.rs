@@ -13,8 +13,8 @@ fn encode_node(
 ) -> Result<(), Error> {
     match node {
         Node::Link(link) => {
-            if let Some(share) = link.share() {
-                if let Some(index) = dictionary.iter().position(|other| node == other) {
+            if let Some(share) = link.share()
+                && let Some(index) = dictionary.iter().position(|other| node == other) {
                     let node = dictionary.remove(index).ok_or(Error::MissingNode)?;
 
                     if share == Share::Multiple {
@@ -30,7 +30,6 @@ fn encode_node(
                     encode_integer_tail(tail, writer)?;
                     return Ok(());
                 }
-            }
 
             encode_node(link.right(), dictionary, writer)?;
             encode_node(link.left(), dictionary, writer)?;
