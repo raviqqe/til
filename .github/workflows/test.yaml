@@ -16,7 +16,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-go@v5
       - run: go build
       - uses: golangci/golangci-lint-action@v8
@@ -35,14 +35,14 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: homebrew/actions/setup-homebrew@master
       - run: brew install llvm ninja
       - run: ninja
   npm_test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v4
@@ -64,7 +64,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
       - run: bundler
       - run: bundler exec cucumber --publish-quiet
@@ -83,7 +83,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: homebrew/actions/setup-homebrew@master
       - run: cargo build
       - run: cargo clippy
@@ -103,7 +103,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: homebrew/actions/setup-homebrew@master
       - run: brew install minimal-racket
       - run: racket --script main.scm
@@ -122,7 +122,7 @@ jobs:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: homebrew/actions/setup-homebrew@master
       - run: sudo apt update --fix-missing
       - run: sudo apt install gcc-multilib
@@ -130,7 +130,7 @@ jobs:
   spell_check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: streetsidesoftware/cspell-action@v7
   test:
     runs-on: ubuntu-latest
