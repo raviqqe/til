@@ -2,14 +2,33 @@
 
 ## Instructions
 
-- Set
+> TODO
+
+- `set`
 
 ### Examples
 
 #### `constant`
 
+1. `stack`
 1. `cons`
 1. `set-car`
+
+#### `get`
+
+> TODO
+
+#### `set`
+
+> TODO
+
+#### `if`
+
+> TODO
+
+#### `call`
+
+> TODO
 
 ## Memory model
 
