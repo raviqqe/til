@@ -2,7 +2,7 @@
 
 ## Instructions
 
--
+- Foo
 
 ## Memory model
 
