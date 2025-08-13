@@ -4,6 +4,13 @@
 
 - Set
 
+### Examples
+
+#### `constant`
+
+1. `cons`
+1. `set-car`
+
 ## Memory model
 
 - Everything is a pair.
