@@ -1,7 +1,9 @@
 use core::convert::{AsMut, AsRef};
 
 pub struct Vm<T: AsRef<[u64]> + AsMut<[u64]>> {
+    #[expect(dead_code)]
     register: u64,
+    #[expect(dead_code)]
     heap: T,
 }
 
