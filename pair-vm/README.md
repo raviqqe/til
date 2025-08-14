@@ -2,7 +2,7 @@
 
 ## Instructions
 
-- `cons` creates a cons with an operand in `car` and a value from the stack register in `cdr`.
+- `cons` creates a cons with an operand in `car` and a value from the `stack` register in `cdr`.
 - `set` sets a value in an address to an another address.
 
 ### Examples
