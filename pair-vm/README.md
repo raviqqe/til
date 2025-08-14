@@ -22,10 +22,11 @@
 1. `cons`
 1. `set dd d`
 
-#### `get`
+#### `get` for a stack slot
 
 1. `cons`
-1. `set ad... a`
+1. `set ad...a aa`
+1. `set dd d`
 
 #### `set`
 
