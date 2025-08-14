@@ -13,7 +13,6 @@
 
 #### `get`
 
-1. "stack"
 1. `cons`
 1. `set a ad`
 
