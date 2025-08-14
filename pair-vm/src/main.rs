@@ -1,5 +1,9 @@
 mod vm;
 
+use crate::vm::Vm;
+
 fn main() {
-    println!("Hello, world!");
+    let mut vm = Vm::new();
+
+    vm.run();
 }
