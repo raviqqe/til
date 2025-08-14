@@ -34,4 +34,5 @@
 - Everything is a pair.
 - A pair consists of `car`, `cdr`, and a tag attached to the `cdr` pointer.
 - The tag's size is 16 bits.
-- The VM has a single `root` register.
+- The VM has the following registers
+  - `stack`
