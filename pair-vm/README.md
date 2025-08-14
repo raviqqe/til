@@ -5,7 +5,18 @@
 - `cons` creates a cons with an operand in `car` and a value from the `stack` register in `cdr`.
 - `set` sets an operand or a value in an address to an another address.
 
-### Examples
+## Memory model
+
+- Everything is a pair.
+- A pair consists of `car`, `cdr`, and a tag attached to the `cdr` pointer.
+- The tag's size is 16 bits.
+- The VM has the following registers
+  - `code`: The program counter
+  - `stack`: The stack pointer
+
+## Examples
+
+### RVM
 
 #### `constant`
 
@@ -27,12 +38,3 @@
 #### `call`
 
 > TODO
-
-## Memory model
-
-- Everything is a pair.
-- A pair consists of `car`, `cdr`, and a tag attached to the `cdr` pointer.
-- The tag's size is 16 bits.
-- The VM has the following registers
-  - `code`: The program counter
-  - `stack`: The stack pointer
