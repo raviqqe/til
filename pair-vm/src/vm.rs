@@ -8,13 +8,13 @@ pub struct Vm<T: Deref<Target = Heap> + DerefMut<Target = Heap>> {
 }
 
 impl<T: Deref<Target = Heap> + DerefMut<Target = Heap>> Vm<T> {
-    pub fn new(heap: T) -> Self {
-        Vm { register: 0, heap }
+    pub const fn new(heap: T) -> Self {
+        Self { register: 0, heap }
     }
 
     pub fn run(&mut self) -> Result<(), &'static str> {
         while let Some(value) = self.heap.get(self.register as usize) {
-            println!("{}", value);
+            println!("{value}");
         }
 
         Ok(())

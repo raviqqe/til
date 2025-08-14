@@ -5,5 +5,5 @@ fn main() {
         xs.push(i);
     }
 
-    println!("{:?}", xs);
+    println!("{xs:?}");
 }
