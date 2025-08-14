@@ -12,13 +12,13 @@
 
 1. "stack"
 1. `cons`
-1. `set-car`
+1. `set-car` an operand
 
 #### `get`
 
 1. "stack"
 1. `cons`
-1. `set-car` an operand
+1. `set-car`
 
 #### `set`
 
