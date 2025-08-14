@@ -12,6 +12,8 @@ impl<T: AsRef<[u64]> + AsMut<[u64]>> Vm<T> {
     }
 
     pub fn run(&mut self) -> Result<(), &'static str> {
+        while let Some(cons) = self.get().to_cons() {}
+
         Ok(())
     }
 }
