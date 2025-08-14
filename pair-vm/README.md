@@ -2,23 +2,20 @@
 
 ## Instructions
 
-> TODO
-
-- `set`
+- `cons` creates a cons with an operand in `car` and a stack register value in `cdr`.
+- `set` sets a value in an address to an another address.
 
 ### Examples
 
 #### `constant`
 
-1. "stack"
 1. `cons`
-1. `set-car` an operand
 
 #### `get`
 
 1. "stack"
 1. `cons`
-1. `set-car`
+1. `set a ad`
 
 #### `set`
 
