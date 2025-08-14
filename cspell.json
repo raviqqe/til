@@ -2,6 +2,7 @@
   "words": [
     "autobuild",
     "brif",
+    "cadr",
     "callcc",
     "chibi",
     "clippy",
@@ -27,6 +28,7 @@
     "multilib",
     "raviqqe",
     "stak",
+    "uninlined",
     "valibot"
   ]
 }

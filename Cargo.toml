@@ -3,6 +3,7 @@ resolver = "2"
 members = [
   "cranelift-module",
   "dag-encoder",
+  "pair-vm",
   "rust-any",
   "rust-boxed-closure",
   "rust-cfg-macro",
@@ -17,14 +18,8 @@ members = [
 ]
 exclude = ["rust-dyn-future", "rust-generator", "rust-hello-world", "rust-libc"]
 
-[profile.release]
-lto = true
-
 [workspace.package]
 edition = "2024"
-
-[workspace.lints.rust]
-warnings = "deny"
 
 [workspace.lints.clippy]
 alloc_instead_of_core = "deny"
@@ -43,3 +38,9 @@ unimplemented = "deny"
 uninlined_format_args = "deny"
 unused_self = "deny"
 use_self = "deny"
+
+[workspace.lints.rust]
+warnings = "deny"
+
+[profile.release]
+lto = true

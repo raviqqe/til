@@ -1,0 +1,12 @@
+[package]
+name = "pair-vm"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+
+[dev-dependencies]
+pretty_assertions = "1.4.1"
+
+[lints]
+workspace = true
