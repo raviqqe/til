@@ -11,8 +11,7 @@
 - A pair consists of `car`, `cdr`, and a tag attached to the `cdr` pointer.
 - The tag's size is 16 bits.
 - The VM has the following registers
-  - `code`: The program counter
-  - `stack`: The stack pointer
+  - `root`: A pair of the `stack` and `code` "registers."
 
 ## Examples
 
@@ -21,6 +20,7 @@
 #### `constant`
 
 1. `cons`
+1. `set dd d`
 
 #### `get`
 
