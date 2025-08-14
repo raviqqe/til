@@ -3,7 +3,7 @@
 ## Instructions
 
 - `cons` creates a cons with an operand in `car` and a value from the `stack` register in `cdr`.
-- `set` sets a value in an address to an another address.
+- `set` sets an operand or a value in an address to an another address.
 
 ### Examples
 
@@ -14,11 +14,11 @@
 #### `get`
 
 1. `cons`
-1. `set a ad`
+1. `set ad... a`
 
 #### `set`
 
-> TODO
+1. `set a y...`
 
 #### `if`
 
