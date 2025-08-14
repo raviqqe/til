@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
   "cranelift-module",
-  "dag-encoder",
+  "dag-encoder", "pair-vm",
   "rust-any",
   "rust-boxed-closure",
   "rust-cfg-macro",
