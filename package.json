@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.0",
-    "@raviqqe/biome-config": "^2.0.16",
-    "nx": "21.3.11"
+    "@raviqqe/biome-config": "^2.0.16"
   }
 }
