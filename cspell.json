@@ -1,4 +1,5 @@
 {
+  "ignorePaths": ["**/*.tsbuildinfo", "pnpm-lock.yaml", "**/target/**"],
   "words": [
     "autobuild",
     "brif",

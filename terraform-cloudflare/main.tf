@@ -54,15 +54,15 @@ resource "cloudflare_api_token" "r2" {
   }
 }
 
-output "account_premission_groups" {
+output "account_permission_groups" {
   value = data.cloudflare_api_token_permission_groups.all.account
 }
 
-output "user_premission_groups" {
+output "user_permission_groups" {
   value = data.cloudflare_api_token_permission_groups.all.user
 }
 
-output "r2_premission_groups" {
+output "r2_permission_groups" {
   value = data.cloudflare_api_token_permission_groups.all.r2
 }
 
