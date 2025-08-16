@@ -50,9 +50,9 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npx nx affected -t build
+      - run: pnpm -r build
       - run: node --run lint
-      - run: npx nx affected -t test
+      - run: pnpm -r test
   ruby_test:
     strategy:
       fail-fast: false
