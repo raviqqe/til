@@ -1,4 +1,12 @@
 {
+  "ignorePaths": [
+    "**/go.mod",
+    "**/go.sum",
+    "**/*.ll",
+    "**/*.tsbuildinfo",
+    "**/target/**",
+    "pnpm-lock.yaml"
+  ],
   "words": [
     "autobuild",
     "brif",
@@ -28,6 +36,7 @@
     "multilib",
     "raviqqe",
     "stak",
+    "stty",
     "uninlined",
     "valibot"
   ]

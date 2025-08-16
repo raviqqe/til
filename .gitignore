@@ -1,6 +1,7 @@
 *.log
 *.o
 *.s
+*.tsbuildinfo
 .ninja*
 .nx/cache
 .nx/workspace-data

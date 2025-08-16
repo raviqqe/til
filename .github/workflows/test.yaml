@@ -45,14 +45,15 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-          cache: npm
-      - run: npm ci
-      - run: npx nx affected -t build
+          cache: pnpm
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm -r build
       - run: node --run lint
-      - run: npx nx affected -t test
+      - run: pnpm -r test
   ruby_test:
     strategy:
       fail-fast: false
