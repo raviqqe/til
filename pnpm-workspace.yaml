@@ -1,0 +1,5 @@
+packages:
+  - solid-array-store
+  - stak-benchmark-result
+  - webpack-exports-extension-alias
+  - webpack-wildcard-exports
