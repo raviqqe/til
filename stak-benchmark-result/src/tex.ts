@@ -24,11 +24,6 @@ const schemeCommands = [
   "chibi-scheme",
   "gosh",
   "guile",
-  "python3",
-  "micropython",
-  "ruby",
-  "mruby",
-  "lua",
 ];
 
 const benchmarkNames = ["fibonacci", "sum", "tak"];
