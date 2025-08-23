@@ -3,8 +3,8 @@
 ## Usage
 
 ```sh
-node --run start
-node --run start:tex
+node --run start DIRECTORY
+node --run start:tex DIRECTORY
 ```
 
 ## References
