@@ -3,8 +3,8 @@
 ## Usage
 
 ```sh
-npm start
-npm run start:tex
+node --run start
+node --run start:tex
 ```
 
 ## References
