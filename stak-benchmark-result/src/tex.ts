@@ -30,6 +30,7 @@ const schemeCommands = [
   "mruby",
   "lua",
 ];
+
 const benchmarkNames = ["fibonacci", "sum", "tak"];
 
 const fractionDigits = 2;
