@@ -3,7 +3,7 @@ import { readBenchmarks } from "./benchmark.ts";
 
 const referenceCommand = "mstak";
 
-const mxiedCommands = [
+const mixedCommands = [
   referenceCommand,
   "stak",
   "tr7i",
