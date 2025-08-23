@@ -1,4 +1,4 @@
-import { argv } from "node:process";
+import { parseArgs } from "node:util";
 import { table, tsMarkdown } from "ts-markdown";
 import { readBenchmarks } from "./benchmark.ts";
 
@@ -25,7 +25,13 @@ const numberFormat = new Intl.NumberFormat(undefined, {
   minimumFractionDigits: fractionDigits,
 });
 
-const [, , directory] = argv;
+const {
+  positionals: [directory],
+  values: {},
+} = parseArgs({
+  allowPositionals: true,
+  options: { directory: { type: "string" } },
+});
 
 if (!directory) {
   throw new Error("directory argument not defined");
