@@ -1,3 +1,4 @@
+import { argv } from "node:process";
 import { table, tsMarkdown } from "ts-markdown";
 import { readBenchmarks } from "./benchmark.ts";
 
@@ -24,7 +25,7 @@ const numberFormat = new Intl.NumberFormat(undefined, {
   minimumFractionDigits: fractionDigits,
 });
 
-const [, , directory] = process.argv;
+const [, , directory] = argv;
 
 if (!directory) {
   throw new Error("directory argument not defined");
