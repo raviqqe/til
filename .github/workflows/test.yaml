@@ -39,17 +39,18 @@ jobs:
       - uses: homebrew/actions/setup-homebrew@master
       - run: brew install llvm ninja
       - run: ninja
-  npm_test:
+  node_js_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          lfs: true
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: package.json
           cache: pnpm
+          node-version-file: package.json
       - run: pnpm i --frozen-lockfile
       - run: pnpm -r build
       - run: node --run lint
@@ -138,7 +139,7 @@ jobs:
     needs:
       - go_test
       - ninja_test
-      - npm_test
+      - node_js_test
       - ruby_test
       - rust_test
       - scheme_test
