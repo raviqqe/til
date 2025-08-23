@@ -39,6 +39,7 @@ const printRow = (row: string[]) => console.log(`${row.join(" & ")} \\\\`);
 
 const {
   positionals: [directory],
+  values: { schemeOnly },
 } = parseArgs({
   allowPositionals: true,
   options: {
@@ -53,6 +54,8 @@ if (!directory) {
 }
 
 const benchmarks = await readBenchmarks(directory, referenceCommand);
+
+const commands = schemeOnly ? schemeCommands : mixedCommands;
 
 printLine();
 printRow(["Benchmark", ...commands]);
