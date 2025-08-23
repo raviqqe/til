@@ -2,7 +2,8 @@ import { parseArgs } from "node:util";
 import { readBenchmarks } from "./benchmark.ts";
 
 const referenceCommand = "mstak";
-const commands = [
+
+const mxiedCommands = [
   referenceCommand,
   "stak",
   "tr7i",
@@ -12,6 +13,22 @@ const commands = [
   "micropython",
   "ruby",
   "mruby",
+];
+
+const schemeCommands = [
+  referenceCommand,
+  "stak",
+  "mstak-interpret",
+  "stak-interpret",
+  "gsi",
+  "chibi-scheme",
+  "gosh",
+  "guile",
+  "python3",
+  "micropython",
+  "ruby",
+  "mruby",
+  "lua",
 ];
 const benchmarkNames = ["fibonacci", "sum", "tak"];
 
