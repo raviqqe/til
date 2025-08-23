@@ -26,7 +26,15 @@ const printRow = (row: string[]) => console.log(`${row.join(" & ")} \\\\`);
 
 const {
   positionals: [directory],
-} = parseArgs({ allowPositionals: true });
+} = parseArgs({
+  allowPositionals: true,
+  options: {
+    format: {
+      default: "v1",
+      type: "string",
+    },
+  },
+});
 
 if (!directory) {
   throw new Error("directory argument not defined");
