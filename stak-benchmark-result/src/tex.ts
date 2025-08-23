@@ -25,7 +25,7 @@ const schemeCommands = [
   "gosh",
 ];
 
-const benchmarkNames = ["fibonacci", "hello", "sum", "tak"];
+const benchmarkNames = ["empty", "fibonacci", "hello", "sum", "tak"];
 
 const fractionDigits = 2;
 const numberFormat = new Intl.NumberFormat(undefined, {
