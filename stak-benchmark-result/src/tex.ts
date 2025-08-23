@@ -29,9 +29,8 @@ const {
 } = parseArgs({
   allowPositionals: true,
   options: {
-    format: {
-      default: "scheme-only",
-      type: "string",
+    schemeOnly: {
+      type: "boolean",
     },
   },
 });
