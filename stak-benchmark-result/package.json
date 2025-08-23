@@ -4,7 +4,7 @@
   "scripts": {
     "start": "node src/index.ts",
     "start:tex": "node src/tex.ts",
-    "start:tex:scheme": "node src/tex.ts",
+    "start:tex:scheme": "node src/tex.ts --scheme",
     "build": "tsc",
     "test": "node --run start -- test/fixtures && node --run start:tex -- test/fixtures && node --run start:tex:scheme -- test/fixtures"
   },

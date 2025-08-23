@@ -23,7 +23,6 @@ const schemeCommands = [
   "gsi",
   "chibi-scheme",
   "gosh",
-  "guile",
 ];
 
 const benchmarkNames = ["fibonacci", "hello", "sum", "tak"];
@@ -39,11 +38,11 @@ const printRow = (row: string[]) => console.log(`${row.join(" & ")} \\\\`);
 
 const {
   positionals: [directory],
-  values: { schemeOnly },
+  values: { scheme },
 } = parseArgs({
   allowPositionals: true,
   options: {
-    schemeOnly: {
+    scheme: {
       type: "boolean",
     },
   },
@@ -55,7 +54,7 @@ if (!directory) {
 
 const benchmarks = await readBenchmarks(directory, referenceCommand);
 
-const commands = schemeOnly ? schemeCommands : mixedCommands;
+const commands = scheme ? schemeCommands : mixedCommands;
 
 printLine();
 printRow(["Benchmark", ...commands]);
