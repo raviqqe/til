@@ -30,7 +30,7 @@ const {
   allowPositionals: true,
   options: {
     format: {
-      default: "v1",
+      default: "scheme-only",
       type: "string",
     },
   },
