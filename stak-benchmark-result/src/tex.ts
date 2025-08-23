@@ -1,3 +1,4 @@
+import { parseArgs } from "node:util";
 import { readBenchmarks } from "./benchmark.ts";
 
 const referenceCommand = "mstak";
@@ -23,7 +24,9 @@ const numberFormat = new Intl.NumberFormat(undefined, {
 const printLine = () => console.log("\\hline");
 const printRow = (row: string[]) => console.log(`${row.join(" & ")} \\\\`);
 
-const [, , directory] = process.argv;
+const {
+  positionals: [directory],
+} = parseArgs({ allowPositionals: true });
 
 if (!directory) {
   throw new Error("directory argument not defined");
