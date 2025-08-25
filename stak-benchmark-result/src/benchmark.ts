@@ -69,7 +69,7 @@ export const readBenchmarks = async (
         name,
         mapValues(results, (value) => ({
           mean: value.mean / referenceResult.mean,
-          stddev: 0,
+          stddev: value.stddev / referenceResult.mean,
         })),
       ];
     })
