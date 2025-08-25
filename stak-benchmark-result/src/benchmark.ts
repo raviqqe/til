@@ -43,7 +43,7 @@ const readBenchmark = async (
 export const readBenchmarks = async (
   directory: string,
   reference: string,
-): Promise<[string, Record<string, { mean: number }>][]> => {
+): Promise<[string, Record<string, BenchmarkResult>][]> => {
   return (
     await Promise.all(
       (
