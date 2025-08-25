@@ -56,8 +56,8 @@ importers:
   webpack-exports-extension-alias:
     dependencies:
       '@raviqqe/hidash':
-        specifier: ^2.0.3
-        version: 2.0.3
+        specifier: ^2.0.5
+        version: 2.0.5
     devDependencies:
       webpack:
         specifier: ^5.101.3
@@ -315,8 +315,9 @@ packages:
     peerDependencies:
       '@biomejs/biome': ^2.1.4
 
-  '@raviqqe/hidash@2.0.3':
-    resolution: {integrity: sha512-7cytW1yXaoXeOZ5y4eT+hLZdApGGIyOVyH6AA6pXfX8kII/GbOYuMnocbnGQljeS6NPwv4SERmChaYm8W2F7rA==}
+  '@raviqqe/hidash@2.0.5':
+    resolution: {integrity: sha512-CL33/YLLOO8DuvGEx8+I6/yk1cTMyTMJYjoRfYf25aPbilpnedznPll+ScjJqo0vjK9nsC3lK8DimegKc6zwFw==}
+    engines: {node: '>=24.6.0'}
 
   '@raviqqe/loscore@0.2.12':
     resolution: {integrity: sha512-ycCNIjmgPfXcm5RBJC3eqxzsFtnijZ0NpUmGVqnpnXoXZqW05WafONwmRAIfnFyQaqUHMQ8Sq35WmX3PsPzONw==}
@@ -1308,9 +1309,9 @@ snapshots:
     dependencies:
       '@biomejs/biome': 2.2.2
 
-  '@raviqqe/hidash@2.0.3':
+  '@raviqqe/hidash@2.0.5':
     dependencies:
-      '@raviqqe/loscore': 0.2.12
+      '@raviqqe/loscore': 0.2.14
 
   '@raviqqe/loscore@0.2.12': {}
 
