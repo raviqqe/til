@@ -1,1 +1,1 @@
-export * from "@raviqqe/hidash/string.js";
+export * from "@raviqqe/hidash/string";
