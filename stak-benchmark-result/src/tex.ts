@@ -70,7 +70,9 @@ for (const [name, results] of benchmarks) {
     ...commands.map((command) =>
       results[command] === undefined
         ? "-"
-        : numberFormat.format(results[command]),
+        : numberFormat.format(results[command].mean) +
+          " \\pm " +
+          numberFormat.format(results[command].stddev),
     ),
   ]);
 }

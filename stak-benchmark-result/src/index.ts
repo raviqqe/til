@@ -44,7 +44,7 @@ console.log(
         ...commands.map((command) =>
           results[command] === undefined
             ? "-"
-            : numberFormat.format(results[command]),
+            : numberFormat.format(results[command].mean),
         ),
       ]),
     }),
