@@ -69,8 +69,8 @@ importers:
   webpack-wildcard-exports:
     dependencies:
       '@raviqqe/loscore':
-        specifier: ^0.2.14
-        version: 0.2.14
+        specifier: ^0.2.15
+        version: 0.2.15
     devDependencies:
       webpack:
         specifier: ^5.101.3
@@ -319,11 +319,12 @@ packages:
     resolution: {integrity: sha512-CL33/YLLOO8DuvGEx8+I6/yk1cTMyTMJYjoRfYf25aPbilpnedznPll+ScjJqo0vjK9nsC3lK8DimegKc6zwFw==}
     engines: {node: '>=24.6.0'}
 
-  '@raviqqe/loscore@0.2.12':
-    resolution: {integrity: sha512-ycCNIjmgPfXcm5RBJC3eqxzsFtnijZ0NpUmGVqnpnXoXZqW05WafONwmRAIfnFyQaqUHMQ8Sq35WmX3PsPzONw==}
-
   '@raviqqe/loscore@0.2.14':
     resolution: {integrity: sha512-f+Fkg0Jnv/O1UqLDDYeqpkn+do45nXx8rgwEZiQywwPf+fO0ewiSw26ka0DejRZ6dXUi3G1pxYYX/n2W7qHUKw==}
+    engines: {node: '>=24.6.0'}
+
+  '@raviqqe/loscore@0.2.15':
+    resolution: {integrity: sha512-cEc+SPgTxwxIZoqftI70EZezCcA9iZrwKN3iuX7iKWf1Qr50JWeB4i3g4tGhphdWTmHsp7OJx1/QJGckncfHjg==}
     engines: {node: '>=24.6.0'}
 
   '@raviqqe/tsconfig@2.0.1':
@@ -1313,9 +1314,9 @@ snapshots:
     dependencies:
       '@raviqqe/loscore': 0.2.14
 
-  '@raviqqe/loscore@0.2.12': {}
-
   '@raviqqe/loscore@0.2.14': {}
+
+  '@raviqqe/loscore@0.2.15': {}
 
   '@raviqqe/tsconfig@2.0.1':
     dependencies:
