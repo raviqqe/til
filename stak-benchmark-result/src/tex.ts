@@ -20,6 +20,7 @@ const schemeCommands = [
   "stak",
   "mstak-interpret",
   "stak-interpret",
+  "tr7i",
   "gsi",
   "chibi-scheme",
   "gosh",
