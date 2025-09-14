@@ -58,7 +58,10 @@ const benchmarks = await readBenchmarks(directory, referenceCommand);
 const commands = scheme ? schemeCommands : mixedCommands;
 
 printLine();
-printRow(["Benchmark", ...commands]);
+printRow([
+  "Benchmark",
+  ...commands.map((command) => command.replace("stak-interpret", "stak bc")),
+]);
 printLine();
 
 for (const [name, results] of benchmarks) {
