@@ -22,8 +22,8 @@ importers:
         version: 1.9.9
     devDependencies:
       '@raviqqe/tsconfig':
-        specifier: ^2.0.2
-        version: 2.0.2
+        specifier: ^2.0.3
+        version: 2.0.3
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
@@ -44,8 +44,8 @@ importers:
         version: 1.1.0(typescript@5.9.2)
     devDependencies:
       '@raviqqe/tsconfig':
-        specifier: ^2.0.2
-        version: 2.0.2
+        specifier: ^2.0.3
+        version: 2.0.3
       '@types/node':
         specifier: ^24.3.1
         version: 24.3.1
@@ -324,8 +324,8 @@ packages:
     resolution: {integrity: sha512-w8SHY8qimh8MydKwjagIryoJqLFyzxdRaKj70sEBKyEKS4KE4Kuejtdo4OttzFetQeLSz0tE/iiHA1um76JCRQ==}
     engines: {node: '>=24.6.0'}
 
-  '@raviqqe/tsconfig@2.0.2':
-    resolution: {integrity: sha512-ySX6Lsem2y4/6Vnes92HhEw7xzVMZoXXnHoO/i8YQk8ZUtiIJmY2xAwcn4ERJAp4wW4Y6yYgPP0ieVig55REZQ==}
+  '@raviqqe/tsconfig@2.0.3':
+    resolution: {integrity: sha512-9eTFd1ye3CcD0vfoPVkLzBr+cOTx/Vk5+feJb9KM4rWxEx3zGtXvAr2v3Er2DOdP8w0c2KhwKXFB/By2NffIHA==}
     engines: {node: '>=24.6.0'}
 
   '@rollup/rollup-android-arm-eabi@4.46.2':
@@ -1314,7 +1314,7 @@ snapshots:
 
   '@raviqqe/loscore@0.2.17': {}
 
-  '@raviqqe/tsconfig@2.0.2':
+  '@raviqqe/tsconfig@2.0.3':
     dependencies:
       typescript: 5.9.2
 
