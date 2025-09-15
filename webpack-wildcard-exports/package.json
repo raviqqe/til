@@ -8,7 +8,9 @@
     "build": "webpack",
     "test": "npm run build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "es-toolkit": "^1.39.10"
+  },
   "devDependencies": {
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1"
