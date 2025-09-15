@@ -67,10 +67,6 @@ importers:
         version: 6.0.1(webpack@5.101.3)
 
   webpack-wildcard-exports:
-    dependencies:
-      '@raviqqe/loscore':
-        specifier: ^0.2.17
-        version: 0.2.17
     devDependencies:
       webpack:
         specifier: ^5.101.3
