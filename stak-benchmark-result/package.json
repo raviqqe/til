@@ -4,11 +4,10 @@
   "scripts": {
     "start": "node src/index.ts",
     "start:tex": "node src/tex.ts",
-    "start:tex:scheme": "node src/tex.ts --scheme",
     "build": "tsc",
     "test": "node --run start -- test/fixtures && node --run test:tex && node --run test:tex:scheme",
     "test:tex": "node --run start:tex -- test/fixtures",
-    "test:tex:scheme": "node --run start:tex:scheme -- test/fixtures"
+    "test:tex:scheme": "node --run start:tex -- --scheme test/fixtures"
   },
   "dependencies": {
     "es-toolkit": "^1.39.10",
