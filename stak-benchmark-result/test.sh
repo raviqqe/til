@@ -3,7 +3,9 @@
 set -e
 
 for scheme in false true; do
-  arguments="-- $(scheme && echo '--scheme') test/fixtures"
+  arguments="-- $($scheme && echo '--scheme' || :) test/fixtures"
 
-  node --run start $arguments
+  for script in start start:tex; do
+    node --run $script $arguments
+  done
 done
