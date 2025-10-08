@@ -57,7 +57,10 @@ const benchmarks = await readBenchmarks(directory, referenceCommand);
 console.log(
   tsMarkdown([
     table({
-      columns: ["Benchmark", ...commands],
+      columns: ["Benchmark", ...commands].map((name) => ({
+        align: "right",
+        name,
+      })),
       rows: benchmarks.map(([name, results]) => [
         name,
         ...commands.map((command) =>
