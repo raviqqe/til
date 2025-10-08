@@ -27,7 +27,12 @@ const numberFormat = new Intl.NumberFormat(undefined, {
 
 const {
   positionals: [directory],
-} = parseArgs({ allowPositionals: true });
+} = parseArgs({
+  allowPositionals: true,
+  options: {
+    scheme: { type: "boolean" },
+  },
+});
 
 if (!directory) {
   throw new Error("directory argument not defined");
