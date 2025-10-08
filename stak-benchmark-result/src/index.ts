@@ -2,12 +2,13 @@ import { parseArgs } from "node:util";
 import { table, tsMarkdown } from "ts-markdown";
 import { readBenchmarks } from "./benchmark.ts";
 
-const referenceCommand = "mstak-interpret";
-const commands = [
+const referenceCommand = "mstak";
+
+const mixedCommands = [
   referenceCommand,
-  "stak-interpret",
-  "mstak",
   "stak",
+  "stak-interpret",
+  "mstak-interpret",
   "gsi",
   "chibi-scheme",
   "gosh",
@@ -19,6 +20,17 @@ const commands = [
   "lua",
 ];
 
+const schemeCommands = [
+  referenceCommand,
+  "stak",
+  "mstak-interpret",
+  "stak-interpret",
+  "tr7i",
+  "gsi",
+  "chibi-scheme",
+  "gosh",
+];
+
 const fractionDigits = 2;
 const numberFormat = new Intl.NumberFormat(undefined, {
   maximumFractionDigits: fractionDigits,
@@ -27,6 +39,7 @@ const numberFormat = new Intl.NumberFormat(undefined, {
 
 const {
   positionals: [directory],
+  values: { scheme },
 } = parseArgs({
   allowPositionals: true,
   options: {
@@ -38,6 +51,7 @@ if (!directory) {
   throw new Error("directory argument not defined");
 }
 
+const commands = scheme ? schemeCommands : mixedCommands;
 const benchmarks = await readBenchmarks(directory, referenceCommand);
 
 console.log(
