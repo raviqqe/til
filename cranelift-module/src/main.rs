@@ -24,8 +24,6 @@ fn run() -> Result<(), Box<dyn Error>> {
     let flags = {
         let mut builder = settings::builder();
 
-        builder.set("enable_atomics", "true")?;
-        builder.set("enable_jump_tables", "true")?;
         builder.set("enable_nan_canonicalization", "true")?;
         builder.set("enable_verifier", "true")?;
         builder.set("is_pic", "true")?;
