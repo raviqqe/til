@@ -12,8 +12,8 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
       '@raviqqe/biome-config':
-        specifier: ^2.0.19
-        version: 2.0.19(@biomejs/biome@2.3.3)
+        specifier: ^2.0.20
+        version: 2.0.20(@biomejs/biome@2.3.3)
 
   solid-array-store:
     dependencies:
@@ -310,8 +310,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@raviqqe/biome-config@2.0.19':
-    resolution: {integrity: sha512-a+ijmgGEMbIVUKYtiP7tus2SaVADR5mZIhdE8jM2zpkAQmiTKBYBuGhz9Tywattau2oSEFtr5RPVfHvCticlXQ==}
+  '@raviqqe/biome-config@2.0.20':
+    resolution: {integrity: sha512-yPYPMccUarVXj0Ah4FVXitNWA1+ZaxIMztVhn+cIRk3bCM4CLj9jkIAg0mZieVlMUZZw+l0WC89RQvTseoZcew==}
     engines: {node: ^24.6.0}
     peerDependencies:
       '@biomejs/biome': ^2.1.4
@@ -1289,7 +1289,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@raviqqe/biome-config@2.0.19(@biomejs/biome@2.3.3)':
+  '@raviqqe/biome-config@2.0.20(@biomejs/biome@2.3.3)':
     dependencies:
       '@biomejs/biome': 2.3.3
 
