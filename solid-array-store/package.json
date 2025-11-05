@@ -12,6 +12,6 @@
   "devDependencies": {
     "@raviqqe/tsconfig": "^2.0.3",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.6"
+    "vitest": "^4.0.7"
   }
 }
