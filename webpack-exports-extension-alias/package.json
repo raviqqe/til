@@ -6,7 +6,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "webpack",
-    "test": "npm run build"
+    "test": "node --run build"
   },
   "dependencies": {
     "@raviqqe/hidash": "^2.0.8"
