@@ -18,6 +18,7 @@
     "conv",
     "cranelift",
     "deque",
+    "esbuild",
     "fasthttp",
     "fract",
     "golangci",
