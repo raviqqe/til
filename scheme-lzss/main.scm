@@ -20,7 +20,7 @@
   (last compressor-last compressor-set-last!))
 
 (define (compressor-ref compressor index)
-  (list-ref (compressor-current compressor) index))
+  (list-maybe-ref (compressor-current compressor) index))
 
 (define (compressor-pop! compressor)
   (let ((xs (compressor-buffer compressor)))
