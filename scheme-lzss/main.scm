@@ -91,10 +91,6 @@
                      (if (< i (min maximum-window-size (window-length window)))
                        (let ((m
                                (let loop ((n 0))
-                                 (debug
-                                   n
-                                   (compressor-ref compressor n)
-                                   (compressor-ref compressor (- n i 1)))
                                  (if (and
                                       (< n maximum-match)
                                       (eq?
@@ -133,21 +129,26 @@
 
 ; Main
 
-(define c
-  (make-compressor
-    (make-buffer '() #f)
-    (make-window '() 0)))
+(define (compress xs expected)
+  (let* ((compressor
+           (make-compressor
+             (make-buffer '() #f)
+             (make-window '() 0)))
+         (ys
+           (parameterize ((current-output-port (open-output-bytevector)))
+             (for-each
+               (lambda (x)
+                 (compressor-write compressor x))
+               xs)
+             (compressor-flush compressor)
+             (get-output-bytevector (current-output-port)))))
+    (debug xs (equal? ys expected) ys expected)))
 
-(write
-  (parameterize ((current-output-port (open-output-bytevector)))
-    (compressor-write c 11)
-    (compressor-write c 22)
-    (compressor-write c 22)
-    (compressor-write c 22)
-    (compressor-write c 22)
-    (compressor-write c 33)
-    (compressor-write c 33)
-    (compressor-write c 33)
-    (compressor-write c 33)
-    (compressor-flush c)
-    (get-output-bytevector (current-output-port))))
+(for-each
+  (lambda (pair)
+    (compress (car pair) (cdr pair)))
+  '(((11) . #u8(22))
+    ((11 22) . #u8(22 44))
+    ((11 22 33) . #u8(22 44 66))
+    ((11 22 33 44) . #u8(22 44 66 88))
+    ((11 22 33 44 55) . #u8(22 44 66 88 110))))
