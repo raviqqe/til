@@ -91,7 +91,9 @@
                xs)
              (compressor-flush compressor)
              (get-output-bytevector (current-output-port)))))
-    (debug 'TEST (equal? ys expected) xs ys expected)))
+    (display (if (equal? ys expected) "OK" "FAIL") (current-error-port))
+    (display "\t" (current-error-port))
+    (debug xs ys expected)))
 
 (for-each
   (lambda (pair)
