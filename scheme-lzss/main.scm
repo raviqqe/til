@@ -24,12 +24,13 @@
 ;; Compressor
 
 (define-record-type compressor
-  (make-compressor buffer current last length)
+  (make-compressor buffer current last length progress)
   compressor?
   (buffer compressor-buffer compressor-set-buffer!)
   (current compressor-current compressor-set-current!)
   (last compressor-last compressor-set-last!)
-  (length compressor-length compressor-set-length!))
+  (length compressor-length compressor-set-length!)
+  (progress compressor-progress compressor-set-progress!))
 
 (define (compressor-push! compressor x)
   (let ((xs (list x)))
@@ -82,7 +83,7 @@
 ; Main
 
 (define (compress xs expected)
-  (let* ((compressor (make-compressor '() '() #f 0))
+  (let* ((compressor (make-compressor '() '() #f 0 0))
          (ys
            (parameterize ((current-output-port (open-output-bytevector)))
              (for-each
