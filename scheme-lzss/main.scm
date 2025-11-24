@@ -6,8 +6,7 @@
 
 ; Compression
 
-; TODO
-; (define maximum-window-size 128) ; inclusive
+(define maximum-window-size 128) ; inclusive
 (define minimum-match 2) ; exclusive
 (define maximum-match 255) ; inclusive
 
