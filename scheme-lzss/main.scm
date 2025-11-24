@@ -6,9 +6,9 @@
 
 ; Compression
 
-(define maximum-window-size 128) ; inclusive
+; (define maximum-window-size 128) ; inclusive
 (define minimum-match 2) ; exclusive
-(define maximum-match 255) ; inclusive
+; (define maximum-match 255) ; inclusive
 
 (define (list-maybe-ref xs index)
   (cond
