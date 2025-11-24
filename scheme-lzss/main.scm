@@ -31,13 +31,11 @@
 (define (compressor-push! compressor x)
   (let ((xs (list x)))
     (if (null? (compressor-buffer compressor))
-      (begin
-        (set-cdr! (compressor-last compressor) xs)
-        (compressor-set-last! compressor xs))
+      (set-cdr! (compressor-last compressor) xs)
       (begin
         (compressor-set-buffer! compressor xs)
-        (compressor-set-current! compressor xs)
-        (compressor-set-last! compressor xs)))))
+        (compressor-set-current! compressor xs)))
+    (compressor-set-last! compressor xs)))
 
 (define (compressor-pop! compressor)
   (let ((xs (compressor-buffer compressor)))
