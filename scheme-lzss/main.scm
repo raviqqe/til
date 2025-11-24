@@ -47,6 +47,9 @@
 (define (compressor-pop! compressor)
   (let ((xs (compressor-current compressor)))
     (compressor-set-current! compressor (cdr xs))
+    (compressor-set-length!
+      compressor
+      (- (compressor-length compressor) 1))
     (car xs)))
 
 ; TODO
