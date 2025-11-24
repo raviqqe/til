@@ -51,6 +51,13 @@
     (compressor-set-length!
       compressor
       (- (compressor-length compressor) 1))
+    (compressor-set-progress!
+      compressor
+      (+ (compressor-progress compressor) 1))
+    (when (> (compressor-progress compressor) maximum-window-size)
+      (compressor-set-buffer!
+        compressor
+        (cdr (compressor-buffer compressor))))
     (car xs)))
 
 ; TODO
