@@ -142,7 +142,7 @@
                xs)
              (compressor-flush compressor)
              (get-output-bytevector (current-output-port)))))
-    (debug 'test xs (equal? ys expected) ys expected)))
+    (debug 'TEST xs (equal? ys expected) ys expected)))
 
 (for-each
   (lambda (pair)
