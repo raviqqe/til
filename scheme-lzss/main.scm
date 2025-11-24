@@ -66,7 +66,7 @@
 
 (define (compressor-flush compressor)
   (do ()
-    ((null? (compressor-current compressor)))
+    ((null? (compressor-buffer compressor)))
     (compressor-write-next compressor)))
 
 ; Main
