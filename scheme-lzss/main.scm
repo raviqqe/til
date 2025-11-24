@@ -9,8 +9,7 @@
 ; TODO
 ; (define maximum-window-size 128) ; inclusive
 (define minimum-match 2) ; exclusive
-; TODO
-; (define maximum-match 255) ; inclusive
+(define maximum-match 255) ; inclusive
 
 ; TODO
 (define (list-maybe-ref xs index)
@@ -46,8 +45,8 @@
 
 ; TODO
 (define (compressor-pop! compressor)
-  (let ((xs (compressor-buffer compressor)))
-    (compressor-set-buffer! compressor (cdr xs))
+  (let ((xs (compressor-current compressor)))
+    (compressor-set-current! compressor (cdr xs))
     (car xs)))
 
 ; TODO
@@ -74,7 +73,7 @@
 
 (define (compressor-flush compressor)
   (do ()
-    ((null? (compressor-buffer compressor)))
+    ((null? (compressor-current compressor)))
     (compressor-write-next compressor)))
 
 ; Main
