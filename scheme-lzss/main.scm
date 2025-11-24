@@ -69,10 +69,8 @@
 (define (compressor-write compressor x)
   (compressor-push! compressor x)
 
-  ; TODO
-  ; (compressor-write-next compressor)
-
-  #f)
+  (when (> (compressor-length compressor) maximum-match)
+    (compressor-write-next compressor)))
 
 (define (compressor-flush compressor)
   (do ()
