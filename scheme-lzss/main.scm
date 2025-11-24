@@ -28,20 +28,17 @@
   (current compressor-current compressor-set-current!)
   (last compressor-last compressor-set-last!))
 
-(define (compressor-ref compressor index)
-  (list-maybe-ref (compressor-current compressor) index))
-
-(define (compressor-pop! compressor)
-  (let ((xs (compressor-buffer compressor)))
-    (compressor-set-buffer! compressor (cdr xs))
-    (car xs)))
-
 (define (compressor-push! compressor x)
   (let ((xs (list x)))
     (if (compressor-last compressor)
       (set-cdr! (compressor-last compressor) xs)
       (compressor-set-buffer! compressor xs))
     (compressor-set-last! compressor xs)))
+
+(define (compressor-pop! compressor)
+  (let ((xs (compressor-buffer compressor)))
+    (compressor-set-buffer! compressor (cdr xs))
+    (car xs)))
 
 (define (compressor-skip! compressor n)
   (compressor-set-buffer!
@@ -53,7 +50,7 @@
 
   (let-values
     (((i n)
-        (let loop ((xs (compressor-buffer compressor) (j 0) (n 0)))
+        (let loop ((xs (compressor-buffer compressor)) (j 0) (n 0))
           (if (eq? xs (compressor-current compressor))
             (values j n)
             (let ((m
