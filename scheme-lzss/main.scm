@@ -42,32 +42,32 @@
 (define (compressor-write-next compressor)
   (define buffer (compressor-buffer compressor))
 
-  (let ((xs (buffer-values buffer)))
-    (let-values (((i n)
-                   (let loop ((xs (compressor-buffer compressor) (j 0) (n 0)))
-                     (if (eq? xs (compressor-current compressor))
-                       (values j n)
-                       (let ((m
-                               (let loop ((n 0))
-                                 (if (and
-                                      (< n maximum-match)
-                                      (eq?
-                                        (compressor-ref compressor n)
-                                        (compressor-ref compressor (- n i 1))))
-                                   (loop (+ n 1))
-                                   n))))
-                         (apply
-                           loop
-                           (+ i 1)
-                           (if (> m n)
-                             (list i m)
-                             (list j n))))))))
-      (if (> n minimum-match)
-        (begin
-          (write-u8 (+ 1 (* 2 i)))
-          (write-u8 n)
-          (buffer-skip! buffer n))
-        (write-u8 (* 2 (buffer-pop! buffer)))))))
+  (let-values
+    (((i n)
+        (let loop ((xs (compressor-buffer compressor) (j 0) (n 0)))
+          (if (eq? xs (compressor-current compressor))
+            (values j n)
+            (let ((m
+                    (let loop ((n 0))
+                      (if (and
+                           (< n maximum-match)
+                           (eq?
+                             (compressor-ref compressor n)
+                             (compressor-ref compressor (- n i 1))))
+                        (loop (+ n 1))
+                        n))))
+              (apply
+                loop
+                (+ i 1)
+                (if (> m n)
+                  (list i m)
+                  (list j n))))))))
+    (if (> n minimum-match)
+      (begin
+        (write-u8 (+ 1 (* 2 i)))
+        (write-u8 n)
+        (buffer-skip! buffer n))
+      (write-u8 (* 2 (buffer-pop! buffer))))))
 
 (define (compressor-write compressor x)
   (compressor-push! compressor x)
