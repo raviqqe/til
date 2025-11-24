@@ -6,10 +6,13 @@
 
 ; Compression
 
+; TODO
 ; (define maximum-window-size 128) ; inclusive
 (define minimum-match 2) ; exclusive
+; TODO
 ; (define maximum-match 255) ; inclusive
 
+; TODO
 (define (list-maybe-ref xs index)
   (cond
     ((not (pair? xs))
@@ -37,11 +40,13 @@
         (compressor-set-current! compressor xs)))
     (compressor-set-last! compressor xs)))
 
+; TODO
 (define (compressor-pop! compressor)
   (let ((xs (compressor-buffer compressor)))
     (compressor-set-buffer! compressor (cdr xs))
     (car xs)))
 
+; TODO
 (define (compressor-skip! compressor n)
   (compressor-set-buffer!
     compressor
