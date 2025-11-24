@@ -22,7 +22,7 @@
 ;; Compressor
 
 (define-record-type compressor
-  (make-compressor buffer last)
+  (make-compressor buffer current last)
   compressor?
   (buffer compressor-buffer compressor-set-buffer!)
   (current compressor-current compressor-set-current!)
