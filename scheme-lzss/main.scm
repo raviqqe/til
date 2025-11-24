@@ -44,8 +44,9 @@
 
   (let ((xs (buffer-values buffer)))
     (let-values (((i n)
-                   (let loop ((i 0) (j 0) (n 0))
-                     (if (< i (min maximum-window-size (window-length window)))
+                   (let loop ((xs (compressor-buffer compressor) (j 0) (n 0)))
+                     (if (eq? xs (compressor-current compressor))
+                       (values j n)
                        (let ((m
                                (let loop ((n 0))
                                  (if (and
@@ -60,8 +61,7 @@
                            (+ i 1)
                            (if (> m n)
                              (list i m)
-                             (list j n))))
-                       (values j n)))))
+                             (list j n))))))))
       (if (> n minimum-match)
         (begin
           (write-u8 (+ 1 (* 2 i)))
