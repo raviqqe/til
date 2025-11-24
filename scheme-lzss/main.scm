@@ -48,26 +48,7 @@
 (define (compressor-write-next compressor)
   (define buffer (compressor-buffer compressor))
 
-  (let-values
-    (((i n)
-        (let loop ((xs (compressor-buffer compressor)) (j 0) (n 0))
-          (if (eq? xs (compressor-current compressor))
-            (values j n)
-            (let ((m
-                    (let loop ((n 0))
-                      (if (and
-                           (< n maximum-match)
-                           (eq?
-                             (compressor-ref compressor n)
-                             (compressor-ref compressor (- n i 1))))
-                        (loop (+ n 1))
-                        n))))
-              (apply
-                loop
-                (+ i 1)
-                (if (> m n)
-                  (list i m)
-                  (list j n))))))))
+  (let-values (((i n) (value 0 0)))
     (if (> n minimum-match)
       (begin
         (write-u8 (+ 1 (* 2 i)))
