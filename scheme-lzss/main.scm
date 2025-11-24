@@ -48,15 +48,13 @@
     (list-tail (compressor-buffer compressor) n)))
 
 (define (compressor-write-next compressor)
-  (define buffer (compressor-buffer compressor))
-
   (let-values (((i n) (values 0 0)))
     (if (> n minimum-match)
       (begin
         (write-u8 (+ 1 (* 2 i)))
         (write-u8 n)
-        (compressor-skip! buffer n))
-      (write-u8 (* 2 (compressor-pop! buffer))))))
+        (compressor-skip! compressor n))
+      (write-u8 (* 2 (compressor-pop! compressor))))))
 
 (define (compressor-write compressor x)
   (compressor-push! compressor x)
