@@ -10,6 +10,7 @@
   "words": [
     "autobuild",
     "brif",
+    "bytevector",
     "cadr",
     "callcc",
     "chibi",
