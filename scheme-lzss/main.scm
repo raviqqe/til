@@ -10,6 +10,15 @@
 (define minimum-match 2) ; exclusive
 (define maximum-match 255) ; inclusive
 
+(define (list-maybe-ref xs index)
+  (cond
+    ((not (pair? xs))
+      #f)
+    ((zero? index)
+      (car xs))
+    (else
+      (list-maybe-ref (cdr xs) (- index 1)))))
+
 ;; Compressor
 
 (define-record-type compressor
