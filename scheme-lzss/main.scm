@@ -53,6 +53,7 @@
     (list-tail (compressor-buffer compressor) n)))
 
 (define (compressor-write-next compressor)
+  ; TODO
   (let-values (((i n) (values 0 0)))
     (if (> n minimum-match)
       (begin
