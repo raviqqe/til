@@ -29,6 +29,7 @@
     "isub",
     "libc",
     "libcall",
+    "lzss",
     "micropython",
     "mlir",
     "mruby",
