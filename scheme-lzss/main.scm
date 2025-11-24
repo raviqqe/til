@@ -39,7 +39,10 @@
       (begin
         (compressor-set-buffer! compressor xs)
         (compressor-set-current! compressor xs)))
-    (compressor-set-last! compressor xs)))
+    (compressor-set-last! compressor xs)
+    (compressor-set-length!
+      compressor
+      (+ (compressor-length compressor) 1))))
 
 ; TODO
 (define (compressor-pop! compressor)
