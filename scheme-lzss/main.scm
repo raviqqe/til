@@ -30,10 +30,14 @@
 
 (define (compressor-push! compressor x)
   (let ((xs (list x)))
-    (if (compressor-last compressor)
-      (set-cdr! (compressor-last compressor) xs)
-      (compressor-set-buffer! compressor xs))
-    (compressor-set-last! compressor xs)))
+    (if (null? (compressor-buffer compressor))
+      (begin
+        (set-cdr! (compressor-last compressor) xs)
+        (compressor-set-last! compressor xs))
+      (begin
+        (compressor-set-buffer! compressor xs)
+        (compressor-set-current! compressor xs)
+        (compressor-set-last! compressor xs)))))
 
 (define (compressor-pop! compressor)
   (let ((xs (compressor-buffer compressor)))
@@ -72,7 +76,7 @@
 ; Main
 
 (define (compress xs expected)
-  (let* ((compressor (make-compressor '() #f #f))
+  (let* ((compressor (make-compressor '() '() #f))
          (ys
            (parameterize ((current-output-port (open-output-bytevector)))
              (for-each
