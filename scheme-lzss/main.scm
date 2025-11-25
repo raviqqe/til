@@ -13,13 +13,13 @@
 ;; Compressor
 
 (define-record-type compressor
-  (make-compressor buffer current last back ahead)
+  (make-compressor buffer current last back progress)
   compressor?
   (buffer compressor-buffer compressor-set-buffer!)
   (current compressor-current compressor-set-current!)
   (last compressor-last compressor-set-last!)
   (back compressor-back compressor-set-back!)
-  (ahead compressor-ahead compressor-set-ahead!))
+  (progress compressor-progress compressor-set-progress!))
 
 (define (compressor-push! compressor x)
   (let ((xs (list x)))
