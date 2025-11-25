@@ -54,7 +54,7 @@
       (begin
         (write-u8 (+ 1 (* 2 i)))
         (write-u8 n)
-        (compressor-skip! compressor n))
+        (compressor-pop! compressor n))
       (write-u8 (* 2 (compressor-pop! compressor 1))))))
 
 (define (compressor-write compressor x)
