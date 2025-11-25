@@ -33,20 +33,17 @@
       compressor
       (+ (compressor-ahead compressor) 1))))
 
-(define (compressor-pop! compressor count)
+(define (compressor-pop! compressor n)
   (let ((xs (compressor-current compressor)))
-    (compressor-set-current! compressor (list-tail xs count))
-
-    (compressor-set-back!
-      compressor
-      (+ (compressor-back compressor) 1))
+    (compressor-set-current! compressor (list-tail xs n))
+    (compressor-set-ahead! compressor (- (compressor-ahead compressor) n))
 
     (let ((d (- (compressor-back compressor) maximum-window-size)))
       (when (positive? d)
         (compressor-set-buffer!
           compressor
           (list-tail (compressor-buffer compressor) d))
-        (compressor-set-back! compressor d)))
+        (compressor-set-back! compressor (- (compressor-back compressor) d))))
 
     (car xs)))
 
