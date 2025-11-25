@@ -63,7 +63,7 @@
 (define (compressor-write-next compressor)
   (let-values (((i n)
                  (let loop ((i (compressor-back compressor)) (j 0) (n 0))
-                   (if (zero? i)
+                   (if (negative? i)
                      (values j n)
                      (let ((m
                              (let loop ((n 0))
@@ -75,7 +75,7 @@
                                         (+ (compressor-back compressor) n))
                                       (compressor-ref
                                         compressor
-                                        (- (+ (compressor-back compressor) n) i))))
+                                        (- (+ (compressor-back compressor) n) i 1))))
                                  (loop (+ n 1))
                                  n))))
                        (apply
