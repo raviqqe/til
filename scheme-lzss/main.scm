@@ -46,7 +46,8 @@
       (when (positive? d)
         (compressor-set-buffer!
           compressor
-          (cdr (compressor-buffer compressor)))))
+          (cdr (compressor-buffer compressor)))
+        (compressor-set-length! compressor d)))
 
     (car xs)))
 
