@@ -13,12 +13,12 @@
 ;; Compressor
 
 (define-record-type compressor
-  (make-compressor buffer current last length progress)
+  (make-compressor buffer current last back progress)
   compressor?
   (buffer compressor-buffer compressor-set-buffer!)
   (current compressor-current compressor-set-current!)
   (last compressor-last compressor-set-last!)
-  (length compressor-length compressor-set-length!)
+  (back compressor-back compressor-set-back!)
   (progress compressor-progress compressor-set-progress!))
 
 (define (compressor-push! compressor x)
@@ -29,24 +29,24 @@
         (compressor-set-buffer! compressor xs)
         (compressor-set-current! compressor xs)))
     (compressor-set-last! compressor xs)
-    (compressor-set-length!
+    (compressor-set-back!
       compressor
-      (+ (compressor-length compressor) 1))))
+      (+ (compressor-back compressor) 1))))
 
 (define (compressor-pop! compressor)
   (let ((xs (compressor-current compressor)))
     (compressor-set-current! compressor (cdr xs))
 
-    (compressor-set-length!
+    (compressor-set-back!
       compressor
-      (+ (compressor-length compressor) 1))
+      (+ (compressor-back compressor) 1))
 
-    (let ((d (- (compressor-length compressor) maximum-window-size)))
+    (let ((d (- (compressor-back compressor) maximum-window-size)))
       (when (positive? d)
         (compressor-set-buffer!
           compressor
           (list-tail (compressor-buffer compressor) d))
-        (compressor-set-length! compressor d)))
+        (compressor-set-back! compressor d)))
 
     (car xs)))
 
@@ -69,7 +69,7 @@
 (define (compressor-write compressor x)
   (compressor-push! compressor x)
 
-  (when (> (compressor-length compressor) maximum-match)
+  (when (> (compressor-back compressor) maximum-match)
     (compressor-write-next compressor)))
 
 (define (compressor-flush compressor)
