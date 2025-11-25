@@ -10,6 +10,15 @@
 (define minimum-match 2) ; exclusive
 (define maximum-match 255) ; inclusive
 
+(define (list-maybe-ref xs index)
+  (cond
+    ((not (pair? xs))
+      #f)
+    ((zero? index)
+      (car xs))
+    (else
+      (list-maybe-ref (cdr xs) (- index 1)))))
+
 ;; Compressor
 
 (define-record-type compressor
@@ -20,6 +29,9 @@
   (last compressor-last compressor-set-last!)
   (back compressor-back compressor-set-back!)
   (ahead compressor-ahead compressor-set-ahead!))
+
+(define (compressor-ref compressor i)
+  (list-maybe-ref (compressor-buffer compressor) i))
 
 (define (compressor-push! compressor x)
   (let ((xs (list x)))
@@ -37,6 +49,7 @@
   (let ((xs (compressor-current compressor)))
     (compressor-set-current! compressor (list-tail xs n))
     (compressor-set-ahead! compressor (- (compressor-ahead compressor) n))
+    (compressor-set-back! compressor (+ (compressor-back compressor) n))
 
     (let ((d (- (compressor-back compressor) maximum-window-size)))
       (when (positive? d)
@@ -48,8 +61,29 @@
     (car xs)))
 
 (define (compressor-write-next compressor)
-  ; TODO
-  (let-values (((i n) (values 0 0)))
+  (let-values (((i n)
+                 (let loop ((i (compressor-back compressor)) (j 0) (n 0))
+                   (if (zero? i)
+                     (values j n)
+                     (let ((m
+                             (let loop ((n 0))
+                               (if (and
+                                    (< n maximum-match)
+                                    (eq?
+                                      (compressor-ref
+                                        compressor
+                                        (+ (compressor-back compressor) n))
+                                      (compressor-ref
+                                        compressor
+                                        (- (+ (compressor-back compressor) n) i))))
+                                 (loop (+ n 1))
+                                 n))))
+                       (apply
+                         loop
+                         (- i 1)
+                         (if (> m n)
+                           (list i m)
+                           (list j n))))))))
     (if (> n minimum-match)
       (begin
         (write-u8 (+ 1 (* 2 i)))
