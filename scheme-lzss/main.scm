@@ -37,17 +37,17 @@
 (define (compressor-pop! compressor)
   (let ((xs (compressor-current compressor)))
     (compressor-set-current! compressor (cdr xs))
+
     (compressor-set-length!
       compressor
-      (- (compressor-length compressor) 1))
-    (compressor-set-progress!
-      compressor
-      (+ (compressor-progress compressor) 1))
-    (when (> (compressor-progress compressor) maximum-window-size)
-      (compressor-set-buffer!
-        compressor
-        (cdr (compressor-buffer compressor))))
-    (compressor-set-progress! compressor (compressor-progress compressor))
+      (+ (compressor-length compressor) 1))
+
+    (let ((d (- (compressor-length compressor) maximum-window-size)))
+      (when (positive? d)
+        (compressor-set-buffer!
+          compressor
+          (cdr (compressor-buffer compressor)))))
+
     (car xs)))
 
 ; TODO
