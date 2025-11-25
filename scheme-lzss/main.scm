@@ -1,4 +1,4 @@
-(import (scheme base) (scheme write))
+(import (scheme base) (scheme write) (srfi 1))
 
 (define (debug . xs)
   (write xs (current-error-port))
