@@ -47,6 +47,7 @@
       (compressor-set-buffer!
         compressor
         (cdr (compressor-buffer compressor))))
+    (compressor-set-progress! compressor (compressor-progress compressor))
     (car xs)))
 
 ; TODO
