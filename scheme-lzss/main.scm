@@ -33,7 +33,6 @@
       compressor
       (+ (compressor-length compressor) 1))))
 
-; TODO
 (define (compressor-pop! compressor)
   (let ((xs (compressor-current compressor)))
     (compressor-set-current! compressor (cdr xs))
