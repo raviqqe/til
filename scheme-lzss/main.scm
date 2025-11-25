@@ -29,9 +29,9 @@
         (compressor-set-buffer! compressor xs)
         (compressor-set-current! compressor xs)))
     (compressor-set-last! compressor xs)
-    (compressor-set-back!
+    (compressor-set-ahead!
       compressor
-      (+ (compressor-back compressor) 1))))
+      (+ (compressor-ahead compressor) 1))))
 
 (define (compressor-pop! compressor)
   (let ((xs (compressor-current compressor)))
