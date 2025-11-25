@@ -33,9 +33,9 @@
       compressor
       (+ (compressor-ahead compressor) 1))))
 
-(define (compressor-pop! compressor)
+(define (compressor-pop! compressor count)
   (let ((xs (compressor-current compressor)))
-    (compressor-set-current! compressor (cdr xs))
+    (compressor-set-current! compressor (list-tail xs count))
 
     (compressor-set-back!
       compressor
@@ -50,12 +50,6 @@
 
     (car xs)))
 
-; TODO
-(define (compressor-skip! compressor n)
-  (compressor-set-buffer!
-    compressor
-    (list-tail (compressor-buffer compressor) n)))
-
 (define (compressor-write-next compressor)
   ; TODO
   (let-values (((i n) (values 0 0)))
@@ -64,7 +58,7 @@
         (write-u8 (+ 1 (* 2 i)))
         (write-u8 n)
         (compressor-skip! compressor n))
-      (write-u8 (* 2 (compressor-pop! compressor))))))
+      (write-u8 (* 2 (compressor-pop! compressor 1))))))
 
 (define (compressor-write compressor x)
   (compressor-push! compressor x)
