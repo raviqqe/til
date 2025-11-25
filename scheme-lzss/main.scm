@@ -81,7 +81,7 @@
                        (apply
                          loop
                          (- i 1)
-                         (if (> m n)
+                         (if (>= m n)
                            (list i m)
                            (list j n))))))))
     (if (> n minimum-match)
