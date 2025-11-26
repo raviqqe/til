@@ -115,6 +115,7 @@
       (get-output-bytevector (current-output-port)))))
 
 (test-begin "compress")
+
 (for-each
   (lambda (pair)
     (test-equal (compress (car pair)) (cdr pair)))
@@ -132,4 +133,5 @@
     (,(make-list 100 11) . #u8(22 1 99))
     (,(make-list 256 11) . #u8(22 1 255))
     (,(make-list 257 11) . #u8(22 1 255 22))))
+
 (test-end "compress")
