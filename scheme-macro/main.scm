@@ -1,3 +1,5 @@
+(import (scheme base) (scheme write))
+
 (define (f x) (+ x x))
 
 (define (i x) x)

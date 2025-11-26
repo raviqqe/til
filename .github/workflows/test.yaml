@@ -96,10 +96,9 @@ jobs:
       fail-fast: false
       matrix:
         directory:
-          - scheme-callcc
+          - scheme-call-cc
           - scheme-eval
           - scheme-macro
-          - scheme-shift-reset
     runs-on: ubuntu-24.04
     defaults:
       run:
@@ -107,8 +106,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: homebrew/actions/setup-homebrew@master
-      - run: brew install minimal-racket
-      - run: racket --script main.scm
+      - run: brew install gauche
+      - run: gosh main.scm
   shell_test:
     strategy:
       fail-fast: false
@@ -119,6 +118,7 @@ jobs:
           - llvm-pointer-tag
           - llvm-unnamed-addr
           - mlir-c-wrapper
+          - scheme-shift-reset
     runs-on: ubuntu-22.04
     defaults:
       run:
