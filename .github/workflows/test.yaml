@@ -99,7 +99,6 @@ jobs:
           - scheme-call-cc
           - scheme-eval
           - scheme-macro
-          - scheme-shift-reset
     runs-on: ubuntu-24.04
     defaults:
       run:
@@ -119,6 +118,7 @@ jobs:
           - llvm-pointer-tag
           - llvm-unnamed-addr
           - mlir-c-wrapper
+          - scheme-shift-reset
     runs-on: ubuntu-22.04
     defaults:
       run:
