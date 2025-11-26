@@ -96,7 +96,7 @@ jobs:
       fail-fast: false
       matrix:
         directory:
-          - scheme-callcc
+          - scheme-call-cc
           - scheme-eval
           - scheme-macro
           - scheme-shift-reset
