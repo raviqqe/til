@@ -106,6 +106,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v6
+      - uses: homebrew/actions/setup-homebrew@master
       - run: brew install gauche
       - run: gosh main.scm
   shell_test:
