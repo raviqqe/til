@@ -1,7 +1,7 @@
-(import (scheme base) (scheme eval))
+(import (scheme base) (scheme eval) (scheme write))
 
-(define y '(define x 42))
+(define e (environment '(scheme base)))
 
-(eval y (environment '(scheme base)))
+(eval '(define x 42) e)
 
-(display x)
+(display (eval 'x e))
