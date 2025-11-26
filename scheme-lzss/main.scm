@@ -1,4 +1,4 @@
-(import (scheme base) (scheme write) (srfi 1))
+(import (scheme base) (scheme write) (srfi 1) (srfi 64))
 
 (define (debug . xs)
   (write xs (current-error-port))
@@ -104,23 +104,20 @@
 
 ; Main
 
-(define (compress xs expected)
-  (let* ((compressor (make-compressor '() '() #f 0 0))
-         (ys
-           (parameterize ((current-output-port (open-output-bytevector)))
-             (for-each
-               (lambda (x)
-                 (compressor-write compressor x))
-               xs)
-             (compressor-flush compressor)
-             (get-output-bytevector (current-output-port)))))
-    (display (if (equal? ys expected) "OK" "FAIL") (current-error-port))
-    (display "\t" (current-error-port))
-    (debug xs ys expected)))
+(define (compress xs)
+  (let ((compressor (make-compressor '() '() #f 0 0)))
+    (parameterize ((current-output-port (open-output-bytevector)))
+      (for-each
+        (lambda (x)
+          (compressor-write compressor x))
+        xs)
+      (compressor-flush compressor)
+      (get-output-bytevector (current-output-port)))))
 
+(test-begin "compress")
 (for-each
   (lambda (pair)
-    (compress (car pair) (cdr pair)))
+    (test-equal (compress (car pair)) (cdr pair)))
   `(((11) . #u8(22))
     ((11 22) . #u8(22 44))
     ((11 22 33) . #u8(22 44 66))
@@ -135,3 +132,4 @@
     (,(make-list 100 11) . #u8(22 1 99))
     (,(make-list 256 11) . #u8(22 1 255))
     (,(make-list 257 11) . #u8(22 1 255 22))))
+(test-end "compress")
