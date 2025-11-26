@@ -106,9 +106,8 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v6
-      - uses: homebrew/actions/setup-homebrew@master
-      - run: brew install minimal-racket
-      - run: racket --script main.scm
+      - run: brew install gauche
+      - run: gosh main.scm
   shell_test:
     strategy:
       fail-fast: false
