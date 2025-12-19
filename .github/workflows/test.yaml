@@ -27,6 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         directory:
+          - c-hello
           - c-stack-operation-elimination
           - ninja-phony
           - ninja-parallel
@@ -114,7 +115,6 @@ jobs:
       fail-fast: false
       matrix:
         directory:
-          - c-hello-world
           - llvm-c-calling-convention
           - llvm-pointer-tag
           - llvm-unnamed-addr
