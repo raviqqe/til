@@ -1,0 +1,8 @@
+rule cc
+  command = cc -O3 -o $out $in
+
+rule strip
+  command = strip -o $out $in
+
+build a.out: cc main.c
+build strip.out: strip a.out
