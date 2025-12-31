@@ -1,5 +1,12 @@
+import seaborn
+import sys
+
+
 def main():
-    print("Hello from stak-code-analysis!")
+    compression = seaborn.load_dataset(sys.argv[1])
+
+    seaborn.displot(compression, x="offset")
+    seaborn.displot(compression, x="length")
 
 
 if __name__ == "__main__":
