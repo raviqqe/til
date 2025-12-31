@@ -56,6 +56,12 @@ jobs:
       - run: pnpm -r build
       - run: node --run lint
       - run: pnpm -r test
+  python_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: uv sync
+      - run: uv format --check
   ruby_test:
     strategy:
       fail-fast: false
