@@ -2,6 +2,7 @@ import seaborn
 import sys
 import polars
 import matplotlib.pyplot
+import numpy
 
 
 bits = 8
@@ -9,12 +10,12 @@ bits = 8
 
 def main():
     with open(sys.argv[1], "rb") as file:
-        frame = polars.DataFrame({"code": list(file.read())})
+        array = numpy.array(list(file.read()))
 
     frame2 = polars.DataFrame(
         {
             "code": frame["code"].repeat_by(bits),
-            "bit": polars.lit(range(8)),
+            "bit": polars.Series("bit", range(bits)).repeat_by(len(frame["code"])),
         }
     )
 
