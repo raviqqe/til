@@ -1,6 +1,5 @@
 import seaborn
 import sys
-import polars
 import matplotlib.pyplot
 import numpy
 
@@ -12,15 +11,8 @@ def main():
     with open(sys.argv[1], "rb") as file:
         array = numpy.array(list(file.read()))
 
-    frame2 = polars.DataFrame(
-        {
-            "code": frame["code"].repeat_by(bits),
-            "bit": polars.Series("bit", range(bits)).repeat_by(len(frame["code"])),
-        }
-    )
-
-    seaborn.displot(frame, x="code", discrete=True)
-    seaborn.displot(frame, x="bit", hue="flag", discrete=True)
+    seaborn.displot(array, x=0, discrete=True)
+    # seaborn.displot(array, x=0, hue=2, discrete=True)
 
     matplotlib.pyplot.show()
 
