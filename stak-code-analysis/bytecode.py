@@ -6,8 +6,7 @@ import matplotlib.pyplot
 
 
 def main():
-    code = os.read(sys.argv[1])
-    print(code)
+    code = pandas.DataFrame({"code": os.read(sys.argv[1])})
 
     seaborn.displot(code, x="code")
 
