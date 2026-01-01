@@ -60,7 +60,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: homebrew/actions/setup-homebrew@master
       - run: pipx install uv
       - run: uv sync --all-packages
       - run: uv format --check
@@ -96,7 +95,6 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v6
-      - uses: homebrew/actions/setup-homebrew@master
       - run: cargo build
       - run: cargo clippy
       - run: cargo fmt --check
