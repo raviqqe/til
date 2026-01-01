@@ -13,7 +13,7 @@ def main():
         xs = numpy.array(list(file.read()))
 
     # Turn into a 2D array with 3 columns
-    xs = numpy.stack([xs, xs // 1 == 0], axis=1)
+    xs = numpy.stack([xs, *(xs // (1 << i) == 0 for i in range(bits))], axis=1)
 
     frame = polars.DataFrame(xs)
 
