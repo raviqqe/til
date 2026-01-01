@@ -12,8 +12,7 @@ def main():
     with open(sys.argv[1], "rb") as file:
         xs = numpy.array(list(file.read()))
 
-    # Turn into a 2D array with 3 columns
-    xs = numpy.stack([xs, *(xs & (1 << bit) > 0 for bit in range(bits))], axis=1)
+    xs = numpy.stack([xs, *(xs & (1 << bit) > 0 for bit in range(bits))]).transpose()
 
     frame = polars.DataFrame(xs)
 
