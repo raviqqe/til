@@ -6,9 +6,10 @@ import matplotlib.pyplot
 
 def main():
     with open(sys.argv[1], "rb") as file:
-        code = polars.DataFrame({"code": list(file.read())})
+        frame = polars.DataFrame({"code": list(file.read())})
 
-    seaborn.displot(code, x="code", discrete=True)
+    seaborn.displot(frame, x="code", discrete=True)
+    seaborn.displot([1, 2, 1, 1, 2], x="code", discrete=True)
 
     matplotlib.pyplot.show()
 
