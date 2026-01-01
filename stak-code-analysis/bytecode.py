@@ -6,7 +6,7 @@ import matplotlib.pyplot
 
 def main():
     with open(sys.argv[1], "rb") as file:
-        code = pandas.DataFrame({"code": file.read()})
+        code = pandas.DataFrame({"code": [byte for byte in file.read()]})
 
     seaborn.displot(code, x="code")
 
