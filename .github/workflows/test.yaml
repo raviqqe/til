@@ -56,6 +56,14 @@ jobs:
       - run: pnpm -r build
       - run: node --run lint
       - run: pnpm -r test
+  python_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: pipx install uv
+      - run: uv sync --all-packages
+      - run: uv format --check
+      - run: uv run pyrefly check
   ruby_test:
     strategy:
       fail-fast: false
@@ -87,7 +95,6 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v6
-      - uses: homebrew/actions/setup-homebrew@master
       - run: cargo build
       - run: cargo clippy
       - run: cargo fmt --check
