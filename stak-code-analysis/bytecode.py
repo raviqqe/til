@@ -1,14 +1,15 @@
 import seaborn
 import sys
+import os
 import pandas
 import matplotlib.pyplot
 
 
 def main():
-    compression = pandas.read_csv(sys.argv[1])
+    code = os.read(sys.argv[1])
+    print(code)
 
-    seaborn.displot(compression, x="offset")
-    seaborn.displot(compression, x="length")
+    seaborn.displot(code, x="code")
 
     matplotlib.pyplot.show()
 
