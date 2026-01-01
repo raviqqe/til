@@ -37,6 +37,7 @@
     "mruby",
     "mstak",
     "multilib",
+    "pipx",
     "pyrefly",
     "raviqqe",
     "seaborn",
