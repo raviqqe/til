@@ -12,14 +12,14 @@ def main():
     with open(sys.argv[1], "rb") as file:
         xs = numpy.array(list(file.read()))
 
-    xs = numpy.stack([xs, *(xs & (1 << bit) > 0 for bit in range(bits))]).transpose()
+    ys = numpy.stack([*(xs & (1 << bit) > 0 for bit in range(bits))]).transpose()
 
-    frame = polars.DataFrame(xs)
+    frame = polars.DataFrame({"code": xs, "bit": ys})
 
     print(xs)
     print(frame)
 
-    seaborn.displot(frame, x="column_0", discrete=True)
+    seaborn.displot(frame, x="code", discrete=True)
     # seaborn.displot(array, x=0, hue=2, discrete=True)
 
     # matplotlib.pyplot.show()
