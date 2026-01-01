@@ -17,6 +17,7 @@ def main():
 
     frame = polars.DataFrame(xs)
 
+    print(xs)
     print(frame)
 
     seaborn.displot(frame, x="column_0", discrete=True)
