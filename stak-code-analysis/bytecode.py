@@ -1,12 +1,12 @@
 import seaborn
 import sys
-import os
 import pandas
 import matplotlib.pyplot
 
 
 def main():
-    code = pandas.DataFrame({"code": os.read(sys.argv[1])})
+    with open(sys.argv[1], "rb") as file:
+        code = pandas.DataFrame({"code": file.read()})
 
     seaborn.displot(code, x="code")
 
