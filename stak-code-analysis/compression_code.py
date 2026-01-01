@@ -1,11 +1,11 @@
 import seaborn
 import sys
-import pandas
+import polars
 import matplotlib.pyplot
 
 
 def main():
-    compression = pandas.read_csv(sys.argv[1])
+    compression = polars.read_csv(sys.argv[1])
 
     seaborn.displot(compression, x="offset")
     seaborn.displot(compression, x="length")

@@ -1,12 +1,12 @@
 import seaborn
 import sys
-import pandas
+import polars
 import matplotlib.pyplot
 
 
 def main():
     with open(sys.argv[1], "rb") as file:
-        code = pandas.DataFrame({"code": [byte for byte in file.read()]})
+        code = polars.DataFrame({"code": list(file.read())})
 
     seaborn.displot(code, x="code")
 
