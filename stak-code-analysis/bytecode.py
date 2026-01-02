@@ -12,7 +12,7 @@ def main():
     with open(sys.argv[1], "rb") as file:
         xs = numpy.array(list(file.read()))
 
-    zs = numpy.array([[x, i, xs & (1 << i) > 0] for x in xs for i in range(bits)])
+    zs = numpy.array([[x, i, x & (1 << i) > 0] for x in xs for i in range(bits)])
 
     frame = polars.DataFrame(zs)
 
