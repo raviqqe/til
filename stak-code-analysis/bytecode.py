@@ -5,15 +5,12 @@ import polars
 import numpy
 
 
-bits = 8
-
-
 def main():
     with open(sys.argv[1], "rb") as file:
         xs = numpy.array(list(file.read()))
 
     frame = polars.DataFrame(
-        numpy.array([[x, i, x & (1 << i) > 0] for x in xs for i in range(bits)]),
+        numpy.array([[x, i, x & (1 << i) > 0] for x in xs for i in range(8)]),
         schema=["code", "bit", "on"],
     )
 
@@ -21,7 +18,14 @@ def main():
     print(sum((frame["bit"] == 5) & (frame["on"] == 1)))
 
     seaborn.displot(frame, x="code", discrete=True)
-    seaborn.displot(frame, x="bit", hue="on", discrete=True, multiple="stack")
+    seaborn.displot(
+        frame,
+        x="bit",
+        hue="on",
+        hue_order=[1, 0],
+        discrete=True,
+        multiple="stack",
+    )
 
     matplotlib.pyplot.show()
 
