@@ -8,7 +8,11 @@ import numpy
 def code(xs: numpy.ndarray) -> None:
     frame = polars.DataFrame(
         [[x, i, x & (1 << i) > 0] for x in xs for i in range(8)],
-        schema=["code", "bit", "on"],
+        schema={
+            "code": polars.UInt8,
+            "bit": polars.UInt8,
+            "on": polars.Boolean,
+        },
     )
 
     print(frame)
@@ -47,7 +51,8 @@ def compression(xs: numpy.ndarray) -> None:
 
 def main() -> None:
     with open(sys.argv[1], "rb") as file:
-        xs = numpy.array(list(file.read()))
+        # spell-checker: disable-next-line
+        xs = numpy.frombuffer(file.read(), dtype=numpy.uint8)
 
     code(xs)
     compression(xs)
