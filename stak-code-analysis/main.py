@@ -7,7 +7,21 @@ import numpy
 
 
 def compression(code: Sequence[int]) -> None:
-    frame = polars.DataFrame({"offset": [], "length": []})
+    frame = polars.DataFrame(
+        {
+            "offset": [],
+            "length": [],
+        },
+        schema={
+            "offset": polars.Uint8,
+            "length": polars.Uint8,
+        },
+    )
+
+    for code in code:
+        frame = polars.concat(
+            [frame, polars.DataFrame([{"offset": 0, "length": 0}])], how="vertical"
+        )
 
     seaborn.displot(frame, x="offset", discrete=True)
     seaborn.displot(frame, x="length", discrete=True)
