@@ -18,6 +18,7 @@ def main():
     )
 
     print(frame)
+    print(len((frame["bit"] == 7) & (frame["on"] == 1)))
 
     seaborn.displot(frame, x="code", discrete=True)
     seaborn.displot(frame, x="bit", hue="on", discrete=True)
