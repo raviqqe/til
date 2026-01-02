@@ -1,3 +1,4 @@
+from typing import Sequence
 import seaborn
 import sys
 import matplotlib.pyplot
@@ -5,7 +6,14 @@ import polars
 import numpy
 
 
-def main():
+def compression(code: Sequence[int]) -> None:
+    frame = polars.DataFrame({"offset": [], "length": []})
+
+    seaborn.displot(frame, x="offset", discrete=True)
+    seaborn.displot(frame, x="length", discrete=True)
+
+
+def main() -> None:
     with open(sys.argv[1], "rb") as file:
         xs = numpy.array(list(file.read()))
 
@@ -25,6 +33,8 @@ def main():
         discrete=True,
         multiple="stack",
     )
+
+    compression(xs)
 
     matplotlib.pyplot.show()
 
