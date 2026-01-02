@@ -7,21 +7,19 @@ import numpy
 
 
 def compression(code: Iterator[int]) -> None:
-    frame = polars.DataFrame(
-        schema={
-            "offset": polars.Int64,
-            "length": polars.Int64,
-        },
-    )
-
+    offsets = []
+    lengths = []
     length: int | None = None
 
     for byte in code:
         if length is not None:
-            frame.extend(polars.DataFrame([{"offset": byte, "length": length + 1}]))
+            offsets.append(byte)
+            lengths.append(length + 1)
             length = None
         elif byte & 1 == 1:
             length = byte >> 1
+
+    frame = polars.DataFrame([{"offset": offsets, "length": lengths}])
 
     print(frame)
 
