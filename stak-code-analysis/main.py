@@ -23,6 +23,8 @@ def compression(code: Sequence[int]) -> None:
         elif byte & 1 == 1:
             length = byte >> 1
 
+    print(frame)
+
     seaborn.displot(frame, x="offset", discrete=True)
     seaborn.displot(frame, x="length", discrete=True)
 
