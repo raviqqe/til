@@ -5,7 +5,7 @@ import polars
 import numpy
 
 
-def code(xs: numpy.ndarray[tuple[int]]) -> None:
+def code(xs: numpy.ndarray) -> None:
     frame = polars.DataFrame(
         [[x, i, x & (1 << i) > 0] for x in xs for i in range(8)],
         schema=["code", "bit", "on"],
@@ -24,7 +24,7 @@ def code(xs: numpy.ndarray[tuple[int]]) -> None:
     )
 
 
-def compression(xs: numpy.ndarray[tuple[int]]) -> None:
+def compression(xs: numpy.ndarray) -> None:
     offsets = []
     lengths = []
     length: int | None = None
