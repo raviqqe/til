@@ -15,7 +15,6 @@ def main():
     )
 
     print(frame)
-    print(sum((frame["bit"] == 5) & (frame["on"] == 1)))
 
     seaborn.displot(frame, x="code", discrete=True)
     seaborn.displot(
