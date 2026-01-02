@@ -19,7 +19,7 @@ def compression(code: Iterator[int]) -> None:
         elif byte & 1 == 1:
             length = byte >> 1
 
-    frame = polars.DataFrame([{"offset": offsets, "length": lengths}])
+    frame = polars.DataFrame({"offset": offsets, "length": lengths})
 
     print(frame)
 
