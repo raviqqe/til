@@ -14,7 +14,7 @@ def compression(code: Sequence[int]) -> None:
         },
     )
 
-    length = None
+    length: int | None = None
 
     for byte in code:
         if length is not None:
