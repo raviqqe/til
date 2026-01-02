@@ -12,10 +12,9 @@ def main():
     with open(sys.argv[1], "rb") as file:
         xs = numpy.array(list(file.read()))
 
-    ys = numpy.stack([xs & (1 << bit) > 0 for bit in range(bits)]).transpose()
-    zs = numpy.array([])
+    zs = numpy.array([[x, i, xs & (1 << i) > 0] for x in xs for i in range(bits)])
 
-    frame = polars.DataFrame({"code": xs, "bit": ys})
+    frame = polars.DataFrame(zs)
 
     print(xs)
     print(frame)
