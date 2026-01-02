@@ -47,7 +47,8 @@ def compression(xs: numpy.ndarray) -> None:
 
 def main() -> None:
     with open(sys.argv[1], "rb") as file:
-        xs = numpy.array(list(file.read()))
+        # spell-checker: disable-next-line
+        xs = numpy.frombuffer(file.read(), dtype=numpy.uint8)
 
     code(xs)
     compression(xs)
