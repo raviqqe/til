@@ -13,8 +13,8 @@ def compression(code: Sequence[int]) -> None:
             "length": [],
         },
         schema={
-            "offset": polars.Uint8,
-            "length": polars.Uint8,
+            "offset": polars.Int64,
+            "length": polars.Int64,
         },
     )
 
