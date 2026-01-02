@@ -1,9 +1,10 @@
 {
   "ignorePaths": [
-    "**/go.mod",
-    "**/go.sum",
     "**/*.ll",
     "**/*.tsbuildinfo",
+    "**/go.mod",
+    "**/go.sum",
+    "**/pyproject.toml",
     "**/target/**",
     "pnpm-lock.yaml"
   ],
