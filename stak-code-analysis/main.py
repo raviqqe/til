@@ -32,7 +32,7 @@ def main() -> None:
         xs = numpy.array(list(file.read()))
 
     frame = polars.DataFrame(
-        numpy.array([[x, i, x & (1 << i) > 0] for x in xs for i in range(8)]),
+        [[x, i, x & (1 << i) > 0] for x in xs for i in range(8)],
         schema=["code", "bit", "on"],
     )
 
