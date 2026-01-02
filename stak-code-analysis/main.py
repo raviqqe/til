@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Iterator
 import seaborn
 import sys
 import matplotlib.pyplot
@@ -6,7 +6,7 @@ import polars
 import numpy
 
 
-def compression(code: Sequence[int]) -> None:
+def compression(code: Iterator[int]) -> None:
     frame = polars.DataFrame(
         schema={
             "offset": polars.Int64,
@@ -31,7 +31,7 @@ def compression(code: Sequence[int]) -> None:
 
 def main() -> None:
     with open(sys.argv[1], "rb") as file:
-        xs = numpy.array(list(file.read()), dtype=numpy.uint8)
+        xs = numpy.array(list(file.read()))
 
     frame = polars.DataFrame(
         [[x, i, x & (1 << i) > 0] for x in xs for i in range(8)],
@@ -50,7 +50,7 @@ def main() -> None:
         multiple="stack",
     )
 
-    compression(xs)
+    compression((x for x in xs))
 
     matplotlib.pyplot.show()
 
