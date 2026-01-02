@@ -5,10 +5,10 @@ import matplotlib.pyplot
 
 
 def main():
-    compression = polars.read_csv(sys.argv[1])
+    frame = polars.read_csv(sys.argv[1])
 
-    seaborn.displot(compression, x="offset")
-    seaborn.displot(compression, x="length")
+    seaborn.displot(frame, x="offset", discrete=True)
+    seaborn.displot(frame, x="length", discrete=True)
 
     matplotlib.pyplot.show()
 

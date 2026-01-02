@@ -340,12 +340,14 @@ name = "stak-code-analysis"
 version = "0.1.0"
 source = { virtual = "stak-code-analysis" }
 dependencies = [
+    { name = "numpy" },
     { name = "polars" },
     { name = "seaborn" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "numpy", specifier = ">=2.4.0" },
     { name = "polars", specifier = ">=1.36.1" },
     { name = "seaborn", specifier = ">=0.13.2" },
 ]

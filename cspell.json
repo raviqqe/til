@@ -37,6 +37,7 @@
     "mruby",
     "mstak",
     "multilib",
+    "numpy",
     "pipx",
     "pyrefly",
     "raviqqe",
