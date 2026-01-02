@@ -8,7 +8,11 @@ import numpy
 def code(xs: numpy.ndarray) -> None:
     frame = polars.DataFrame(
         [[x, i, x & (1 << i) > 0] for x in xs for i in range(8)],
-        schema=["code", "bit", "on"],
+        schema={
+            "code": polars.UInt8,
+            "bit": polars.UInt8,
+            "on": polars.Boolean,
+        },
     )
 
     print(frame)
