@@ -32,7 +32,7 @@
     "libc",
     "libcall",
     "lzss",
-    "matplotilb",
+    "matplotlib",
     "micropython",
     "mlir",
     "mruby",
