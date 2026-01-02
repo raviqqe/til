@@ -14,8 +14,14 @@ def compression(code: Sequence[int]) -> None:
         },
     )
 
+    length = None
+
     for byte in code:
-        frame.extend(polars.DataFrame([{"offset": 0, "length": 0}]))
+        if length is not None:
+            frame.extend(polars.DataFrame([{"offset": byte, "length": length + 1}]))
+            length = None
+        elif byte & 1 == 1:
+            length = byte >> 1
 
     seaborn.displot(frame, x="offset", discrete=True)
     seaborn.displot(frame, x="length", discrete=True)
