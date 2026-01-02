@@ -15,8 +15,7 @@ def compression(code: Sequence[int]) -> None:
     )
 
     for byte in code:
-        frame.vstack(polars.DataFrame([{"offset": 0, "length": 0}]))
-        print(frame)
+        frame.extend(polars.DataFrame([{"offset": 0, "length": 0}]))
 
     seaborn.displot(frame, x="offset", discrete=True)
     seaborn.displot(frame, x="length", discrete=True)
