@@ -31,7 +31,7 @@ def compression(code: Sequence[int]) -> None:
 
 def main() -> None:
     with open(sys.argv[1], "rb") as file:
-        xs = numpy.array(list(file.read()))
+        xs = numpy.array(list(file.read()), dtype=numpy.uint8)
 
     frame = polars.DataFrame(
         [[x, i, x & (1 << i) > 0] for x in xs for i in range(8)],
