@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@raviqqe/tsconfig": "^2.0.3",
-    "@types/node": "^25.0.8",
+    "@types/node": "^25.0.9",
     "typescript": "^5.9.3"
   }
 }
