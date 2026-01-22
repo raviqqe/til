@@ -4,10 +4,10 @@ version = "0.1.0"
 edition.workspace = true
 
 [dependencies]
-cranelift = "0.127.0"
-cranelift-codegen = { version = "0.127.0", features = ["x86"] }
-cranelift-module = "0.127.0"
-cranelift-object = "0.127.0"
+cranelift = "0.128.0"
+cranelift-codegen = { version = "0.128.0", features = ["x86"] }
+cranelift-module = "0.128.0"
+cranelift-object = "0.128.0"
 
 [lints]
 workspace = true
