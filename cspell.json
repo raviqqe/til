@@ -43,6 +43,7 @@
     "pipx",
     "pyproject",
     "pyrefly",
+    "pytest",
     "raviqqe",
     "seaborn",
     "srfi",
