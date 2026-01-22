@@ -1,6 +1,3 @@
-from pprint import pprint
-
-
 def c():
     return {}
 
