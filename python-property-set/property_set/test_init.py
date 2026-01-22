@@ -1,5 +1,9 @@
-from . import main
+from . import c, j
 
 
-def test_main():
-    main()
+def test_c():
+    c()
+
+
+def test_j():
+    j()

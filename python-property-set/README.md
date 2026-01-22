@@ -3,5 +3,5 @@
 ## Usage
 
 ```sh
-uv run
+uv run main.py
 ```
