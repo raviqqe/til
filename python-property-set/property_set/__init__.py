@@ -20,11 +20,3 @@ def j():
     assert sum(p.values()) == 100
 
     return {k: v / 100 * x / d for k, v in p.items()}
-
-
-def main():
-    pprint({"c": c(), "j": j()})
-
-
-if __name__ == "__main__":
-    main()
