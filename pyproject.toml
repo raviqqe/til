@@ -6,12 +6,19 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []
 
-[tool.uv.workspace]
-members = [
-    "stak-code-analysis",
-]
-
 [dependency-groups]
 dev = [
-    "pyrefly>=0.46.3",
+  "pyrefly>=0.46.3",
+]
+
+[tool.pyrefly]
+search-path = [
+  "stak-code-analysis",
+  "python-property-set",
+]
+
+[tool.uv.workspace]
+members = [
+  "stak-code-analysis",
+  "python-property-set",
 ]

@@ -64,6 +64,7 @@ jobs:
       - run: uv sync --all-packages
       - run: uv format --check
       - run: uv run pyrefly check
+      - run: uv run pytest
   ruby_test:
     strategy:
       fail-fast: false
