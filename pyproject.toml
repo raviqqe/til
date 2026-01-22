@@ -9,6 +9,7 @@ dependencies = []
 [tool.uv.workspace]
 members = [
     "stak-code-analysis",
+    "python-property-set",
 ]
 
 [dependency-groups]
