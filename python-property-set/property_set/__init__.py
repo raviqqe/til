@@ -23,6 +23,6 @@ def j():
     ps = {k: v / 100 * x / d for k, v in p.items()}
 
     return {
-        ps: ps,
-        j_sc_p: ps.j_sc_p / j_sc_p * w,
+        "ps": ps,
+        "j_sc_p": ps["j_sc"] / j_sc_p * w,
     }
