@@ -1,3 +1,6 @@
+w = 5
+
+
 def c():
     return {}
 
@@ -5,6 +8,7 @@ def c():
 def j():
     x = 850
     d = 20 * 2
+    j_sc_p = 1758
 
     p = {
         "j_nk": 60,
@@ -16,4 +20,9 @@ def j():
 
     assert sum(p.values()) == 100
 
-    return {k: v / 100 * x / d for k, v in p.items()}
+    ps = {k: v / 100 * x / d for k, v in p.items()}
+
+    return {
+        ps: ps,
+        j_sc_p: ps.j_sc_p / j_sc_p * w,
+    }
