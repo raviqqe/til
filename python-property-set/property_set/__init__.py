@@ -16,7 +16,12 @@ def c():
 
     assert sum(p.values()) == 100
 
-    return {k: v / 100 * x / d for k, v in p.items()}
+    ps = {k: v / 100 * x for k, v in p.items()}
+
+    return {
+        "t": ps,
+        "d": {k: v / d for k, v in ps.items()},
+    }
 
 
 def j():
