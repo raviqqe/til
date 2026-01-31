@@ -1,8 +1,22 @@
+# spell-checker: ignore veqt
+
 w = 5
 
 
 def c():
-    return {}
+    x = 100_000
+    d = 20
+
+    p = {
+        "veqt.to": 50,
+        "tec.to": 30,
+        "qqc.to": 15,
+        "cash.to": 5,
+    }
+
+    assert sum(p.values()) == 100
+
+    return {k: v / 100 * x / d for k, v in p.items()}
 
 
 def j():
