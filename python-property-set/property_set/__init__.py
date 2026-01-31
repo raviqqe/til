@@ -27,9 +27,9 @@ def j():
     p = {
         "j_nk": 60,
         "j_sc": 15,
-        "w_bd": 5,
         "w_ac": 15,
         "w_dc": 5,
+        "w_bd": 5,
     }
 
     assert sum(p.values()) == 100
