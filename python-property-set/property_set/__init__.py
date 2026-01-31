@@ -39,9 +39,12 @@ def j():
 
     assert sum(p.values()) == 100
 
-    ps = {k: v / 100 * x / d for k, v in p.items()}
+    ps = {k: v / 100 * x for k, v in p.items()}
 
     return {
-        "ps": ps,
-        "j_sc_p": ps["j_sc"] / j_sc_p * w,
+        "d": {k: v / d for k, v in ps.items()},
+        "t": ps,
+        "z": {
+            "j_sc_p": ps["j_sc"] / j_sc_p * w,
+        },
     }
