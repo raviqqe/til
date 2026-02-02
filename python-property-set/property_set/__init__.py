@@ -2,16 +2,16 @@
 
 w = 5
 
+j_sc_p = 0.1758
 
-def c():
-    x = 100_000
+
+def c(x=100_000):
     d = 20
 
     p = {
         "veqt.to": 50,
         "tec.to": 30,
-        "qqc.to": 15,
-        "cash.to": 5,
+        "qqc.to": 20,
     }
 
     assert sum(p.values()) == 100
@@ -19,15 +19,13 @@ def c():
     ps = {k: v / 100 * x for k, v in p.items()}
 
     return {
-        "t": ps,
-        "d": {k: v / d for k, v in ps.items()},
+        "total": ps,
+        "day": {k: v / d for k, v in ps.items()},
     }
 
 
-def j():
-    x = 850
+def j(x=850):
     d = 20 * 2
-    j_sc_p = 0.1758
 
     p = {
         "j_nk": 60,
@@ -42,9 +40,9 @@ def j():
     ps = {k: v / 100 * x for k, v in p.items()}
 
     return {
-        "d": {k: v / d for k, v in ps.items()},
-        "t": ps,
-        "z": {
-            "j_sc_p": ps["j_sc"] / j_sc_p * w,
+        "day": {k: v / d for k, v in ps.items()},
+        "total": ps,
+        "week_shares": {
+            "j_sc": ps["j_sc"] / j_sc_p / d * w,
         },
     }

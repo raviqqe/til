@@ -3,7 +3,13 @@ from property_set import c, j
 
 
 def main():
-    pprint({"c": c(), "j": j()})
+    pprint(
+        {
+            "c": c(),
+            "c15": c(15_000),
+            "j": j(),
+        }
+    )
 
 
 if __name__ == "__main__":
