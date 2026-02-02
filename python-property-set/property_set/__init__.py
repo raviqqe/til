@@ -17,8 +17,8 @@ def c(x=100_000):
     ps = {k: v / 100 * x for k, v in p.items()}
 
     return {
-        "t": ps,
-        "d": {k: v / d for k, v in ps.items()},
+        "total": ps,
+        "day": {k: v / d for k, v in ps.items()},
     }
 
 
@@ -39,9 +39,9 @@ def j(x=850):
     ps = {k: v / 100 * x for k, v in p.items()}
 
     return {
-        "d": {k: v / d for k, v in ps.items()},
-        "t": ps,
-        "z": {
+        "day": {k: v / d for k, v in ps.items()},
+        "total": ps,
+        "week_shares": {
             "j_sc_p": ps["j_sc"] / j_sc_p * w,
         },
     }
