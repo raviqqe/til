@@ -1,16 +1,16 @@
-from sys import stdout
+import sys
 import json
-from property_set import c, j
+import property
 
 
 def main():
     json.dump(
         {
-            "c": c(),
-            "c15": c(15_000),
-            "j": j(),
+            "c": property.c(),
+            "c15": property.c(15_000),
+            "j": property.j(),
         },
-        stdout,
+        sys.stdout,
         indent=2,
         sort_keys=True,
     )
