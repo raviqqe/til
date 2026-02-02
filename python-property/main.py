@@ -1,14 +1,14 @@
 import sys
 import json
-import property
+import prop
 
 
 def main():
     json.dump(
         {
-            "c": property.c(),
-            "c15": property.c(15_000),
-            "j": property.j(),
+            "c": prop.c(),
+            "c15": prop.c(15_000),
+            "j": prop.j(),
         },
         sys.stdout,
         indent=2,
