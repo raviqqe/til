@@ -8,9 +8,8 @@ def c(x=100_000):
 
     p = {
         "veqt.to": 50,
-        "tec.to": 30,
-        "qqc.to": 15,
-        "cash.to": 5,
+        "tec.to": 25,
+        "qqc.to": 25,
     }
 
     assert sum(p.values()) == 100
