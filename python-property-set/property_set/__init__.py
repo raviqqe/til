@@ -2,6 +2,8 @@
 
 w = 5
 
+j_sc_p = 0.1758
+
 
 def c(x=100_000):
     d = 20
@@ -24,7 +26,6 @@ def c(x=100_000):
 
 def j(x=850):
     d = 20 * 2
-    j_sc_p = 0.1758
 
     p = {
         "j_nk": 60,
@@ -42,6 +43,6 @@ def j(x=850):
         "day": {k: v / d for k, v in ps.items()},
         "total": ps,
         "week_shares": {
-            "j_sc_p": ps["j_sc"] / j_sc_p * w,
+            "j_sc": ps["j_sc"] / j_sc_p / d * w,
         },
     }
