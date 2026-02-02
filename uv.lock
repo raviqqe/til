@@ -4,7 +4,7 @@ requires-python = ">=3.14"
 
 [manifest]
 members = [
-    "python-property-set",
+    "python-property",
     "stak-code-analysis",
     "til",
 ]
@@ -379,9 +379,9 @@ wheels = [
 ]
 
 [[package]]
-name = "python-property-set"
+name = "python-property"
 version = "0.1.0"
-source = { virtual = "python-property-set" }
+source = { virtual = "python-property" }
 
 [package.dev-dependencies]
 dev = [
