@@ -7,6 +7,7 @@ def main():
     json.dump(
         {
             "c": prop.c(),
+            "c10": prop.c(10_000),
             "c15": prop.c(15_000),
             "j": prop.j(),
         },
