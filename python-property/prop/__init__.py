@@ -9,8 +9,8 @@ def c(x=100_000):
     d = 20
 
     p = {
-        "veqt.to": 50,
-        "tec.to": 30,
+        "veqt.to": 60,
+        "tec.to": 20,
         "qqc.to": 20,
     }
 
