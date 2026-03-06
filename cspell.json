@@ -38,6 +38,7 @@
     "mlir",
     "mruby",
     "mstak",
+    "muffy",
     "multilib",
     "numpy",
     "pipx",
