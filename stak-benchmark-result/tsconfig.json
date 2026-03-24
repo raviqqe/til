@@ -1,7 +1,8 @@
 {
-  "extends": "@raviqqe/tsconfig/tsconfig.json",
+  "extends": "@raviqqe/tsconfig",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["node"]
   }
 }
