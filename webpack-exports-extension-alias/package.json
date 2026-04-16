@@ -12,7 +12,7 @@
     "@raviqqe/hidash": "^2.0.8"
   },
   "devDependencies": {
-    "webpack": "^5.106.1",
+    "webpack": "^5.106.2",
     "webpack-cli": "^7.0.2"
   }
 }
