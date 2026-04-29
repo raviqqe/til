@@ -3,6 +3,5 @@ packages:
   - stak-benchmark-result
   - webpack-exports-extension-alias
   - webpack-wildcard-exports
-
-ignoredBuiltDependencies:
-  - esbuild
+allowBuilds:
+  esbuild: false
