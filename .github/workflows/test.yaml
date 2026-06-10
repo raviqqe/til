@@ -128,7 +128,7 @@ jobs:
           - llvm-unnamed-addr
           - mlir-c-wrapper
           - scheme-shift-reset
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
