@@ -74,7 +74,7 @@ interval, and no external `[Cons; N]` table or remembered raw heap index survive
 
 v2 builds ribs strictly bottom-up. Encode recurses car, then cdr, then emits the tag
 (`compile.scm:1976-1981`). Decode mirrors it: the RIB arm reads `cdr = pop`, `car = top`, then
-overwrites a stack cell in place (`vm.rs:497-504`). A rib is therefore only emittable _after
+overwrites a stack cell in place (`vm.rs:497-504`). A rib can therefore be emitted only _after
 both children already exist on the build stack_. A cycle requires a rib whose car/cdr
 transitively points back at itself — but that rib does not exist when its child is built. The
 tag is never a pointer (stamped straight into the cdr's tag bits, `vm.rs:503`; `cons.rs:14-15`,
@@ -150,7 +150,7 @@ R7RS `write-shared`/CBOR-style. One forward DFS labels any node that is shared _
 first visit emits `DEF` (reserve handle before recursing into car/cdr), revisits emit
 `REF(label)`. Replace v2's O(index) move-to-front list with an array of pre-allocated conses
 rooted via `register`; drop the keep/remove bit (append-only arena). 4-way dispatch carving
-`DEF` from the dead push-marker codepoint:
+`DEF` from the dead push-marker code point:
 
 ```
 h&1==1 && h&0b10==0   RIB-PLAIN  tag = tail(h>>2, TAG_BASE=16)     (verbatim v2)
@@ -169,7 +169,7 @@ child, REF(0) re-pushes p0, RIB closes the cycle.
   reference to an early node gets a near-N (2-byte) label; likely _regresses_ on big programs.
 - Widened eligibility inflates DEF bytes; pre-allocating N placeholders raises peak heap.
 
-### C — HEAPASM (Two-section heap assembler) · **Viable-with-fixes, highest risk**
+### C — ASSEMBLER (Two-section heap assembler) · **Viable-with-fixes, highest risk**
 
 Abandon the value stack; treat the blob as a tiny heap assembler. Section 1 pre-allocates **all
 N** addressable ribs as blanks (so every cross-reference, forward or backward, is a valid
@@ -208,7 +208,7 @@ replays the trailer with `set_car`/`set_raw_cdr`.
 
 ```
 Grammar = v2 body, verbatim  +  optional trailer:
-  [TRAILER-START] [n:varint] (src:varint, tf = target*2 + fieldbit){n}
+  [TRAILER-START] [n:varint] (src:varint, tf = target*2 + field_bit){n}
 ```
 
 **If there are zero cycles, no trailer byte is emitted → byte-identical to v2** (a strict
@@ -262,7 +262,7 @@ Worked 2-cycle (`a=(x . a)`): `[ANN P][NUM x][REF 0][RIB P]` (4 tokens). Self-lo
 
 ## 4. Comparison matrix
 
-| Criterion                            | A — ATF                     | B — LABELS                 | C — HEAPASM                  | D — SPLICE                 | E — MEMO                    |
+| Criterion                            | A — ATF                     | B — LABELS                 | C — ASSEMBLER                | D — SPLICE                 | E — MEMO                    |
 | ------------------------------------ | --------------------------- | -------------------------- | ---------------------------- | -------------------------- | --------------------------- |
 | **Cycle-correctness (as specified)** | ✗ spine bug                 | ✗ spine bug (fixable)      | ✓ fill by construction       | ✓ trailer patches real rib | ✗ spine bug (fixable)       |
 | **Size vs v2, acyclic**              | ✗ regress (base-8 tag)      | ⚠ risk (lost MTF locality) | ⚠ parity claimed, unproven   | ✅ **byte-identical**      | ✅ ≤ v2 (not bit-identical) |
@@ -287,7 +287,7 @@ acyclic common path" and "minimal new no_std code." Two landing options follow.
 
 ### 5.1 Primary: D (SPLICE), with the encoder blockers fixed — the minimal, zero-regression superset
 
-- **Why:** acyclic output is _byte-identical to v2_ (no re-baselining, no version byte needed
+- **Why:** acyclic output is _byte-identical to v2_ (no baseline regeneration, no version byte needed
   until a cycle actually appears); the decoder gains ~15 lines and **no new GC machinery**
   (`set_car`/`set_raw_cdr` never allocate, `memory.rs:321-338`); it is a strict superset, so it
   can ship decoder-first.
@@ -378,7 +378,7 @@ h==0                  DEF     p = allocate(0,0); handle_append(p); push(p)
 4. **Encoder non-termination** is a latent hazard today. The colored DFS and the descent guard
    must land _together_, or a cyclic input stack-overflows the compiler instead of erroring. Add
    an explicit error path.
-5. **Pass-1/pass-2 traversal-order coupling** (implicit-counter desync). Factor the
+5. **Pass-1/pass-2 traversal-order coupling** (implicit-counter mismatch). Factor the
    car-before-cdr traversal into one shared helper used by both passes; assert
    `next-index == DEF/announce-count` and add a per-label first-emit-order check.
 6. **GC-window discipline.** Every placeholder must be rooted before the next allocation; every
@@ -407,7 +407,7 @@ h==0                  DEF     p = allocate(0,0); handle_append(p); push(p)
    them): self-cdr `(7 . self)`, self-car, 2-node cons cycle, a cycle that is also shared, two
    interlocking 2-cycles, the singleton triad. Assert encode→decode reconstructs the cycle
    (`eq?` self-identity) and that the decoder terminates. Run every fixture under `gc_always`.
-5. **Stage 4 — efficiency + decide.** Microbenchmark decode on reference-heavy programs (O(1)
+5. **Stage 4 — efficiency + decide.** Micro-benchmark decode on reference-heavy programs (O(1)
    `handle_get` vs v2 `tail`) and encode (O(nodes) hash vs O(index) `memq-index`). If the
    GC-safe table lands within the code-size budget, ship MEMO; otherwise ship SPLICE.
 6. **Stage 5 — guards.** `REF` resolves only to already-registered indices in `[0, next)`; any
