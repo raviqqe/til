@@ -90,7 +90,7 @@ they reserve handles.
 1. **Allocate-before-fill (reserve-handle-before-contents).** Create an empty placeholder,
    register its handle, _then_ decode contents (which may reference the handle), then mutate the
    placeholder to fill it. Pickle `EMPTY_LIST → MEMOIZE → APPENDS`; Java `newHandle` before
-   `classdata`; CBOR records the tag-28 index before decoding the value; the R7RS reader makes a
+   class data; CBOR records the tag-28 index before decoding the value; the R7RS reader makes a
    placeholder for `#n=` before reading the body. **The one indispensable mechanism.** Cheap in
    Stak (conses are managed/GC'd) — but the placeholder must be GC-rooted.
 2. **Forward references via a stable handle space.** A reference is "a number naming a slot,"

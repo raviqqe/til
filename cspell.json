@@ -16,7 +16,6 @@
     "callcc",
     "cbor",
     "chibi",
-    "classdata",
     "clippy",
     "codegen",
     "conv",
