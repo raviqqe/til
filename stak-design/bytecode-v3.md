@@ -94,7 +94,7 @@ they reserve handles.
    placeholder for `#n=` before reading the body. **The one indispensable mechanism.** Cheap in
    Stak (conses are managed/GC'd) — but the placeholder must be GC-rooted.
 2. **Forward references via a stable handle space.** A reference is "a number naming a slot,"
-   resolved by direct index. Implicit monotonic counters (pickle `MEMOIZE`, CBOR sharedref tag
+   resolved by direct index. Implicit monotonic counters (pickle `MEMOIZE`, CBOR shared reference tag
    29, Java `baseWireHandle`) cost zero label bytes and give O(1) resolution _if_ storage is
    randomly indexable. Stak's move-to-front linked list is the anti-pattern (O(index) both sides).
 3. **Feedback-edge fixups (selective back-patch).** Only the minimal set of edges that _close_ a
