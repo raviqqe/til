@@ -34,6 +34,7 @@
     "libcall",
     "lzss",
     "matplotlib",
+    "memq",
     "micropython",
     "mlir",
     "mruby",
