@@ -7,7 +7,8 @@
 > Produced by multi-agent research over the Stak Scheme repository
 > (`compile.scm` encoder + Rust `vm/` decoder). All codebase claims are cited as `file:line`.
 > Five candidate schemes were designed and adversarially judged for correctness, size,
-> decoder simplicity, encoder cost, GC-safety, and migration.
+> decoder simplicity, encoder cost, GC-safety, and migration; a sixth (**F**) — the approach
+> already implemented on `feature/cyclic-bytecode-2` — was added on review and is recommended.
 
 ---
 
@@ -30,22 +31,28 @@ grounding and it changes the design priorities:
   and `marshal-rib` (`compile.scm:1652-1697`) are naive car/cdr descents with no general
   visited-set; a back-edge would diverge. This _confirms_ the acyclic invariant.
 
-The **only** concrete cycle candidate is the singleton triad `#f`/`#t`/`'()`
-(`compile.scm:1586-1592`), and even there a cyclic encoding would retire only the 2-line
-decode-time derivation in `refresh_singletons` (`memory.rs:137-138`); the GC-side
-`refresh_singletons` (`memory.rs:436-454`) and the three root pointers
-`r#false`/`r#true`/`null` (`memory.rs:48-50`) **must stay** because GC must trace and forward
-them. Net simplification: marginal-to-negative.
+The `#f`/`#t`/`'()` singleton triad (`compile.scm:1586-1592`) is sometimes mistaken for a cycle;
+it is **not** — it is a strict DAG (`#f → {car: '(), cdr: #t}`, `#t → '()`), which is precisely
+why `refresh_singletons` can derive `r#true = cdr(r#false)` and `null = car(r#false)`
+(`memory.rs:137-138`). So on `main` there is genuinely **no** cyclic producer of any kind.
+
+But the producer is the feature being built. `main` carries a standing
+`; TODO Eliminate closures for self-recursive lambdas` in the compiler. Implementing it — a lambda
+whose only free variable is the name it is bound to becomes a _constant_ procedure whose code
+references the procedure itself, dropping the `$$close` call and the captured environment — creates
+a genuinely cyclic procedure rib. That optimization, not "opportunistic generality," is the
+concrete reason to do v3 now, and it is exactly what the sibling branch `feature/cyclic-bytecode-2`
+already implements (see **Candidate F**, §3.F).
 
 ### What "cyclic + shared" must therefore mean for Stak
 
 1. **Sharing (DAG) is the load-bearing, must-not-regress case.** Today's `eq?`-interned shared
    atoms/continuations (`shared-value?`, `compile.scm:1833-1844`) must encode at least as small
    and decode at least as fast as v2.
-2. **Cyclic support is opportunistic generality, not a present blocker.** It is forward-enabling
-   for R7RS datum labels / mutated constants. The realistic target shape is "a shared node
-   referenced before it is fully built" (self-reference / small back-edges), not arbitrary deep
-   cycles among procedures.
+2. **Cyclic support has a concrete producer: self-recursive closure elimination** (the standing
+   compiler TODO), and is forward-enabling for R7RS datum labels / mutated constants beyond that.
+   The realistic target shape is exactly "a shared node referenced before it is fully built"
+   (self-reference / small back-edges), not arbitrary deep cycles among procedures.
 3. **The two must be one unified mechanism.** A reference token must serve as both a DAG
    back-reference and a cycle edge, differing only in _whether the target is fully populated yet_.
 
@@ -119,7 +126,11 @@ they reserve handles.
 
 ---
 
-## 3. The five candidate schemes
+## 3. The candidate schemes
+
+> Schemes A–E were designed from scratch and adversarially judged. Candidate **F** was added on
+> review, after grounding against the sibling branch `feature/cyclic-bytecode-2`, which already
+> implements it; it is the recommended option (§5.1).
 
 ### A — ATF (Allocate-Then-Fill, riding the SHARE dictionary) · **Rejected**
 
@@ -258,34 +269,118 @@ Worked 2-cycle (`a=(x . a)`): `[ANN P][NUM x][REF 0][RIB P]` (4 tokens). Self-lo
   be regenerated and a version byte added. Widened `shared-value?` must stay gated at
   `refcount>1` for acyclic nodes or it regresses size.
 
+### F — DICT-PLACEHOLDER (reserve placeholder on the `code` dictionary, patch the real rib) · **Recommended — already implemented on `feature/cyclic-bytecode-2`**
+
+This is Scheme A _repaired_, and it turns out to be exactly what the sibling branch
+`feature/cyclic-bytecode-2` (`01581be0f` + the portability fix `0b2228a39`) already implements and
+tests. The three sub-designs that sank A are each replaced: FILL gets a distinct action that
+targets the placeholder's identity (not the spine); the placeholder is registered on the existing
+`code` dictionary (not held in a local outside the GC roots); and the cyclic ops live behind a dedicated
+escape head byte (not stolen from the RIB tag, so no base-8 regression). Critically, **the GC-safe
+handle table §4 says is missing already exists** — the `code` register is a GC-traced linked
+dictionary (`memory.rs:437`) and is already v2's back-reference table.
+
+```
+CYCLE_HEAD = 126   escape head byte (even, ≤127 because LZSS stores a literal x as 2*x; the only
+                   even head value the three v2 op-classes — number/rib/share — leave free, code.rs)
+  CYCLE_CREATE = 0   allocate placeholder, park tag in cdr, cons onto `code`, push
+  CYCLE_PATCH  = 2   set_car/set_cdr the REAL placeholder, drop it from `code`, push
+encode: [126][0] tag:varint(base 64)   ; reserve+register BEFORE children
+        <encode car> <encode cdr>       ; a back-edge resolves via the ordinary SHARE ref into `code`
+        [126][2] index:varint(base 64)  ; fill the real rib
+```
+
+- **Correct fill by construction (dodges Trap 1).** `CYCLE_PATCH` writes the placeholder via
+  `set_car`/`set_cdr` (`vm.rs`, `-2`), never the recycled spine cell. The tag survives because
+  `CYCLE_CREATE` parks it in the cdr field (`null.set_tag(tag)`) and `set_cdr` preserves the cons tag.
+- **GC-safe for free (dodges Trap 2).** The placeholder is consed onto `code` the instant it is
+  created; `collect_garbages` already forwards `code` (`memory.rs:437`). No `register` field, no
+  `[Cons;N]` arena, no `collect_garbages` edit.
+- **Zero acyclic token change (dodges A's base-8 regression).** RIB/NUMBER/SHARE keep bases
+  16/16/31; byte 126 is unreachable in the v2 body, so acyclic ribs encode byte-for-byte as v2.
+- **Unified.** A cycle edge and a DAG back-edge are the _same_ SHARE reference into `code`; the only
+  difference is that `CYCLE_CREATE` registers the node before its children exist.
+- **It ships with its own producer.** `-2` also implements `; TODO Eliminate closures for
+  self-recursive lambdas` (`self-recursive-lambda?` / `compile-self-recursive-set` in `compile.scm`):
+  a self-recursive lambda becomes a constant procedure referencing itself, eliminating the `$$close`
+  call and the captured environment. Cycles are the enabling representation for a real optimization.
+- **Efficiency.** Resolution is `tail(code, index)` (O(index), as v2/SPLICE), but `CYCLE_CREATE`
+  conses the placeholder to the _front_ of `code`, so a self-reference inside its own subtree is
+  index ≈ 0 — **O(1) in practice** for the self-recursive shape that motivates it.
+- **Encoder cost.** Cycle-detecting marshalling (a placeholder stack on `marshal-context`, returning
+  the set of cyclically-referenced placeholders), a `cyclic-root?`-aware `count-ribs!` that
+  counts-before-descending (the visited guard the v2 descent lacks), and one `encode-rib` branch; the
+  count filter keeps cyclic roots at refcount 1 (`(or (> count 1) (memq … cyclic))`).
+- **Caveat — not byte-compatible on real programs.** The bundled closure-elimination changes every
+  program containing a self-recursive lambda (most of them), so `-2` is _not_ a strict superset of v2:
+  snapshots regenerate and a version byte is warranted. (The encoding _mechanism_ alone, producer
+  disabled, _is_ a superset.) The closure payoff is primarily runtime (no `$$close` allocation, no
+  environment); net bytecode size is empirically determined — run `bytecode_size_bench.sh`.
+
 ---
 
 ## 4. Comparison matrix
 
-| Criterion                            | A — ATF                     | B — LABELS                 | C — ASSEMBLER                | D — SPLICE                 | E — MEMO                    |
-| ------------------------------------ | --------------------------- | -------------------------- | ---------------------------- | -------------------------- | --------------------------- |
-| **Cycle-correctness (as specified)** | ✗ spine bug                 | ✗ spine bug (fixable)      | ✓ fill by construction       | ✓ trailer patches real rib | ✗ spine bug (fixable)       |
-| **Size vs v2, acyclic**              | ✗ regress (base-8 tag)      | ⚠ risk (lost MTF locality) | ⚠ parity claimed, unproven   | ✅ **byte-identical**      | ✅ ≤ v2 (not bit-identical) |
-| **Per-cycle overhead**               | ALLOC + REF / edge          | DEF + REF / edge           | 1 REF / edge                 | ~4 tokens + 2 / extra edge | ANN + REF / edge            |
-| **Decoder simplicity / code size**   | +1–2 branches; base change  | +2 arms; arena setup       | full rewrite; 2-section loop | **+~15 lines, no GC work** | +ANN/REF/FILL + GC memo     |
-| **Encoder complexity**               | DFS + flag + special case   | 2-pass colored DFS         | 2-pass DFS + index vector    | DFS + cut + trailer        | colored DFS + hash memo     |
-| **Decode efficiency O(1)?**          | **No** (`tail` walk)        | O(1) _iff_ GC-safe table   | O(1) _iff_ GC-safe table     | O(index) over few fixups   | O(1) _iff_ GC-safe table    |
-| **GC-safe as written?**              | No                          | No                         | No                           | **Yes**                    | No                          |
-| **Migration**                        | near-compat (tag-8 regress) | few-byte shift + version   | hard break + version         | **strict superset of v2**  | not bit-compat + version    |
+| Criterion                            | A — ATF                     | B — LABELS                 | C — ASSEMBLER                | D — SPLICE                 | E — MEMO                    | F — DICT-PLACEHOLDER                          |
+| ------------------------------------ | --------------------------- | -------------------------- | ---------------------------- | -------------------------- | --------------------------- | --------------------------------------------- |
+| **Cycle-correctness (as specified)** | ✗ spine bug                 | ✗ spine bug (fixable)      | ✓ fill by construction       | ✓ trailer patches real rib | ✗ spine bug (fixable)       | ✓ fill by construction (rides `code`)         |
+| **Size vs v2, acyclic**              | ✗ regress (base-8 tag)      | ⚠ risk (lost MTF locality) | ⚠ parity claimed, unproven   | ✅ **byte-identical**      | ✅ ≤ v2 (not bit-identical) | ✅ tokens byte-identical; producer changes self-recursive progs (measure) |
+| **Per-cycle overhead**               | ALLOC + REF / edge          | DEF + REF / edge           | 1 REF / edge                 | ~4 tokens + 2 / extra edge | ANN + REF / edge            | CREATE+PATCH (~6 B) + SHARE ref / edge        |
+| **Decoder simplicity / code size**   | +1–2 branches; base change  | +2 arms; arena setup       | full rewrite; 2-section loop | **+~15 lines, no GC work** | +ANN/REF/FILL + GC memo     | **+1 escape arm (2 sub-ops, ~30 lines), no GC work** |
+| **Encoder complexity**               | DFS + flag + special case   | 2-pass colored DFS         | 2-pass DFS + index vector    | DFS + cut + trailer        | colored DFS + hash memo     | cycle-detect marshal + colored count + 1 branch |
+| **Decode efficiency O(1)?**          | **No** (`tail` walk)        | O(1) _iff_ GC-safe table   | O(1) _iff_ GC-safe table     | O(index) over few fixups   | O(1) _iff_ GC-safe table    | O(index); **O(1) in practice** (front-of-dict) |
+| **GC-safe as written?**              | No                          | No                         | No                           | **Yes**                    | No                          | **Yes** (rides `code`)                        |
+| **Migration**                        | near-compat (tag-8 regress) | few-byte shift + version   | hard break + version         | **strict superset of v2**  | not bit-compat + version    | not bit-compat w/ producer + version; mechanism-only is a superset |
 
-The matrix exposes the structural truth: **the cycle mechanism that is _correct_ (C/D's direct
-`set_*` into the real rib) and the storage that is _fast_ (an indexable table) both demand the
-same missing piece — a GC-traceable handle table.** And D shows you can get correctness + zero
-acyclic regression _without_ that table, if you accept O(index) over the rare fixups.
+The matrix's apparent dilemma — that correctness (direct `set_*` into the real rib) and fast
+storage (an indexable table) both seem to need a GC-traceable handle table no scheme cleanly
+provides — **dissolves once you notice the table already exists.** The `code` register is already a
+GC-traced linked dictionary and already v2's back-reference table (`memory.rs:437`). **Candidate F**
+reuses it verbatim: a placeholder consed onto `code` is forwarded by the collector for free, and
+`CYCLE_PATCH` fills the real rib via `set_car`/`set_cdr` — correctness _and_ GC-safety with no new
+machinery. D (SPLICE) remains attractive only if you need byte-for-byte v2 identity and are willing
+to defer the producer; the O(1)-vs-O(index) question (F resolves O(1) in practice via
+front-of-dictionary placement) is then a measurement, not a blocker.
 
 ---
 
 ## 5. Recommendation
 
-Because **cycles do not exist in Stak today**, the dominant objectives are "don't regress the
-acyclic common path" and "minimal new no_std code." Two landing options follow.
+Because the cycle producer (self-recursive closure elimination) is itself part of this work, the
+dominant objective is "make cycles correct and unified at no acyclic-token cost," not merely "don't
+regress the acyclic path." The proven mechanism on `feature/cyclic-bytecode-2` already meets it, so
+the recommendation is to adopt it rather than design a new scheme.
 
-### 5.1 Primary: D (SPLICE), with the encoder blockers fixed — the minimal, zero-regression superset
+### 5.1 Primary: F (DICT-PLACEHOLDER) — adopt the proven `feature/cyclic-bytecode-2` mechanism
+
+- **Why:** it is the only candidate that is cycle-correct _and_ GC-safe _and_ acyclic-token-neutral
+  as actually written, because it reuses the `code` dictionary (already GC-traced, `memory.rs:437`)
+  as the handle table and patches the real rib via `set_car`/`set_cdr` (which never allocate,
+  `memory.rs:321-338`). It is already implemented and has cycle round-trip tests on `-2`. And it
+  delivers the actual deliverable — the self-recursive closure-elimination optimization — rather
+  than deferring it.
+- **What to carry over verbatim from `-2`:**
+  1. `code.rs`: `CYCLE_HEAD = 126`, `CYCLE_CREATE = 0`, `CYCLE_PATCH = 2` (escape byte; valid
+     because LZSS stores a literal `x` as `2*x`, so head ≤ 127, and 126 is the one even head the
+     three v2 op-classes leave free).
+  2. `vm.rs`: the `CYCLE_HEAD` arm in `decode_ribs` — `CYCLE_CREATE` allocates the placeholder with
+     the tag parked in the cdr field and conses it onto `code`; `CYCLE_PATCH` pops car/cdr, fills
+     the placeholder, and splices it out of `code` — plus the `decode_integer` helper.
+  3. `compile.scm`: the placeholder-stack cycle detection in `marshal-rib` (returning the cyclic
+     set), the `cyclic-root?` branch in `count-ribs!` (count-before-descend), the `cyclic-root?`
+     branch in `encode-rib`, the `encode-integer` helper, and the count-filter change
+     `(or (> count 1) (memq … cyclic))`.
+  4. The self-recursive-lambda compiler path (`self-recursive-lambda?`,
+     `compile-self-recursive-set`, the `compilation-context` `self` field).
+  5. The portability fix `0b2228a39`: rename the marshaller's `set-car!`/`set-cdr!` to
+     `rib-set-car!`/`rib-set-cdr!` and bind them per host (native on stak, record mutators under
+     chibi/guile) so the compiler still bootstraps cross-implementation.
+- **Decide before merge:** add a 1-byte version header (the producer breaks byte-compat); confirm
+  acyclic-token byte-identity with a snapshot diff on a cycle-free program; and run
+  `bytecode_size_bench.sh` to confirm the closure-elimination net (size may be roughly neutral —
+  the win is mostly the runtime closure allocation it removes).
+
+### 5.2 Alternative: D (SPLICE) — if strict byte-for-byte v2 identity is a hard requirement and you defer the producer
 
 - **Why:** acyclic output is _byte-identical to v2_ (no baseline regeneration, no version byte needed
   until a cycle actually appears); the decoder gains ~15 lines and **no new GC machinery**
@@ -300,7 +395,7 @@ acyclic common path" and "minimal new no_std code." Two landing options follow.
      strict (drain artificially bumped counts; de-pin endpoints after the trailer).
   4. Pick a trailer sentinel the v2 body provably never emits, and test it.
 
-### 5.2 Fallback / if you also want O(1) DAG resolution now: a corrected E (MEMO) hybrid
+### 5.3 Alternative: a corrected E (MEMO) hybrid — only if you want to retire v2's O(index) sharing in the same stroke
 
 If you want to _also_ fix v2's O(index) sharing walk in the same change, adopt MEMO with both
 blockers fixed up front:
@@ -324,7 +419,10 @@ h==0                  DEF     p = allocate(0,0); handle_append(p); push(p)
                               (next FILL targets THIS p, not the spine)
 ```
 
-### 5.3 Concrete change surface (either option)
+### 5.4 Concrete change surface (D and E)
+
+> Candidate F's change surface is the smallest and already exists on `feature/cyclic-bytecode-2`;
+> see §5.1 and §5.5. The surface below describes the from-scratch D/E options.
 
 **`compile.scm`:**
 
@@ -351,13 +449,46 @@ h==0                  DEF     p = allocate(0,0); handle_append(p); push(p)
   push), `DEF` (allocate placeholder `cons(0,0)` — never `NEVER` so `copy_cons`'s forwarding check
   at `memory.rs:474` stays correct; root before any subsequent allocation), and a distinct
   `FILL(k)` that patches `memo[k]`.
-- MEMO handle table: implement `handle_append`/`handle_get` over a chunked cons structure rooted
-  at `register` (a real GC root, `memory.rs:440`; already used as decode scratch, `496-505`).
-  **Not** raw `base + 2*k` arithmetic. After decode, `initialize` resets `register` (`vm.rs:457`),
-  reclaiming it for free.
+- MEMO handle table: the natural anchor is `code` itself — already a GC-traced dictionary
+  (`memory.rs:437`) and already v2's back-reference table — which is exactly what Candidate F does;
+  prefer it. If MEMO insists on a separate structure, root it at `register` (a real GC root,
+  `memory.rs:440`, that is `NEVER` and free during decode — it is _not_ touched by `decode_ribs`,
+  and `initialize` leaves it `NEVER` at `vm.rs:457`). Either way, **not** raw `base + 2*k`
+  arithmetic, which a collection invalidates.
 - `code.rs`: rename `SHARE_BASE` → `REF_BASE` (31, unchanged); other bases unchanged (`1-4`).
 - **Untouched:** the `(false . code)` handoff (`vm.rs:438-442`), `refresh_singletons` (the win is
   marginal-to-negative; the GC-side use at `memory.rs:454` is load-bearing), and the LZSS layer.
+
+### 5.5 Reviving `feature/cyclic-bytecode-2` onto `-3`
+
+The work already exists; this is a rebase-and-validate, not a rewrite. The functional diff is four
+files (everything else in the `-2` diff is regenerated snapshots):
+
+1. **Establish the base.** `feature/cyclic-bytecode-2` (tip `0b2228a39`, on top of `01581be0f`) is
+   based on `7beacd5f8 Pin Rust toolchain`. Current `main`/`-3` (`6f347465b`) is only dependency
+   bumps ahead of that base, so the functional hunks apply cleanly. Cherry-pick both commits
+   (`git cherry-pick 01581be0f 0b2228a39`) or re-apply the four code files by hand:
+   `vm/src/code.rs` (3 constants), `vm/src/vm.rs` (CYCLE arm + `decode_integer` + the two tests
+   `decode_self_loop`, `decode_cycle_through_car`), `compile.scm` (the §5.1 carry-over list), and
+   `cmd/decode/src/main.scm` (the decoder-spec mirror of the CYCLE ops).
+2. **Regenerate snapshots** with `tools/decode_test.sh` (it re-compiles each tracked `.scm` and
+   re-emits the decoded `.md`). Expect large diffs in `snapshots/**` — they are the
+   closure-elimination change, not a regression.
+3. **Confirm the encoding is portable** with `tools/r7rs_compatible_compiler_test.sh` — it compiles
+   `compile.scm` under chibi, guile, _and_ stak and diffs the `.bc`. This is the test the
+   `0b2228a39` `rib-set-*` rename exists to keep green; if it fails, the host-Scheme rib mutators
+   are the first place to look.
+4. **Measure size** with `tools/bytecode_size_bench.sh` (v2 vs `-3`) — this is the one number §1/§6
+   call for. Record it in the doc.
+5. **Stress the rooting discipline** by running the VM tests under `--features gc_always`
+   (`memory.rs:209-211`); the cycle fixtures must reconstruct `eq?`-identity and the decoder must
+   terminate.
+6. **Add a 1-byte version header** (or coordinate a full recompile of embedded blobs), since the
+   producer breaks byte-compatibility with v2.
+
+If `-2`'s self-recursive path turns out to mis-handle a case (e.g. mutual recursion, which it
+deliberately leaves to closures), that is a producer bug to fix in `compile-self-recursive-set`, not
+an encoding-format problem — the CYCLE ops are agnostic to which producer emits the cycle.
 
 ---
 
@@ -384,9 +515,10 @@ h==0                  DEF     p = allocate(0,0); handle_append(p); push(p)
 6. **GC-window discipline.** Every placeholder must be rooted before the next allocation; every
    handle/base must be re-derived from the forwarded `register` after any allocation, never
    cached. Placeholder car must be `0`, never `NEVER`.
-7. **Dead-weight risk.** No current Stak feature produces cyclic rib graphs, so the cycle path is
-   unexercised until a real producer (datum labels) lands. Gate it behind synthetic round-trip
-   tests, and seriously weigh deferring the cycle machinery until a concrete need exists.
+7. **Dead-weight risk — largely retired under Candidate F.** `main` has no cyclic producer, but F
+   ships one: self-recursive closure elimination exercises the cycle path from day one, so the
+   machinery is not speculative. (Deferral is only the argument for the SPLICE alternative, §5.2.)
+   Still gate any _further_ producers, e.g. R7RS datum labels, behind synthetic round-trip tests.
 8. **No version field exists** (only the bases + `MAX_WINDOW_SIZE`). MEMO is a hard format break
    for embedded blobs → add a 1-byte version header or coordinate a full recompile. SPLICE needs
    none until a cycle appears.
@@ -418,15 +550,21 @@ h==0                  DEF     p = allocate(0,0); handle_append(p); push(p)
 
 ## 7. Bottom line
 
-All five candidates correctly found the unifying insight — **a cycle edge is just a reference to
-a not-yet-filled handle** — and all were tripped by the same two Stak-specific rocks: the RIB arm
-recycles the **spine cell** (`vm.rs:498`), and the copying GC won't trace a **raw arena**
-(`memory.rs:467-487`). A correct v3 must (a) finalize the _placeholder_ not the spine, and (b)
-hold handles in a `register`-rooted, GC-traceable structure (or avoid a table entirely).
+All candidates correctly found the unifying insight — **a cycle edge is just a reference to a
+not-yet-filled handle** — and the from-scratch ones (A/B/E) were tripped by the same two
+Stak-specific rocks: the RIB arm recycles the **spine cell** (`vm.rs:498`), and the copying GC
+won't trace a **raw arena** (`memory.rs:467-487`). A correct v3 must (a) finalize the _placeholder_
+not the spine, and (b) hold handles in a GC-traceable structure. The decisive observation is that
+(b) is already solved: the `code` dictionary is a GC-traced linked table (`memory.rs:437`) and is
+already v2's back-reference store, so a placeholder consed onto it is traced for free.
 
-Because Stak has _no cyclic producers today_, the lowest-risk win is **SPLICE** — zero acyclic
-regression, strict v2 superset, ships decoder-first. Reach for the **corrected-MEMO hybrid** only
-if you also want to retire v2's O(index) sharing walk in the same stroke.
+That is **Candidate F**, and it already exists and passes cycle round-trip tests on
+`feature/cyclic-bytecode-2`: a dedicated escape byte, placeholders on `code`, `set_car`/`set_cdr`
+into the real rib, and — crucially — a concrete producer (self-recursive closure elimination) that
+exercises the cycle path from day one. Adopt it (§5.1, §5.5). Reach for **SPLICE** (§5.2) only if
+byte-for-byte v2 identity is a hard requirement and you are willing to defer the producer, and for
+the **corrected-MEMO hybrid** (§5.3) only if you also want to retire v2's O(index) sharing walk in
+the same stroke.
 
 ### Key files
 
