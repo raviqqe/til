@@ -275,7 +275,7 @@ This is Scheme A _repaired_, and it turns out to be exactly what the sibling bra
 `feature/cyclic-bytecode-2` (`01581be0f` + the portability fix `0b2228a39`) already implements and
 tests. The three sub-designs that sank A are each replaced: FILL gets a distinct action that
 targets the placeholder's identity (not the spine); the placeholder is registered on the existing
-`code` dictionary (not held in an unrooted local); and the cyclic ops live behind a dedicated
+`code` dictionary (not held in a local outside the GC roots); and the cyclic ops live behind a dedicated
 escape head byte (not stolen from the RIB tag, so no base-8 regression). Critically, **the GC-safe
 handle table §4 says is missing already exists** — the `code` register is a GC-traced linked
 dictionary (`memory.rs:437`) and is already v2's back-reference table.
@@ -471,7 +471,7 @@ files (everything else in the `-2` diff is regenerated snapshots):
    `vm/src/code.rs` (3 constants), `vm/src/vm.rs` (CYCLE arm + `decode_integer` + the two tests
    `decode_self_loop`, `decode_cycle_through_car`), `compile.scm` (the §5.1 carry-over list), and
    `cmd/decode/src/main.scm` (the decoder-spec mirror of the CYCLE ops).
-2. **Regenerate snapshots** with `tools/decode_test.sh` (it recompiles each tracked `.scm` and
+2. **Regenerate snapshots** with `tools/decode_test.sh` (it re-compiles each tracked `.scm` and
    re-emits the decoded `.md`). Expect large diffs in `snapshots/**` — they are the
    closure-elimination change, not a regression.
 3. **Confirm the encoding is portable** with `tools/r7rs_compatible_compiler_test.sh` — it compiles
