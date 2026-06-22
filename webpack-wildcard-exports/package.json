@@ -9,7 +9,7 @@
     "test": "node --run build"
   },
   "dependencies": {
-    "es-toolkit": "^1.47.1"
+    "es-toolkit": "^1.48.1"
   },
   "devDependencies": {
     "webpack": "^5.107.2",
