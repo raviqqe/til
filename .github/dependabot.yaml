@@ -24,7 +24,6 @@ updates:
     directory: /
     schedule:
       interval: daily
-      time: "08:00"
   - package-ecosystem: uv
     directory: /
     schedule:
