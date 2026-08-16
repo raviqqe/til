@@ -4,11 +4,11 @@
 
 use core::pin::Pin;
 use std::{
-    alloc::{Allocator, Global},
+    alloc::{Global, StaticAllocator},
     boxed::Box,
 };
 
-fn foo<A: Allocator + 'static>(
+fn foo<A: StaticAllocator + 'static>(
     allocator: A,
     future: impl Future<Output = isize> + 'static,
 ) -> Pin<Box<dyn Future<Output = isize> + 'static, A>> {
