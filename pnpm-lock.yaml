@@ -29,7 +29,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^5.0.0
-        version: 5.0.0(@types/node@26.4.1)(vite@7.3.1(@types/node@26.4.1)(terser@5.51.2)(yaml@2.8.1))
+        version: 5.0.0(@types/node@26.5.0)(vite@7.3.1(@types/node@26.5.0)(terser@5.51.2)(yaml@2.8.1))
 
   stak-benchmark-result:
     dependencies:
@@ -47,8 +47,8 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
       '@types/node':
-        specifier: ^26.4.1
-        version: 26.4.1
+        specifier: ^26.5.0
+        version: 26.5.0
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -491,6 +491,9 @@ packages:
 
   '@types/node@26.4.1':
     resolution: {integrity: sha512-k97ENvZWtvA6yqz5/FS6a7duDgOPEeOQOc2iKS/nY6mX6qJUKtLnWzQS+Xj6tXweyj6ZcTAK2Qecetnvi9nCLA==}
+
+  '@types/node@26.5.0':
+    resolution: {integrity: sha512-dVSGpriSoCgz8WnDNTuSSuSv1PC/ALXihO4ulRZt7Md8k9mlbdin3lGOcDE8SnWOgf513ByWlXd7BK4azmyg/A==}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     resolution: {integrity: sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==}
@@ -1101,6 +1104,9 @@ packages:
   undici-types@8.3.0:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
+
   update-browserslist-db@1.3.2:
     resolution: {integrity: sha512-UQ+MSxlhRm1bzjhU+DcuXfjFO1FzNtqhK5+9Yvlp90ItDLk5vT932A0rFu619nf7RVS+Y/VeaUW1jaRDqZ8VJw==}
     hasBin: true
@@ -1502,6 +1508,10 @@ snapshots:
     dependencies:
       undici-types: 8.3.0
 
+  '@types/node@26.5.0':
+    dependencies:
+      undici-types: 8.9.0
+
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true
 
@@ -1562,14 +1572,14 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vitest/mocker@5.0.0(vite@7.3.1(@types/node@26.4.1)(terser@5.51.2)(yaml@2.8.1))':
+  '@vitest/mocker@5.0.0(vite@7.3.1(@types/node@26.5.0)(terser@5.51.2)(yaml@2.8.1))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.0
       estree-walker: 3.0.3
       magic-string: 1.2.3
     optionalDependencies:
-      vite: 7.3.1(@types/node@26.4.1)(terser@5.51.2)(yaml@2.8.1)
+      vite: 7.3.1(@types/node@26.5.0)(terser@5.51.2)(yaml@2.8.1)
 
   '@vitest/spy@5.0.0': {}
 
@@ -2029,6 +2039,8 @@ snapshots:
 
   undici-types@8.3.0: {}
 
+  undici-types@8.9.0: {}
+
   update-browserslist-db@1.3.2(browserslist@4.28.8):
     dependencies:
       browserslist: 4.28.8
@@ -2039,7 +2051,7 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
-  vite@7.3.1(@types/node@26.4.1)(terser@5.51.2)(yaml@2.8.1):
+  vite@7.3.1(@types/node@26.5.0)(terser@5.51.2)(yaml@2.8.1):
     dependencies:
       esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.7)
@@ -2048,15 +2060,15 @@ snapshots:
       rollup: 4.62.4
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.4.1
+      '@types/node': 26.5.0
       fsevents: 2.3.3
       terser: 5.51.2
       yaml: 2.8.1
 
-  vitest@5.0.0(@types/node@26.4.1)(vite@7.3.1(@types/node@26.4.1)(terser@5.51.2)(yaml@2.8.1)):
+  vitest@5.0.0(@types/node@26.5.0)(vite@7.3.1(@types/node@26.5.0)(terser@5.51.2)(yaml@2.8.1)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.0(vite@7.3.1(@types/node@26.4.1)(terser@5.51.2)(yaml@2.8.1))
+      '@vitest/mocker': 5.0.0(vite@7.3.1(@types/node@26.5.0)(terser@5.51.2)(yaml@2.8.1))
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -2067,10 +2079,10 @@ snapshots:
       tinybench: 6.1.4
       tinyexec: 1.3.0
       tinyglobby: 0.2.17
-      vite: 7.3.1(@types/node@26.4.1)(terser@5.51.2)(yaml@2.8.1)
+      vite: 7.3.1(@types/node@26.5.0)(terser@5.51.2)(yaml@2.8.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 26.4.1
+      '@types/node': 26.5.0
     transitivePeerDependencies:
       - msw
 
