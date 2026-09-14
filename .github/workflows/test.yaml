@@ -37,7 +37,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: homebrew/actions/setup-homebrew@master
+      - uses: homebrew/actions/setup-homebrew@main
       - run: brew install llvm ninja
       - run: ninja
   node_js_test:
@@ -115,7 +115,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: homebrew/actions/setup-homebrew@master
+      - uses: homebrew/actions/setup-homebrew@main
       - run: brew install gauche
       - run: gosh main.scm
   shell_test:
@@ -134,7 +134,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: homebrew/actions/setup-homebrew@master
+      - uses: homebrew/actions/setup-homebrew@main
       - run: sudo apt update --fix-missing
       - run: sudo apt install gcc-multilib
       - run: ./main.sh
