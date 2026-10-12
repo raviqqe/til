@@ -17,6 +17,7 @@ extern "C" fn _start() -> ! {
 
 extern "C" fn main() -> ! {
     let _ = write(unsafe { stdout() }, b"Hello, world!\n");
+
     exit(0)
 }
 
