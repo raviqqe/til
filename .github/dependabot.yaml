@@ -16,6 +16,7 @@ updates:
       cranelift:
         patterns:
           - cranelift*
+    open-pull-requests-limit: 20
     schedule:
       interval: daily
   - package-ecosystem: npm
