@@ -108,6 +108,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        interpreter:
+          - chibi-scheme
+          - gosh
+          - guile
         directory:
           - scheme-call-cc
           - scheme-eval
@@ -120,8 +124,8 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: homebrew/actions/setup-homebrew@e99025eb970cfa124b8284a35463d87426917478 # main
-      - run: brew install gauche
-      - run: gosh main.scm
+      - run: brew install chibi-scheme gauche guile
+      - run: ${{ matrix.interpreter }} main.scm
   shell_test:
     strategy:
       fail-fast: false
