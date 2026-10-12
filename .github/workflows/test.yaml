@@ -84,6 +84,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
         directory:
           - .
           - rust-dyn-future
@@ -91,7 +94,7 @@ jobs:
           - rust-hello
           - rust-libc
           - rust-no-libc
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
@@ -123,6 +126,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
         directory:
           - llvm-c-calling-convention
           - llvm-pointer-tag
@@ -130,7 +136,11 @@ jobs:
           - mlir-c-wrapper
           - rust-no-libc
           - scheme-shift-reset
-    runs-on: ubuntu-latest
+        exclude:
+          # The C library headers for foreign targets come from the multilib packages only on x86-64.
+          - os: ubuntu-24.04-arm
+            directory: llvm-c-calling-convention
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
@@ -139,6 +149,7 @@ jobs:
       - uses: homebrew/actions/setup-homebrew@e99025eb970cfa124b8284a35463d87426917478 # main
       - run: sudo apt update --fix-missing
       - run: sudo apt install gcc-multilib
+        if: runner.arch == 'X64'
       - run: ./main.sh
   spell_check:
     runs-on: ubuntu-latest
