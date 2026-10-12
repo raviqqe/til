@@ -52,9 +52,9 @@ jobs:
         with:
           cache: pnpm
           node-version-file: package.json
-      - run: pnpm i --frozen-lockfile
+      - run: pnpm i
       - run: pnpm -r build
-      - run: node --run lint
+      - run: pnpm lint
       - run: pnpm -r test
   python_test:
     runs-on: ubuntu-latest
@@ -108,20 +108,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        interpreter:
+          - chibi-scheme
+          - gosh
+          - guile
         directory:
           - scheme-call-cc
           - scheme-eval
           - scheme-lzss
           - scheme-macro
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: homebrew/actions/setup-homebrew@e99025eb970cfa124b8284a35463d87426917478 # main
-      - run: brew install gauche
-      - run: gosh main.scm
+      - run: brew install chibi-scheme gauche guile
+      - run: ${{ matrix.interpreter }} main.scm
   shell_test:
     strategy:
       fail-fast: false
