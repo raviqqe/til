@@ -52,9 +52,9 @@ jobs:
         with:
           cache: pnpm
           node-version-file: package.json
-      - run: pnpm i --frozen-lockfile
+      - run: pnpm i
       - run: pnpm -r build
-      - run: node --run lint
+      - run: pnpm lint
       - run: pnpm -r test
   python_test:
     runs-on: ubuntu-latest
@@ -113,7 +113,7 @@ jobs:
           - scheme-eval
           - scheme-lzss
           - scheme-macro
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
