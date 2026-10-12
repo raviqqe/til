@@ -2,6 +2,8 @@
 
 set -e
 
+binary=target/release/rust-no-libc
+
 cargo build --release
-ls -l target/release/rust-no-libc
-target/release/rust-no-libc
+ls -l $binary
+$binary
