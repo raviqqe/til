@@ -13,7 +13,14 @@ fn panic(_: &core::panic::PanicInfo) -> ! {
 #[unsafe(naked)]
 #[unsafe(no_mangle)]
 extern "C" fn _start() -> ! {
-    naked_asm!("and rsp, -16", "call {}", "ud2", sym main)
+    cfg_select! {
+        target_arch = "x86_64" => {
+            naked_asm!("and rsp, -16", "call {}", "ud2", sym main)
+        }
+        target_arch = "aarch64" => {
+            naked_asm!("mov x9, sp", "and sp, x9, -16", "bl {}", "udf 0", sym main)
+        }
+    }
 }
 
 extern "C" fn main() -> ! {
@@ -23,8 +30,15 @@ extern "C" fn main() -> ! {
 }
 
 fn exit(code: i32) -> ! {
-    // cspell: disable-next-line
-    unsafe { asm!("syscall", in("rax") 231, in("rdi") code, options(noreturn)) }
+    cfg_select! {
+        target_arch = "x86_64" => {
+            // cspell: disable-next-line
+            unsafe { asm!("syscall", in("rax") 231, in("rdi") code, options(noreturn)) }
+        }
+        target_arch = "aarch64" => {
+            unsafe { asm!("svc 0", in("x8") 94, in("x0") code, options(noreturn)) }
+        }
+    }
 }
 
 // Referenced by the precompiled `core` in debug builds. Never called with `panic = "abort"`.
