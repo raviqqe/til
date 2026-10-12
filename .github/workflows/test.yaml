@@ -136,10 +136,6 @@ jobs:
           - mlir-c-wrapper
           - rust-no-libc
           - scheme-shift-reset
-        exclude:
-          # The C library headers for foreign targets come from the multilib packages only on x86-64.
-          - os: ubuntu-24.04-arm
-            directory: llvm-c-calling-convention
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -147,9 +143,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: homebrew/actions/setup-homebrew@e99025eb970cfa124b8284a35463d87426917478 # main
-      - run: sudo apt update --fix-missing
-      - run: sudo apt install gcc-multilib
-        if: runner.arch == 'X64'
       - run: ./main.sh
   spell_check:
     runs-on: ubuntu-latest
