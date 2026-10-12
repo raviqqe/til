@@ -1,0 +1,8 @@
+rustflags = [
+  "-C",
+  "link-arg=-nostartfiles",
+  "-C",
+  "link-arg=-nostdlib",
+  "-C",
+  "link-arg=-static",
+]
