@@ -3,7 +3,7 @@ use cranelift::{
     codegen::{
         ir::{AbiParam, Function, InstBuilder, Signature, types},
         isa,
-        isa::CallConv,
+        isa::{CallConv, TargetFrontendConfig},
         settings::{self, Flags},
         verifier::verify_function,
     },
@@ -54,7 +54,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 fn define_function(module: &mut ObjectModule) -> Result<(), Box<dyn Error>> {
     let mut context = module.make_context();
 
-    compile_function(&mut context.func)?;
+    compile_function(&mut context.func, module.target_config())?;
 
     let function_id = module.declare_function("foo", Linkage::Local, &context.func.signature)?;
     module.define_function(function_id, &mut context)?;
@@ -62,7 +62,10 @@ fn define_function(module: &mut ObjectModule) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
+fn compile_function(
+    function: &mut Function,
+    frontend_config: TargetFrontendConfig,
+) -> Result<(), Box<dyn Error>> {
     function.signature = {
         let mut signature = Signature::new(CallConv::SystemV);
         signature.returns.push(AbiParam::new(types::I32));
@@ -134,7 +137,7 @@ fn compile_function(function: &mut Function) -> Result<(), Box<dyn Error>> {
     builder.ins().jump(block1, &[]);
     builder.seal_block(block1);
 
-    builder.finalize();
+    builder.finalize(frontend_config);
 
     verify_function(function, &Flags::new(settings::builder()))?;
 
