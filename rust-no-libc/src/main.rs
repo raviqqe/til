@@ -25,6 +25,7 @@ extern "C" fn main() -> ! {
 }
 
 fn exit(code: i32) -> ! {
+    // cspell: disable-next-line
     unsafe { asm!("syscall", in("rax") 231, in("rdi") code, options(noreturn)) }
 }
 
