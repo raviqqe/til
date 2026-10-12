@@ -16,7 +16,7 @@ members = [
   "rust-sum",
   "rust-vec-to-rc",
 ]
-exclude = ["rust-dyn-future", "rust-generator", "rust-hello-world", "rust-libc"]
+exclude = ["rust-dyn-future", "rust-generator", "rust-hello", "rust-libc", "rust-no-libc"]
 
 [workspace.package]
 edition = "2024"

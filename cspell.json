@@ -49,10 +49,12 @@
     "pyrefly",
     "pytest",
     "raviqqe",
+    "rustix",
     "seaborn",
     "srfi",
     "stak",
     "stty",
+    "syscall",
     "uninlined",
     "valibot",
     "varint"
