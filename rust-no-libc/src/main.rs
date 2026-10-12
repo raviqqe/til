@@ -1,10 +1,11 @@
 #![no_std]
 #![no_main]
 
+use core::panic::PanicInfo;
 use rustix::{io::write, stdio::stdout};
 
 #[panic_handler]
-fn panic(_: &core::panic::PanicInfo) -> ! {
+fn panic(_: &PanicInfo) -> ! {
     exit(1)
 }
 
