@@ -86,11 +86,11 @@ jobs:
       matrix:
         directory:
           - .
-          - rust-no-libc
           - rust-dyn-future
           - rust-generator
-          - rust-hello-world
+          - rust-hello
           - rust-libc
+          - rust-no-libc
     runs-on: ubuntu-latest
     defaults:
       run:
