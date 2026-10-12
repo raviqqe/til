@@ -31,16 +31,18 @@ extern "C" fn main() -> ! {
 
 fn exit(code: i32) -> ! {
     cfg_select! {
-        target_arch = "x86_64" => {
+        target_arch = "x86_64" => unsafe {
             // cspell: disable-next-line
-            unsafe { asm!("syscall", in("rax") 231, in("rdi") code, options(noreturn)) }
+            asm!("syscall", in("rax") 231, in("rdi") code, options(noreturn))
         }
-        target_arch = "aarch64" => {
-            unsafe { asm!("svc 0", in("x8") 94, in("x0") code, options(noreturn)) }
-        }
+        target_arch = "aarch64" => unsafe {
+            // cspell: disable-next-line
+            asm!("svc 0", in("x8") 94, in("x0") code, options(noreturn))
+        },
     }
 }
 
 // Referenced by the precompiled `core` in debug builds. Never called with `panic = "abort"`.
+#[cfg(not(test))]
 #[unsafe(no_mangle)]
 extern "C" fn rust_eh_personality() {}
