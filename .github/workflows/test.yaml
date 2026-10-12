@@ -86,6 +86,7 @@ jobs:
       matrix:
         directory:
           - .
+          - rust-bare-elf
           - rust-dyn-future
           - rust-generator
           - rust-hello-world
