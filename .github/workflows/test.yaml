@@ -86,7 +86,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - ubuntu-24.04-arm
+          - ubuntu-26.04-arm
         directory:
           - .
           - rust-dyn-future
@@ -113,7 +113,7 @@ jobs:
           - scheme-eval
           - scheme-lzss
           - scheme-macro
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     defaults:
       run:
         working-directory: ${{ matrix.directory }}
@@ -128,7 +128,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - ubuntu-24.04-arm
+          - ubuntu-26.04-arm
         directory:
           - llvm-c-calling-convention
           - llvm-pointer-tag
