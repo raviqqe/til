@@ -19,7 +19,6 @@ extern "C" fn main() -> ! {
     exit(0)
 }
 
-// rustix 1.x doesn't expose exit, so make the exit_group syscall directly.
 fn exit(code: i32) -> ! {
     unsafe { core::arch::asm!("syscall", in("rax") 231, in("rdi") code, options(noreturn)) }
 }
