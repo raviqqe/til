@@ -1,14 +1,12 @@
 #![no_std]
 #![no_main]
 
-use core::{
-    arch::{asm, naked_asm},
-    panic::PanicInfo,
-};
+use core::arch::{asm, naked_asm};
 use rustix::{io::write, stdio::stdout};
 
+#[cfg(not(test))]
 #[panic_handler]
-fn panic(_: &PanicInfo) -> ! {
+fn panic(_: &core::panic::PanicInfo) -> ! {
     exit(1)
 }
 
