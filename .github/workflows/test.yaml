@@ -157,6 +157,7 @@ jobs:
       - node_js_test
       - ruby_test
       - rust_test
+      - python_test
       - scheme_test
       - shell_test
       - spell_check
