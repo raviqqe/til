@@ -17,6 +17,8 @@ def code(xs: numpy.ndarray) -> None:
 
     print(frame)
 
+    frame = frame.to_pandas()
+
     seaborn.displot(frame, x="code", discrete=True)
     seaborn.displot(
         frame,
@@ -44,6 +46,8 @@ def compression(xs: numpy.ndarray) -> None:
     frame = polars.DataFrame({"offset": offsets, "length": lengths})
 
     print(frame)
+
+    frame = frame.to_pandas()
 
     seaborn.displot(frame, x="offset", discrete=True)
     seaborn.displot(frame, x="length", discrete=True)

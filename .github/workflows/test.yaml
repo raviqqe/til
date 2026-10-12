@@ -155,6 +155,7 @@ jobs:
       - go_test
       - ninja_test
       - node_js_test
+      - python_test
       - ruby_test
       - rust_test
       - scheme_test
