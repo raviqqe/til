@@ -2,20 +2,22 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
-    schedule:
-      interval: daily
     groups:
       codeql:
         patterns:
           - github/codeql-action/*
-  - package-ecosystem: cargo
-    directory: /
     schedule:
       interval: daily
+  - package-ecosystem: cargo
+    allow:
+      - dependency-type: all
+    directory: /
     groups:
       cranelift:
         patterns:
           - cranelift*
+    schedule:
+      interval: daily
   - package-ecosystem: npm
     directory: /
     schedule:
