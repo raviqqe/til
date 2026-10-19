@@ -8,7 +8,7 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-    "pyrefly>=1.3.2",
+    "pyrefly>=1.4.0",
     "types-seaborn>=0.13.2.20261006",
 ]
 
