@@ -10,7 +10,7 @@
     "solid-js": "^1.9.18"
   },
   "devDependencies": {
-    "@raviqqe/tsconfig": "^3.0.2",
+    "@raviqqe/tsconfig": "^3.0.3",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5"
   }
