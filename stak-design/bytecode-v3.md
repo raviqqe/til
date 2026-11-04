@@ -321,16 +321,16 @@ encode: [126][0] tag:varint(base 64)   ; reserve+register BEFORE children
 
 ## 4. Comparison matrix
 
-| Criterion                            | A — ATF                     | B — LABELS                 | C — ASSEMBLER                | D — SPLICE                 | E — MEMO                    | F — DICT-PLACEHOLDER                          |
-| ------------------------------------ | --------------------------- | -------------------------- | ---------------------------- | -------------------------- | --------------------------- | --------------------------------------------- |
-| **Cycle-correctness (as specified)** | ✗ spine bug                 | ✗ spine bug (fixable)      | ✓ fill by construction       | ✓ trailer patches real rib | ✗ spine bug (fixable)       | ✓ fill by construction (rides `code`)         |
+| Criterion                            | A — ATF                     | B — LABELS                 | C — ASSEMBLER                | D — SPLICE                 | E — MEMO                    | F — DICT-PLACEHOLDER                                                      |
+| ------------------------------------ | --------------------------- | -------------------------- | ---------------------------- | -------------------------- | --------------------------- | ------------------------------------------------------------------------- |
+| **Cycle-correctness (as specified)** | ✗ spine bug                 | ✗ spine bug (fixable)      | ✓ fill by construction       | ✓ trailer patches real rib | ✗ spine bug (fixable)       | ✓ fill by construction (rides `code`)                                     |
 | **Size vs v2, acyclic**              | ✗ regress (base-8 tag)      | ⚠ risk (lost MTF locality) | ⚠ parity claimed, unproven   | ✅ **byte-identical**      | ✅ ≤ v2 (not bit-identical) | ✅ tokens byte-identical; producer changes self-recursive progs (measure) |
-| **Per-cycle overhead**               | ALLOC + REF / edge          | DEF + REF / edge           | 1 REF / edge                 | ~4 tokens + 2 / extra edge | ANN + REF / edge            | CREATE+PATCH (~6 B) + SHARE ref / edge        |
-| **Decoder simplicity / code size**   | +1–2 branches; base change  | +2 arms; arena setup       | full rewrite; 2-section loop | **+~15 lines, no GC work** | +ANN/REF/FILL + GC memo     | **+1 escape arm (2 sub-ops, ~30 lines), no GC work** |
-| **Encoder complexity**               | DFS + flag + special case   | 2-pass colored DFS         | 2-pass DFS + index vector    | DFS + cut + trailer        | colored DFS + hash memo     | cycle-detect marshal + colored count + 1 branch |
-| **Decode efficiency O(1)?**          | **No** (`tail` walk)        | O(1) _iff_ GC-safe table   | O(1) _iff_ GC-safe table     | O(index) over few fixups   | O(1) _iff_ GC-safe table    | O(index); **O(1) in practice** (front-of-dict) |
-| **GC-safe as written?**              | No                          | No                         | No                           | **Yes**                    | No                          | **Yes** (rides `code`)                        |
-| **Migration**                        | near-compat (tag-8 regress) | few-byte shift + version   | hard break + version         | **strict superset of v2**  | not bit-compat + version    | not bit-compat w/ producer + version; mechanism-only is a superset |
+| **Per-cycle overhead**               | ALLOC + REF / edge          | DEF + REF / edge           | 1 REF / edge                 | ~4 tokens + 2 / extra edge | ANN + REF / edge            | CREATE+PATCH (~6 B) + SHARE ref / edge                                    |
+| **Decoder simplicity / code size**   | +1–2 branches; base change  | +2 arms; arena setup       | full rewrite; 2-section loop | **+~15 lines, no GC work** | +ANN/REF/FILL + GC memo     | **+1 escape arm (2 sub-ops, ~30 lines), no GC work**                      |
+| **Encoder complexity**               | DFS + flag + special case   | 2-pass colored DFS         | 2-pass DFS + index vector    | DFS + cut + trailer        | colored DFS + hash memo     | cycle-detect marshal + colored count + 1 branch                           |
+| **Decode efficiency O(1)?**          | **No** (`tail` walk)        | O(1) _iff_ GC-safe table   | O(1) _iff_ GC-safe table     | O(index) over few fixups   | O(1) _iff_ GC-safe table    | O(index); **O(1) in practice** (front-of-dict)                            |
+| **GC-safe as written?**              | No                          | No                         | No                           | **Yes**                    | No                          | **Yes** (rides `code`)                                                    |
+| **Migration**                        | near-compat (tag-8 regress) | few-byte shift + version   | hard break + version         | **strict superset of v2**  | not bit-compat + version    | not bit-compat w/ producer + version; mechanism-only is a superset        |
 
 The matrix's apparent dilemma — that correctness (direct `set_*` into the real rib) and fast
 storage (an indexable table) both seem to need a GC-traceable handle table no scheme cleanly
