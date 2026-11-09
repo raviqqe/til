@@ -6,6 +6,6 @@ dependencies = [
   "matplotlib>=3.11.2",
   "numpy>=2.5.4",
   "polars>=2.1.0",
-  "pyarrow>=26.0.0",
+  "pyarrow>=26.0.1",
   "seaborn>=0.13.2",
 ]
