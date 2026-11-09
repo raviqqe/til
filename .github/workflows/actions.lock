@@ -14,7 +14,7 @@ workflows:
         - 'golangci/golangci-lint-action@v9.3.0'
         - 'homebrew/actions@2026.11.02.1'
         - 'pnpm/action-setup@v6.1.1'
-        - 'ruby/setup-ruby@v1.336.0'
+        - 'ruby/setup-ruby@v1.338.0'
         - 'streetsidesoftware/cspell-action@v9.2.0'
 dependencies:
     'actions/checkout@v7.0.1':
@@ -52,9 +52,9 @@ dependencies:
         commit: 'sha1-73e46992e05b19abd31f2f3c20e0e7370d762115'
         owner_id: 21320719
         repo_id: 262289747
-    'ruby/setup-ruby@v1.336.0':
-        ref: 'v1.336.0'
-        commit: 'sha1-de492cf36cbab201753d720ce4f4e336cd688c94'
+    'ruby/setup-ruby@v1.338.0':
+        ref: 'v1.338.0'
+        commit: 'sha1-b3aaceaef7e0ee231b499e7b5f49c03fc1d32199'
         owner_id: 210414
         repo_id: 231208785
     'streetsidesoftware/cspell-action@v9.2.0':

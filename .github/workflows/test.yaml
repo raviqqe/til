@@ -77,7 +77,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: ruby/setup-ruby@v1.336.0
+      - uses: ruby/setup-ruby@v1.338.0
       - run: bundler
       - run: bundler exec cucumber --publish-quiet
   rust_test:
