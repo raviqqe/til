@@ -9,6 +9,7 @@ members = [
   "rust-cfg-macro",
   "rust-fibonacci",
   "rust-float-decomposition",
+  "rust-invariant-lifetime",
   "rust-macro",
   "rust-ref-ref-trait",
   "rust-stack-vec",
