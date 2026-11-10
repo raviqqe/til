@@ -12,7 +12,7 @@ workflows:
         - 'actions/setup-go@v7.0.0'
         - 'actions/setup-node@v7.1.0'
         - 'golangci/golangci-lint-action@v9.3.0'
-        - 'homebrew/actions@2026.11.02.1'
+        - 'homebrew/actions@2026.11.09.1'
         - 'pnpm/action-setup@v6.1.1'
         - 'ruby/setup-ruby@v1.338.0'
         - 'streetsidesoftware/cspell-action@v9.2.0'
@@ -42,9 +42,9 @@ dependencies:
         commit: 'sha1-ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a'
         owner_id: 35628013
         repo_id: 232539879
-    'homebrew/actions@2026.11.02.1':
-        ref: '2026.11.02.1'
-        commit: 'sha1-c262868c096d909fc278daa87ed9772967331ea3'
+    'homebrew/actions@2026.11.09.1':
+        ref: '2026.11.09.1'
+        commit: 'sha1-63a2d4d8d4193eab3e62b1b782ff3ab8408f5b29'
         owner_id: 1503512
         repo_id: 202511568
     'pnpm/action-setup@v6.1.1':

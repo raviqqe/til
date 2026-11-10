@@ -37,7 +37,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: homebrew/actions/setup-homebrew@2026.11.02.1
+      - uses: homebrew/actions/setup-homebrew@2026.11.09.1
       - run: brew install llvm ninja
       - run: ninja
   node_js_test:
@@ -123,7 +123,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: homebrew/actions/setup-homebrew@2026.11.02.1
+      - uses: homebrew/actions/setup-homebrew@2026.11.09.1
       - run: brew install chibi-scheme gauche guile
       - run: ${{ matrix.interpreter }} main.scm
   shell_test:
@@ -146,7 +146,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: homebrew/actions/setup-homebrew@2026.11.02.1
+      - uses: homebrew/actions/setup-homebrew@2026.11.09.1
       - run: ./main.sh
   spell_check:
     runs-on: ubuntu-latest
