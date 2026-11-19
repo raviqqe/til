@@ -546,21 +546,21 @@ dev = [
 [package.metadata.requires-dev]
 dev = [
     { name = "pyrefly", specifier = ">=1.4.1" },
-    { name = "types-seaborn", specifier = ">=0.13.2.20261113" },
+    { name = "types-seaborn", specifier = ">=0.13.2.20261115" },
 ]
 
 [[package]]
 name = "types-seaborn"
-version = "0.13.2.20261113"
+version = "0.13.2.20261115"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "matplotlib" },
     { name = "numpy" },
     { name = "pandas-stubs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6f/5d/a625b6de3901ee021e368bdf714308ab7c7fc8a6c098fa675223c1e7adf8/types_seaborn-0.13.2.20261113.tar.gz", hash = "sha256:53a302e380b4e3a75b39b32ea26d5836c66b1f3e3246c70ecf4f93e17a0c3238", size = 30245, upload-time = "2026-11-13T08:51:24.55Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f5/b3/4c92cb72e1460dd74a2c33cbd143f9afcfca2f43e8e6f84b567dd774bfe2/types_seaborn-0.13.2.20261115.tar.gz", hash = "sha256:9756cf6065b39e9c3eddd261962ff462ecbdedc2324dc3eec3ebba9455234437", size = 30279, upload-time = "2026-11-15T08:33:48.567Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f2/41/199ed7e2481138e877eeebefa8a740a41e70ada62f81666bab638984ad54/types_seaborn-0.13.2.20261113-py3-none-any.whl", hash = "sha256:e79fd74b1cce444e46ed8117dd72a7e89719cec33e5eb83fa1e3077ebd39b3dd", size = 40868, upload-time = "2026-11-13T08:51:23.665Z" },
+    { url = "https://files.pythonhosted.org/packages/f2/a2/20e9274b9f3adb1894c513f35b55c88cd85ceecdf29ba898f6096317faa9/types_seaborn-0.13.2.20261115-py3-none-any.whl", hash = "sha256:864ca751ca49391641aea8682858507319bb50c8d4f0bb9a834a69e9bd3eb1d7", size = 40882, upload-time = "2026-11-15T08:33:47.513Z" },
 ]
 
 [[package]]
