@@ -1,4 +1,4 @@
-import { createStore, reconcile } from "solid-js/store";
+import { createStore, flush, reconcile } from "solid-js";
 import { expect, it } from "vitest";
 
 it("swaps an object with an array", () => {
@@ -7,6 +7,7 @@ it("swaps an object with an array", () => {
   });
 
   setStore(reconcile({ value: [] }));
+  flush();
 
   expect(Array.isArray(store.value)).toBe(true);
 });
@@ -17,6 +18,7 @@ it("swaps an array with an object", () => {
   });
 
   setStore(reconcile({ value: {} }));
+  flush();
 
   expect(Array.isArray(store.value)).toBe(false);
 });
@@ -27,7 +29,10 @@ it("reconciles an object with an array", () => {
   });
 
   const value = [0, 1, 2];
-  setStore("value", reconcile(value));
+  setStore((draft) => {
+    reconcile(value)(draft.value);
+  });
+  flush();
 
   expect(store.value).not.toEqual(value);
 });
@@ -38,7 +43,10 @@ it("reconciles an array with an object", () => {
   });
 
   const value = { foo: "bar" };
-  setStore("value", reconcile(value));
+  setStore((draft) => {
+    reconcile(value)(draft.value);
+  });
+  flush();
 
   expect(store.value).not.toEqual(value);
 });

@@ -7,7 +7,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "solid-js": "^1.9.19"
+    "solid-js": "^2.0.3"
   },
   "devDependencies": {
     "@raviqqe/tsconfig": "^3.0.5",
