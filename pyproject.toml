@@ -9,7 +9,7 @@ dependencies = []
 [dependency-groups]
 dev = [
     "pyrefly>=1.5.0",
-    "types-seaborn>=0.13.2.20261115",
+    "types-seaborn>=0.13.2.20261122",
 ]
 
 [tool.pyrefly]
